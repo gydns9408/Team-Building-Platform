@@ -1,0 +1,387 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+//user
+model user {
+  id       Int    @id @default(autoincrement())
+  email    String
+  password String
+
+  first_name String
+  last_name  String
+  address_1  String?
+  address_2  String?
+
+
+  created_at DateTime @default(now()) @map(name: "created_at")
+  updated_at DateTime @updatedAt @map(name: "updated_at")
+
+  @@map(name: "users")
+}
+
+model manager {
+  id Int @id @default(autoincrement())
+
+  notice_article notice_article[]
+  answer_article answer_article[]
+}
+
+model citizens {
+  id Int @id @default(autoincrement())
+
+  profile          profile?
+  question_article question_article[]
+  contest_article  contest_article[]
+  team_article     team_article[]
+  free_article     free_article[]
+}
+
+model profile {
+  id Int @id @default(autoincrement())
+
+  citizens    citizens @relation(fields: [citizens_id], references: [id])
+  citizens_id Int      @unique
+
+  content String?
+
+  resume             resume[]
+  user_skill_stack   user_skill_stack[]
+  user_certificate   user_certificate[]
+  user_program       user_program[]
+  user_spcialization user_spcialization[]
+  contest_record     contest_record[]
+  user_sns           user_sns[]
+}
+
+//article section
+model article {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  published Boolean  @default(false)
+
+  comment comment[]
+  content content?
+  report  report[]
+
+  notice_article   notice_article?
+  answer_article   answer_article?
+  question_article question_article?
+  contest_article  contest_article?
+  team_article     team_article?
+  free_article     free_article?
+}
+
+model content {
+  id Int @id @default(autoincrement())
+
+  article    article @relation(fields: [article_id], references: [id])
+  article_id Int     @unique
+
+  title     String
+  body      String
+  createdAt DateTime @default(now()) @map(name: "created_at")
+}
+
+model comment {
+  id         Int      @id @default(autoincrement())
+  article    article  @relation(fields: [article_id], references: [id])
+  article_id Int
+  createdAt  DateTime @default(now()) @map(name: "created_at")
+}
+
+model notice_article {
+  id         Int     @id @default(autoincrement())
+  manager    manager @relation(fields: [manager_id], references: [id])
+  article    article @relation(fields: [article_id], references: [id])
+  article_id Int     @unique
+  manager_id Int     @unique
+}
+
+model answer_article {
+  id         Int     @id @default(autoincrement())
+  manager    manager @relation(fields: [manager_id], references: [id])
+  article    article @relation(fields: [article_id], references: [id])
+  article_id Int     @unique
+  manager_id Int     @unique
+}
+
+model question_article {
+  id          Int      @id @default(autoincrement())
+  manager     citizens @relation(fields: [citizens_id], references: [id])
+  article     article  @relation(fields: [article_id], references: [id])
+  article_id  Int      @unique
+  citizens_id Int      @unique
+}
+
+model contest_article {
+
+  id          Int      @id @default(autoincrement())
+  manager     citizens @relation(fields: [citizens_id], references: [id])
+  article     article  @relation(fields: [article_id], references: [id])
+  article_id  Int      @unique
+  citizens_id Int      @unique
+  contest     contest  @relation(fields: [contestId], references: [id])
+  contestId   Int      @unique
+}
+
+model team_article {
+  id          Int      @id @default(autoincrement())
+  manager     citizens @relation(fields: [citizens_id], references: [id])
+  article     article  @relation(fields: [article_id], references: [id])
+  article_id  Int      @unique
+  citizens_id Int      @unique
+}
+
+model free_article {
+  id          Int      @id @default(autoincrement())
+  manager     citizens @relation(fields: [citizens_id], references: [id])
+  article     article  @relation(fields: [article_id], references: [id])
+  article_id  Int      @unique
+  citizens_id Int      @unique
+}
+
+model skill_stack {
+  id Int @id @default(autoincrement())
+
+  name        String
+  description String
+
+  user_skill_stack    user_skill_stack?
+  contest_skill_stack contest_skill_stack?
+  team_skill_stack    team_skill_stack?
+}
+
+model contest_skill_stack {
+  id Int @id @default(autoincrement())
+
+  contest     contest     @relation(fields: [contest_id], references: [id])
+  skill_stack skill_stack @relation(fields: [skill_stackId], references: [id])
+
+  contest_id    Int @unique
+  skill_stackId Int @unique
+}
+
+model team_skill_stack {
+  id Int @id @default(autoincrement())
+
+  team        team        @relation(fields: [team_id], references: [id])
+  skill_stack skill_stack @relation(fields: [skill_stack_id], references: [id])
+
+  team_id        Int @unique
+  skill_stack_id Int @unique
+}
+
+model user_skill_stack {
+  id Int @id @default(autoincrement())
+
+  profile    profile @relation(fields: [profile_id], references: [id])
+  profile_id Int
+
+  skill_stack   skill_stack @relation(fields: [skill_stackId], references: [id])
+  skill_stackId Int         @unique
+}
+
+model certificate {
+  id Int @id @default(autoincrement())
+
+  name        String
+  description String
+
+  contest_certificate contest_certificate?
+  team_certificate    team_certificate?
+  user_certificate    user_certificate?
+}
+
+model contest_certificate {
+  id Int @id @default(autoincrement())
+
+  contest     contest     @relation(fields: [contest_id], references: [id])
+  certificate certificate @relation(fields: [certificate_id], references: [id])
+
+  contest_id     Int @unique
+  certificate_id Int @unique
+}
+
+model team_certificate {
+  id Int @id @default(autoincrement())
+
+  team        team        @relation(fields: [team_id], references: [id])
+  certificate certificate @relation(fields: [certificate_id], references: [id])
+
+  team_id        Int @unique
+  certificate_id Int @unique
+}
+
+model user_certificate {
+  id Int @id @default(autoincrement())
+
+  profile_id     Int
+  certificate_id Int @unique
+
+  profile     profile     @relation(fields: [profile_id], references: [id])
+  certificate certificate @relation(fields: [certificate_id], references: [id])
+}
+
+model program {
+  id Int @id @default(autoincrement())
+
+  name        String
+  description String
+
+  contest_program contest_program?
+  team_program    team_program?
+  user_program    user_program?
+}
+
+model contest_program {
+  id Int @id @default(autoincrement())
+
+  contest contest @relation(fields: [contest_id], references: [id])
+  program program @relation(fields: [program_id], references: [id])
+
+  contest_id Int @unique
+  program_id Int @unique
+}
+
+model team_program {
+  id Int @id @default(autoincrement())
+
+  team    team    @relation(fields: [team_id], references: [id])
+  program program @relation(fields: [program_id], references: [id])
+
+  team_id    Int @unique
+  program_id Int @unique
+}
+
+model user_program {
+  id Int @id @default(autoincrement())
+
+  program program @relation(fields: [program_id], references: [id])
+  profile profile @relation(fields: [profile_id], references: [id])
+
+  profile_id Int
+  program_id Int @unique
+}
+
+model spcialization {
+  id Int @id @default(autoincrement())
+
+  name        String
+  description String
+
+  contest_spcialization contest_spcialization?
+  team_spcialization    team_spcialization?
+  user_spcialization    user_spcialization?
+}
+
+model contest_spcialization {
+  id Int @id @default(autoincrement())
+
+  contest_id      Int @unique
+  spcializationId Int @unique
+
+  contest       contest       @relation(fields: [contest_id], references: [id])
+  spcialization spcialization @relation(fields: [spcializationId], references: [id])
+}
+
+model team_spcialization {
+  id Int @id @default(autoincrement())
+
+  team_id         Int @unique
+  spcializationId Int @unique
+
+  team          team          @relation(fields: [team_id], references: [id])
+  spcialization spcialization @relation(fields: [spcializationId], references: [id])
+}
+
+model user_spcialization {
+  id Int @id @default(autoincrement())
+
+  profile_id      Int
+  spcializationId Int @unique
+
+  profile       profile       @relation(fields: [profile_id], references: [id])
+  spcialization spcialization @relation(fields: [spcializationId], references: [id])
+}
+
+model team {
+  id        Int      @id @default(autoincrement())
+  status    Boolean  @default(false)
+  createdAt DateTime @default(now()) @map(name: "created_at")
+
+  team_contest       team_contest?
+  team_skill_stack   team_skill_stack?
+  team_certificate   team_certificate?
+  team_program       team_program?
+  team_spcialization team_spcialization?
+}
+
+model contest {
+  id           Int      @id @default(autoincrement())
+  prize        Int
+  contest_name String
+  priod        DateTime
+
+  contest_contest_article contest_article?
+  contest_record          contest_record?
+  contest_spcialization   contest_spcialization?
+  contest_skill_stack     contest_skill_stack?
+  contest_certificate     contest_certificate?
+  contest_program         contest_program?
+}
+
+model team_contest {
+  id      Int  @id @default(autoincrement())
+  team    team @relation(fields: [team_id], references: [id])
+  team_id Int  @unique
+}
+
+model contest_record {
+  id         Int     @id @default(autoincrement())
+  profile    profile @relation(fields: [profile_id], references: [id])
+  profile_id Int
+  contest    contest @relation(fields: [contestId], references: [id])
+
+  contestId Int @unique
+}
+
+model sns {
+  id       Int        @id @default(autoincrement())
+  name     String
+  user_sns user_sns[]
+}
+
+model user_sns {
+  id         Int     @id @default(autoincrement())
+  sns        sns     @relation(fields: [sns_id], references: [id])
+  sns_id     Int
+  profile    profile @relation(fields: [profile_id], references: [id])
+  profile_id Int
+}
+
+model report {
+  id         Int      @id @default(autoincrement())
+  content    String
+  created_at DateTime @default(now()) @map(name: "created_at")
+  article    article? @relation(fields: [articleId], references: [id])
+  articleId  Int?
+}
+
+model resume {
+  id          Int      @id @default(autoincrement())
+  profile     profile  @relation(fields: [profile_id], references: [id])
+  profile_id  Int
+  resume_name String
+  url         String
+  created_at  DateTime @default(now()) @map(name: "created_at")
+}
