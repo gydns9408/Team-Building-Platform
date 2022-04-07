@@ -21,7 +21,6 @@ model user {
   address_1  String?
   address_2  String?
 
-
   created_at DateTime @default(now()) @map(name: "created_at")
   updated_at DateTime @updatedAt @map(name: "updated_at")
 
