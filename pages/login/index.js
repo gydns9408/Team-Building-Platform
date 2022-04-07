@@ -1,8 +1,7 @@
-import Link from "next/Link";
+import Link from "next/link";
 import styles from "../../styles/Home.module.css";
 
 export default function LoginPage() {
-  
   return (
     <>
       <h1>로그인</h1>
