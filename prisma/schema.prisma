@@ -62,7 +62,7 @@ model profile {
   user_sns           user_sns[]
 }
 
-//article section
+//article
 model article {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @map(name: "created_at")
