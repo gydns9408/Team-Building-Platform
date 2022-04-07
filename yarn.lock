@@ -1916,7 +1916,7 @@
   "resolved" "https://registry.npmjs.org/type-fest/-/type-fest-0.20.2.tgz"
   "version" "0.20.2"
 
-"typeorm@^0.2.34", "typeorm@^0.2.45":
+"typeorm@^0.2.34":
   "integrity" "sha512-c0rCO8VMJ3ER7JQ73xfk0zDnVv0WDjpsP6Q1m6CVKul7DB9iVdWLRjPzc8v2eaeBuomsbZ2+gTaYr8k1gm3bYA=="
   "resolved" "https://registry.npmjs.org/typeorm/-/typeorm-0.2.45.tgz"
   "version" "0.2.45"
