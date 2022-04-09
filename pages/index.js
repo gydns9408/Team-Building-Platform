@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import Head from "next/head";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
@@ -43,4 +44,15 @@ export default function MainPage() {
       </h2>
     </>
   );
+=======
+import Mainpage from '../components/mainpage'
+
+
+export default function MainPage(){
+  return(
+      <>
+      <Mainpage />
+      </>
+  )
+>>>>>>> c8ce0558f548345c878471ebe372aae724009df5
 }
