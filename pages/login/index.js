@@ -19,7 +19,7 @@ export default function LoginPage(){
                     </li>
                     <li>
                     <button type="submit" class="primary">로그인</button>
-                    <Link href="registerpage">
+                    <Link href="/register">
                     <button>회원가입</button>
                     </Link>
                   </li>
