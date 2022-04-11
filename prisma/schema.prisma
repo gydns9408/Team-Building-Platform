@@ -24,6 +24,8 @@ model user {
   created_at DateTime @default(now()) @map(name: "created_at")
   updated_at DateTime @updatedAt @map(name: "updated_at")
 
+  citizens citizens?
+  manager  manager?
   @@map(name: "users")
 }
 
@@ -32,6 +34,8 @@ model manager {
 
   notice_article notice_article[]
   answer_article answer_article[]
+  user           user             @relation(fields: [userId], references: [id])
+  userId         Int              @unique
 }
 
 model citizens {
@@ -42,6 +46,10 @@ model citizens {
   contest_article  contest_article[]
   team_article     team_article[]
   free_article     free_article[]
+
+  user   user   @relation(fields: [userId], references: [id])
+  userId Int    @unique
+  team   team[]
 }
 
 model profile {
@@ -52,13 +60,13 @@ model profile {
 
   content String?
 
-  resume             resume[]
-  user_skill_stack   user_skill_stack[]
-  user_certificate   user_certificate[]
-  user_program       user_program[]
-  user_spcialization user_spcialization[]
-  contest_record     contest_record[]
-  user_sns           user_sns[]
+  resume        resume[]
+  skill_stack   skill_stack[]
+  certificate   certificate[]
+  program       program[]
+  spcialization spcialization[]
+  contest       contest[]
+  sns           sns[]
 }
 
 //article
@@ -103,7 +111,7 @@ model notice_article {
   manager    manager @relation(fields: [manager_id], references: [id])
   article    article @relation(fields: [article_id], references: [id])
   article_id Int     @unique
-  manager_id Int     @unique
+  manager_id Int
 }
 
 model answer_article {
@@ -111,42 +119,42 @@ model answer_article {
   manager    manager @relation(fields: [manager_id], references: [id])
   article    article @relation(fields: [article_id], references: [id])
   article_id Int     @unique
-  manager_id Int     @unique
+  manager_id Int
 }
 
 model question_article {
   id          Int      @id @default(autoincrement())
-  manager     citizens @relation(fields: [citizens_id], references: [id])
+  citizens    citizens @relation(fields: [citizens_id], references: [id])
   article     article  @relation(fields: [article_id], references: [id])
   article_id  Int      @unique
-  citizens_id Int      @unique
+  citizens_id Int
 }
 
 model contest_article {
 
   id          Int      @id @default(autoincrement())
-  manager     citizens @relation(fields: [citizens_id], references: [id])
+  citizens    citizens @relation(fields: [citizens_id], references: [id])
   article     article  @relation(fields: [article_id], references: [id])
   article_id  Int      @unique
-  citizens_id Int      @unique
+  citizens_id Int
   contest     contest  @relation(fields: [contestId], references: [id])
-  contestId   Int      @unique
+  contestId   Int
 }
 
 model team_article {
   id          Int      @id @default(autoincrement())
-  manager     citizens @relation(fields: [citizens_id], references: [id])
+  citizens    citizens @relation(fields: [citizens_id], references: [id])
   article     article  @relation(fields: [article_id], references: [id])
   article_id  Int      @unique
-  citizens_id Int      @unique
+  citizens_id Int
 }
 
 model free_article {
   id          Int      @id @default(autoincrement())
-  manager     citizens @relation(fields: [citizens_id], references: [id])
+  citizens    citizens @relation(fields: [citizens_id], references: [id])
   article     article  @relation(fields: [article_id], references: [id])
   article_id  Int      @unique
-  citizens_id Int      @unique
+  citizens_id Int
 }
 
 model skill_stack {
@@ -155,40 +163,10 @@ model skill_stack {
   name        String
   description String
 
-  user_skill_stack    user_skill_stack[]
-  contest_skill_stack contest_skill_stack[]
-  team_skill_stack    team_skill_stack[]
-  contest             contest[]
-}
+  contest contest[]
+  team    team[]
+  profile profile[]
 
-model contest_skill_stack {
-  id Int @id @default(autoincrement())
-
-  contest     contest     @relation(fields: [contest_id], references: [id])
-  skill_stack skill_stack @relation(fields: [skill_stackId], references: [id])
-
-  contest_id    Int @unique
-  skill_stackId Int
-}
-
-model team_skill_stack {
-  id Int @id @default(autoincrement())
-
-  team        team        @relation(fields: [team_id], references: [id])
-  skill_stack skill_stack @relation(fields: [skill_stack_id], references: [id])
-
-  team_id        Int @unique
-  skill_stack_id Int @unique
-}
-
-model user_skill_stack {
-  id Int @id @default(autoincrement())
-
-  profile    profile @relation(fields: [profile_id], references: [id])
-  profile_id Int
-
-  skill_stack   skill_stack @relation(fields: [skill_stackId], references: [id])
-  skill_stackId Int
 }
 
 model certificate {
@@ -197,40 +175,10 @@ model certificate {
   name        String
   description String
 
-  contest_certificate contest_certificate?
-  team_certificate    team_certificate?
-  user_certificate    user_certificate?
-  contest             contest[]
-}
+  team    team[]
+  contest contest[]
+  profile profile[]
 
-model contest_certificate {
-  id Int @id @default(autoincrement())
-
-  contest     contest     @relation(fields: [contest_id], references: [id])
-  certificate certificate @relation(fields: [certificate_id], references: [id])
-
-  contest_id     Int @unique
-  certificate_id Int @unique
-}
-
-model team_certificate {
-  id Int @id @default(autoincrement())
-
-  team        team        @relation(fields: [team_id], references: [id])
-  certificate certificate @relation(fields: [certificate_id], references: [id])
-
-  team_id        Int @unique
-  certificate_id Int @unique
-}
-
-model user_certificate {
-  id Int @id @default(autoincrement())
-
-  profile_id     Int
-  certificate_id Int @unique
-
-  profile     profile     @relation(fields: [profile_id], references: [id])
-  certificate certificate @relation(fields: [certificate_id], references: [id])
 }
 
 model program {
@@ -239,40 +187,9 @@ model program {
   name        String
   description String
 
-  contest_program contest_program[]
-  team_program    team_program?
-  user_program    user_program?
-  contest         contest[]
-}
-
-model contest_program {
-  id Int @id @default(autoincrement())
-
-  contest contest @relation(fields: [contest_id], references: [id])
-  program program @relation(fields: [program_id], references: [id])
-
-  contest_id Int @unique
-  program_id Int @unique
-}
-
-model team_program {
-  id Int @id @default(autoincrement())
-
-  team    team    @relation(fields: [team_id], references: [id])
-  program program @relation(fields: [program_id], references: [id])
-
-  team_id    Int @unique
-  program_id Int @unique
-}
-
-model user_program {
-  id Int @id @default(autoincrement())
-
-  program program @relation(fields: [program_id], references: [id])
-  profile profile @relation(fields: [profile_id], references: [id])
-
-  profile_id Int
-  program_id Int @unique
+  team_program team[]
+  contest      contest[]
+  profile      profile[]
 }
 
 model spcialization {
@@ -281,41 +198,26 @@ model spcialization {
   name        String
   description String
 
-  contest            contest[]
-  team_spcialization team_spcialization[]
-  user_spcialization user_spcialization[]
-}
+  team_spcialization team[]
 
-model team_spcialization {
-  id Int @id @default(autoincrement())
+  contest_spcialization contest[]
 
-  team_id         Int @unique
-  spcializationId Int @unique
+  profile profile[]
 
-  team          team          @relation(fields: [team_id], references: [id])
-  spcialization spcialization @relation(fields: [spcializationId], references: [id])
-}
-
-model user_spcialization {
-  id Int @id @default(autoincrement())
-
-  profile_id      Int
-  spcializationId Int @unique
-
-  profile       profile       @relation(fields: [profile_id], references: [id])
-  spcialization spcialization @relation(fields: [spcializationId], references: [id])
 }
 
 model team {
-  id        Int      @id @default(autoincrement())
-  status    Boolean  @default(false)
-  createdAt DateTime @default(now()) @map(name: "created_at")
+  id                 Int             @id @default(autoincrement())
+  status             Boolean         @default(false)
+  createdAt          DateTime        @default(now()) @map(name: "created_at")
+  citizens           citizens[]
+  team_contest       contest[]
+  team_skill_stack   skill_stack[]
+  team_certificate   certificate[]
+  team_program       program[]
+  team_spcialization spcialization[]
 
-  team_contest       team_contest?
-  team_skill_stack   team_skill_stack?
-  team_certificate   team_certificate?
-  team_program       team_program?
-  team_spcialization team_spcialization?
+
 }
 
 model contest {
@@ -324,48 +226,25 @@ model contest {
   prize        Int
   priod        DateTime
 
-  contest_article     contest_article?
-  contest_record      contest_record?
-  spcialization       spcialization?        @relation(fields: [spcializationId], references: [id])
-  skill_stack         skill_stack?          @relation(fields: [skill_stackId], references: [id])
-  certificate         certificate?          @relation(fields: [certificateId], references: [id])
-  program             program?              @relation(fields: [programId], references: [id])
-  spcializationId     Int?
-  contest_skill_stack contest_skill_stack[]
-  contest_certificate contest_certificate[]
-  contest_program     contest_program[]
-  skill_stackId       Int?
-  certificateId       Int?
-  programId           Int?
-}
 
-model team_contest {
-  id      Int  @id @default(autoincrement())
-  team    team @relation(fields: [team_id], references: [id])
-  team_id Int  @unique
-}
+  contest_article contest_article[]
+  skill_stack     skill_stack[]
+  certificate     certificate[]
 
-model contest_record {
-  id         Int     @id @default(autoincrement())
-  profile    profile @relation(fields: [profile_id], references: [id])
-  profile_id Int
-  contest    contest @relation(fields: [contestId], references: [id])
+  program program[]
 
-  contestId Int @unique
+
+  contest_spcialization spcialization[]
+  profile               profile[]
+  team                  team[]
+
 }
 
 model sns {
-  id       Int        @id @default(autoincrement())
-  name     String
-  user_sns user_sns[]
-}
+  id   Int    @id @default(autoincrement())
+  name String
 
-model user_sns {
-  id         Int     @id @default(autoincrement())
-  sns        sns     @relation(fields: [sns_id], references: [id])
-  sns_id     Int
-  profile    profile @relation(fields: [profile_id], references: [id])
-  profile_id Int
+  profile profile[]
 }
 
 model report {
