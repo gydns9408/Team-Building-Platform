@@ -1,6 +1,6 @@
 import Link from "next/link";
 import styles from "../../styles/Home.module.css";
-import Card from "../../components/contestcard";
+import Card from "../../components/Card/Contestcard";
 
 export default function CompetitionSearchPage() {
   return (

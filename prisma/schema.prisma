@@ -62,12 +62,12 @@ model User {
   address_1     String?
   address_2     String?
 
-  created_at DateTime  @default(now()) @map(name: "created_at")
-  updated_at DateTime  @updatedAt @map(name: "updated_at")
+  created_at DateTime   @default(now()) @map(name: "created_at")
+  updated_at DateTime   @updatedAt @map(name: "updated_at")
   accounts   Account[]
   sessions   Session[]
-  citizens   citizens?
-  manager    manager?
+  citizens   citizens[]
+  manager    manager[]
   @@map(name: "users")
 }
 
@@ -237,8 +237,8 @@ model program {
 model spcialization {
   id Int @id @default(autoincrement())
 
-  name        String
-  description String
+  name        String  @unique
+  description String?
 
   team_spcialization team[]
 
@@ -266,20 +266,19 @@ model contest {
   id           Int      @id @default(autoincrement())
   contest_name String
   prize        Int
-  priod        DateTime
-
+  start_period DateTime @db.Date
+  end_period   DateTime @db.Date
+  content      String
 
   contest_article contest_article[]
   skill_stack     skill_stack[]
   certificate     certificate[]
 
-  program program[]
-
-
-  contest_spcialization spcialization[]
-  profile               profile[]
-  team                  team[]
-
+  program        program[]
+  spcialization  spcialization[]
+  profile        profile[]
+  team           team[]
+  corporate_type corporate_type[]
 }
 
 model sns {
@@ -304,4 +303,10 @@ model resume {
   resume_name String
   url         String
   created_at  DateTime @default(now()) @map(name: "created_at")
+}
+
+model corporate_type {
+  id      Int       @id @default(autoincrement())
+  name    String    @unique
+  contest contest[]
 }

@@ -1,5 +1,5 @@
-import Mainpage from "../components/mainpage";
-import Header from "../components/header/header";
+import Mainpage from "../components/Header/Mainpage";
+import Header from "../components/Header/header";
 
 export default function MainPage() {
   return (
