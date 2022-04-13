@@ -45,7 +45,24 @@
   font-size: 4rem;
 }
 
-.title,
+.title2 a {
+  color: #0070f3;
+  text-decoration: none;
+}
+
+.title2 a:hover,
+.title2 a:focus,
+.title2 a:active {
+  text-decoration: underline;
+}
+
+.title2 {
+  margin: 0;
+  line-height: 1.15;
+  font-size: 1rem;
+}
+
+
 .description {
   text-align: center;
 }
@@ -107,6 +124,8 @@
   height: 1em;
   margin-left: 0.5rem;
 }
+
+
 
 @media (max-width: 600px) {
   .grid {

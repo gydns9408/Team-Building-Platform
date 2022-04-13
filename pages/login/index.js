@@ -32,7 +32,7 @@ export default function LoginPage() {
               <button type="submit" className="primary">
                 로그인
               </button>
-              <Link href="registerpage">
+              <Link href="/register" passHref>
                 <button>회원가입</button>
               </Link>
             </li>

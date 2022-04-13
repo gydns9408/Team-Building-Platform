@@ -155,9 +155,10 @@ model skill_stack {
   name        String
   description String
 
-  user_skill_stack    user_skill_stack?
-  contest_skill_stack contest_skill_stack?
-  team_skill_stack    team_skill_stack?
+  user_skill_stack    user_skill_stack[]
+  contest_skill_stack contest_skill_stack[]
+  team_skill_stack    team_skill_stack[]
+  contest             contest[]
 }
 
 model contest_skill_stack {
@@ -167,7 +168,7 @@ model contest_skill_stack {
   skill_stack skill_stack @relation(fields: [skill_stackId], references: [id])
 
   contest_id    Int @unique
-  skill_stackId Int @unique
+  skill_stackId Int
 }
 
 model team_skill_stack {
@@ -187,7 +188,7 @@ model user_skill_stack {
   profile_id Int
 
   skill_stack   skill_stack @relation(fields: [skill_stackId], references: [id])
-  skill_stackId Int         @unique
+  skill_stackId Int
 }
 
 model certificate {
@@ -199,6 +200,7 @@ model certificate {
   contest_certificate contest_certificate?
   team_certificate    team_certificate?
   user_certificate    user_certificate?
+  contest             contest[]
 }
 
 model contest_certificate {
@@ -237,9 +239,10 @@ model program {
   name        String
   description String
 
-  contest_program contest_program?
+  contest_program contest_program[]
   team_program    team_program?
   user_program    user_program?
+  contest         contest[]
 }
 
 model contest_program {
@@ -278,19 +281,9 @@ model spcialization {
   name        String
   description String
 
-  contest_spcialization contest_spcialization?
-  team_spcialization    team_spcialization?
-  user_spcialization    user_spcialization?
-}
-
-model contest_spcialization {
-  id Int @id @default(autoincrement())
-
-  contest_id      Int @unique
-  spcializationId Int @unique
-
-  contest       contest       @relation(fields: [contest_id], references: [id])
-  spcialization spcialization @relation(fields: [spcializationId], references: [id])
+  contest            contest[]
+  team_spcialization team_spcialization[]
+  user_spcialization user_spcialization[]
 }
 
 model team_spcialization {
@@ -327,16 +320,23 @@ model team {
 
 model contest {
   id           Int      @id @default(autoincrement())
-  prize        Int
   contest_name String
+  prize        Int
   priod        DateTime
 
-  contest_contest_article contest_article?
-  contest_record          contest_record?
-  contest_spcialization   contest_spcialization?
-  contest_skill_stack     contest_skill_stack?
-  contest_certificate     contest_certificate?
-  contest_program         contest_program?
+  contest_article     contest_article?
+  contest_record      contest_record?
+  spcialization       spcialization?        @relation(fields: [spcializationId], references: [id])
+  skill_stack         skill_stack?          @relation(fields: [skill_stackId], references: [id])
+  certificate         certificate?          @relation(fields: [certificateId], references: [id])
+  program             program?              @relation(fields: [programId], references: [id])
+  spcializationId     Int?
+  contest_skill_stack contest_skill_stack[]
+  contest_certificate contest_certificate[]
+  contest_program     contest_program[]
+  skill_stackId       Int?
+  certificateId       Int?
+  programId           Int?
 }
 
 model team_contest {
