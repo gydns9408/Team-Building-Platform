@@ -1,0 +1,406 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table accounts {
+  id String [pk]
+  userId String [not null]
+  type String [not null]
+  provider String [not null]
+  providerAccountId String [not null]
+  refresh_token String
+  access_token String
+  expires_at Int
+  token_type String
+  scope String
+  id_token String
+  session_state String
+  oauth_token_secret String
+  oauth_token String
+  user User [not null]
+
+  indexes {
+    (provider, providerAccountId) [unique]
+  }
+}
+
+Table sessions {
+  id String [pk]
+  sessionToken String [unique, not null]
+  userId String [not null]
+  expires DateTime [not null]
+  user User [not null]
+}
+
+Table verificationtokens {
+  identifier String [not null]
+  token String [unique, not null]
+  expires DateTime [not null]
+
+  indexes {
+    (identifier, token) [unique]
+  }
+}
+
+Table users {
+  id String [pk]
+  email String [unique]
+  emailVerified DateTime
+  name String [not null]
+  password String
+  image String
+  address_1 String
+  address_2 String
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
+  accounts Account [not null]
+  citizens citizens
+  manager manager
+  sessions Session [not null]
+}
+
+Table manager {
+  id Int [pk, increment]
+  userId String [unique, not null]
+  user User [not null]
+  answer_article answer_article [not null]
+  notice_article notice_article [not null]
+}
+
+Table citizens {
+  id Int [pk, increment]
+  userId String [unique, not null]
+  user User [not null]
+  contest_article contest_article [not null]
+  free_article free_article [not null]
+  profile profile
+  question_article question_article [not null]
+  team_article team_article [not null]
+  team team [not null]
+}
+
+Table profile {
+  id Int [pk, increment]
+  citizens_id Int [unique, not null]
+  content String
+  citizens citizens [not null]
+  resume resume [not null]
+  certificate certificate [not null]
+  contest contest [not null]
+  program program [not null]
+  skill_stack skill_stack [not null]
+  sns sns [not null]
+  spcialization spcialization [not null]
+}
+
+Table article {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  published Boolean [not null, default: false]
+  answer_article answer_article
+  comment comment [not null]
+  content content
+  contest_article contest_article
+  free_article free_article
+  notice_article notice_article
+  question_article question_article
+  report report [not null]
+  team_article team_article
+}
+
+Table content {
+  id Int [pk, increment]
+  article_id Int [unique, not null]
+  title String [not null]
+  body String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  article article [not null]
+}
+
+Table comment {
+  id Int [pk, increment]
+  article_id Int [not null]
+  createdAt DateTime [default: `now()`, not null]
+  article article [not null]
+}
+
+Table notice_article {
+  id Int [pk, increment]
+  article_id Int [unique, not null]
+  manager_id Int [not null]
+  article article [not null]
+  manager manager [not null]
+}
+
+Table answer_article {
+  id Int [pk, increment]
+  article_id Int [unique, not null]
+  manager_id Int [not null]
+  article article [not null]
+  manager manager [not null]
+}
+
+Table question_article {
+  id Int [pk, increment]
+  article_id Int [unique, not null]
+  citizens_id Int [not null]
+  article article [not null]
+  citizens citizens [not null]
+}
+
+Table contest_article {
+  id Int [pk, increment]
+  article_id Int [unique, not null]
+  citizens_id Int [not null]
+  contestId Int [not null]
+  article article [not null]
+  citizens citizens [not null]
+  contest contest [not null]
+}
+
+Table team_article {
+  id Int [pk, increment]
+  article_id Int [unique, not null]
+  citizens_id Int [not null]
+  article article [not null]
+  citizens citizens [not null]
+}
+
+Table free_article {
+  id Int [pk, increment]
+  article_id Int [unique, not null]
+  citizens_id Int [not null]
+  article article [not null]
+  citizens citizens [not null]
+}
+
+Table skill_stack {
+  id Int [pk, increment]
+  name String [not null]
+  description String [not null]
+  contest contest [not null]
+  profile profile [not null]
+  team team [not null]
+}
+
+Table certificate {
+  id Int [pk, increment]
+  name String [not null]
+  description String [not null]
+  contest contest [not null]
+  profile profile [not null]
+  team team [not null]
+}
+
+Table program {
+  id Int [pk, increment]
+  name String [not null]
+  description String [not null]
+  contest contest [not null]
+  profile profile [not null]
+  team team [not null]
+}
+
+Table spcialization {
+  id Int [pk, increment]
+  name String [unique, not null]
+  description String
+  contest_spcialization contest [not null]
+  profile profile [not null]
+  team_spcialization team [not null]
+}
+
+Table team {
+  id Int [pk, increment]
+  status Boolean [not null, default: false]
+  createdAt DateTime [default: `now()`, not null]
+  certificate certificate [not null]
+  citizens citizens [not null]
+  contest contest [not null]
+  program program [not null]
+  skill_stack skill_stack [not null]
+  spcialization spcialization [not null]
+}
+
+Table contest {
+  id Int [pk, increment]
+  contest_name String [not null]
+  prize Int [not null]
+  content String [not null]
+  end_period DateTime [not null]
+  start_period DateTime [not null]
+  contest_article contest_article [not null]
+  certificate certificate [not null]
+  corporate_type corporate_type [not null]
+  profile profile [not null]
+  program program [not null]
+  skill_stack skill_stack [not null]
+  spcialization spcialization [not null]
+  team team [not null]
+}
+
+Table sns {
+  id Int [pk, increment]
+  name String [not null]
+  profile profile [not null]
+}
+
+Table report {
+  id Int [pk, increment]
+  content String [not null]
+  created_at DateTime [default: `now()`, not null]
+  articleId Int
+  article article
+}
+
+Table resume {
+  id Int [pk, increment]
+  profile_id Int [not null]
+  resume_name String [not null]
+  url String [not null]
+  created_at DateTime [default: `now()`, not null]
+  profile profile [not null]
+}
+
+Table corporate_type {
+  id Int [pk, increment]
+  name String [unique, not null]
+  contest contest [not null]
+}
+
+Table es_table {
+  id BigInt [pk, unique]
+  client_name String [not null]
+  modification_time DateTime [default: `now()`, not null]
+  insertion_time DateTime [default: `now()`, not null]
+}
+
+Table citizensToteam {
+  teamId Int [ref: > team.id]
+  citizensId Int [ref: > citizens.id]
+}
+
+Table certificateToprofile {
+  certificateId Int [ref: > certificate.id]
+  profileId Int [ref: > profile.id]
+}
+
+Table contestToprofile {
+  contestId Int [ref: > contest.id]
+  profileId Int [ref: > profile.id]
+}
+
+Table profileToprogram {
+  programId Int [ref: > program.id]
+  profileId Int [ref: > profile.id]
+}
+
+Table profileToskill_stack {
+  skill_stackId Int [ref: > skill_stack.id]
+  profileId Int [ref: > profile.id]
+}
+
+Table profileTosns {
+  snsId Int [ref: > sns.id]
+  profileId Int [ref: > profile.id]
+}
+
+Table profileTospcialization {
+  spcializationId Int [ref: > spcialization.id]
+  profileId Int [ref: > profile.id]
+}
+
+Table contestToskill_stack {
+  contestId Int [ref: > contest.id]
+  skill_stackId Int [ref: > skill_stack.id]
+}
+
+Table skill_stackToteam {
+  teamId Int [ref: > team.id]
+  skill_stackId Int [ref: > skill_stack.id]
+}
+
+Table certificateTocontest {
+  contestId Int [ref: > contest.id]
+  certificateId Int [ref: > certificate.id]
+}
+
+Table certificateToteam {
+  teamId Int [ref: > team.id]
+  certificateId Int [ref: > certificate.id]
+}
+
+Table contestToprogram {
+  contestId Int [ref: > contest.id]
+  programId Int [ref: > program.id]
+}
+
+Table programToteam {
+  teamId Int [ref: > team.id]
+  programId Int [ref: > program.id]
+}
+
+Table contestTospcialization {
+  contest_spcializationId Int [ref: > contest.id]
+  spcializationId Int [ref: > spcialization.id]
+}
+
+Table spcializationToteam {
+  team_spcializationId Int [ref: > team.id]
+  spcializationId Int [ref: > spcialization.id]
+}
+
+Table contestToteam {
+  contestId Int [ref: > contest.id]
+  teamId Int [ref: > team.id]
+}
+
+Table contestTocorporate_type {
+  corporate_typeId Int [ref: > corporate_type.id]
+  contestId Int [ref: > contest.id]
+}
+
+Ref: Account.userId > User.id [delete: Cascade]
+
+Ref: Session.userId > User.id [delete: Cascade]
+
+Ref: manager.userId - User.id
+
+Ref: citizens.userId - User.id
+
+Ref: profile.citizens_id - citizens.id
+
+Ref: content.article_id - article.id
+
+Ref: comment.article_id > article.id
+
+Ref: notice_article.article_id - article.id
+
+Ref: notice_article.manager_id > manager.id
+
+Ref: answer_article.article_id - article.id
+
+Ref: answer_article.manager_id > manager.id
+
+Ref: question_article.article_id - article.id
+
+Ref: question_article.citizens_id > citizens.id
+
+Ref: contest_article.article_id - article.id
+
+Ref: contest_article.citizens_id > citizens.id
+
+Ref: contest_article.contestId > contest.id
+
+Ref: team_article.article_id - article.id
+
+Ref: team_article.citizens_id > citizens.id
+
+Ref: free_article.article_id - article.id
+
+Ref: free_article.citizens_id > citizens.id
+
+Ref: report.articleId > article.id
+
+Ref: resume.profile_id > profile.id

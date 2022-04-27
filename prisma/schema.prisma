@@ -1,8 +1,9 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
+}
+
+generator dbml {
+  provider = "prisma-dbml-generator"
 }
 
 datasource db {
@@ -25,10 +26,10 @@ model Account {
   session_state      String?
   oauth_token_secret String?
   oauth_token        String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user               User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId], map: "accounts_user_id_fkey")
   @@map("accounts")
 }
 
@@ -39,6 +40,7 @@ model Session {
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([userId], map: "sessions_user_id_fkey")
   @@map("sessions")
 }
 
@@ -51,7 +53,6 @@ model VerificationToken {
   @@map("verificationtokens")
 }
 
-//user
 model User {
   id            String    @id @default(cuid())
   email         String?   @unique
@@ -61,252 +62,248 @@ model User {
   image         String?
   address_1     String?
   address_2     String?
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+  accounts      Account[]
+  citizens      citizens?
+  manager       manager?
+  sessions      Session[]
 
-  created_at DateTime   @default(now()) @map(name: "created_at")
-  updated_at DateTime   @updatedAt @map(name: "updated_at")
-  accounts   Account[]
-  sessions   Session[]
-  citizens   citizens[]
-  manager    manager[]
-  @@map(name: "users")
+  @@map("users")
 }
 
 model manager {
-  id Int @id @default(autoincrement())
-
-  notice_article notice_article[]
-  answer_article answer_article[]
-  user           User             @relation(fields: [userId], references: [id])
+  id             Int              @id @default(autoincrement())
   userId         String           @unique
+  user           User             @relation(fields: [userId], references: [id])
+  answer_article answer_article[]
+  notice_article notice_article[]
 }
 
 model citizens {
-  id Int @id @default(autoincrement())
-
+  id               Int                @id @default(autoincrement())
+  userId           String             @unique
+  user             User               @relation(fields: [userId], references: [id])
+  contest_article  contest_article[]
+  free_article     free_article[]
   profile          profile?
   question_article question_article[]
-  contest_article  contest_article[]
   team_article     team_article[]
-  free_article     free_article[]
-
-  user   User   @relation(fields: [userId], references: [id])
-  userId String @unique
-  team   team[]
+  team             team[]
 }
 
 model profile {
-  id Int @id @default(autoincrement())
-
-  citizens    citizens @relation(fields: [citizens_id], references: [id])
-  citizens_id Int      @unique
-
-  content String?
-
+  id            Int             @id @default(autoincrement())
+  citizens_id   Int             @unique
+  content       String?
+  citizens      citizens        @relation(fields: [citizens_id], references: [id])
   resume        resume[]
-  skill_stack   skill_stack[]
   certificate   certificate[]
-  program       program[]
-  spcialization spcialization[]
   contest       contest[]
+  program       program[]
+  skill_stack   skill_stack[]
   sns           sns[]
+  spcialization spcialization[]
 }
 
-//article
 model article {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @updatedAt @map(name: "updated_at")
-  published Boolean  @default(false)
-
-  comment comment[]
-  content content?
-  report  report[]
-
-  notice_article   notice_article?
+  id               Int               @id @default(autoincrement())
+  createdAt        DateTime          @default(now()) @map("created_at")
+  updatedAt        DateTime          @updatedAt @map("updated_at")
+  published        Boolean           @default(false)
   answer_article   answer_article?
-  question_article question_article?
+  comment          comment[]
+  content          content?
   contest_article  contest_article?
-  team_article     team_article?
   free_article     free_article?
+  notice_article   notice_article?
+  question_article question_article?
+  report           report[]
+  team_article     team_article?
 }
 
 model content {
-  id Int @id @default(autoincrement())
-
-  article    article @relation(fields: [article_id], references: [id])
-  article_id Int     @unique
-
-  title     String
-  body      String
-  createdAt DateTime @default(now()) @map(name: "created_at")
+  id         Int      @id @default(autoincrement())
+  article_id Int      @unique
+  title      String
+  body       String
+  createdAt  DateTime @default(now()) @map("created_at")
+  article    article  @relation(fields: [article_id], references: [id])
 }
 
 model comment {
   id         Int      @id @default(autoincrement())
-  article    article  @relation(fields: [article_id], references: [id])
   article_id Int
-  createdAt  DateTime @default(now()) @map(name: "created_at")
+  createdAt  DateTime @default(now()) @map("created_at")
+  article    article  @relation(fields: [article_id], references: [id])
+
+  @@index([article_id], map: "comment_article_id_fkey")
 }
 
 model notice_article {
   id         Int     @id @default(autoincrement())
-  manager    manager @relation(fields: [manager_id], references: [id])
-  article    article @relation(fields: [article_id], references: [id])
   article_id Int     @unique
   manager_id Int
+  article    article @relation(fields: [article_id], references: [id])
+  manager    manager @relation(fields: [manager_id], references: [id])
+
+  @@index([manager_id], map: "notice_article_manager_id_fkey")
 }
 
 model answer_article {
   id         Int     @id @default(autoincrement())
-  manager    manager @relation(fields: [manager_id], references: [id])
-  article    article @relation(fields: [article_id], references: [id])
   article_id Int     @unique
   manager_id Int
+  article    article @relation(fields: [article_id], references: [id])
+  manager    manager @relation(fields: [manager_id], references: [id])
+
+  @@index([manager_id], map: "answer_article_manager_id_fkey")
 }
 
 model question_article {
   id          Int      @id @default(autoincrement())
-  citizens    citizens @relation(fields: [citizens_id], references: [id])
-  article     article  @relation(fields: [article_id], references: [id])
   article_id  Int      @unique
   citizens_id Int
+  article     article  @relation(fields: [article_id], references: [id])
+  citizens    citizens @relation(fields: [citizens_id], references: [id])
+
+  @@index([citizens_id], map: "question_article_citizens_id_fkey")
 }
 
 model contest_article {
-
   id          Int      @id @default(autoincrement())
-  citizens    citizens @relation(fields: [citizens_id], references: [id])
-  article     article  @relation(fields: [article_id], references: [id])
   article_id  Int      @unique
   citizens_id Int
-  contest     contest  @relation(fields: [contestId], references: [id])
   contestId   Int
+  article     article  @relation(fields: [article_id], references: [id])
+  citizens    citizens @relation(fields: [citizens_id], references: [id])
+  contest     contest  @relation(fields: [contestId], references: [id])
+
+  @@index([citizens_id], map: "contest_article_citizens_id_fkey")
+  @@index([contestId], map: "contest_article_contestId_fkey")
 }
 
 model team_article {
   id          Int      @id @default(autoincrement())
-  citizens    citizens @relation(fields: [citizens_id], references: [id])
-  article     article  @relation(fields: [article_id], references: [id])
   article_id  Int      @unique
   citizens_id Int
+  article     article  @relation(fields: [article_id], references: [id])
+  citizens    citizens @relation(fields: [citizens_id], references: [id])
+
+  @@index([citizens_id], map: "team_article_citizens_id_fkey")
 }
 
 model free_article {
   id          Int      @id @default(autoincrement())
-  citizens    citizens @relation(fields: [citizens_id], references: [id])
-  article     article  @relation(fields: [article_id], references: [id])
   article_id  Int      @unique
   citizens_id Int
+  article     article  @relation(fields: [article_id], references: [id])
+  citizens    citizens @relation(fields: [citizens_id], references: [id])
+
+  @@index([citizens_id], map: "free_article_citizens_id_fkey")
 }
 
 model skill_stack {
-  id Int @id @default(autoincrement())
-
+  id          Int       @id @default(autoincrement())
   name        String
   description String
-
-  contest contest[]
-  team    team[]
-  profile profile[]
-
+  contest     contest[]
+  profile     profile[]
+  team        team[]
 }
 
 model certificate {
-  id Int @id @default(autoincrement())
-
+  id          Int       @id @default(autoincrement())
   name        String
   description String
-
-  team    team[]
-  contest contest[]
-  profile profile[]
-
+  contest     contest[]
+  profile     profile[]
+  team        team[]
 }
 
 model program {
-  id Int @id @default(autoincrement())
-
+  id          Int       @id @default(autoincrement())
   name        String
   description String
-
-  team_program team[]
-  contest      contest[]
-  profile      profile[]
+  contest     contest[]
+  profile     profile[]
+  team        team[]
 }
 
 model spcialization {
-  id Int @id @default(autoincrement())
-
-  name        String  @unique
-  description String?
-
-  team_spcialization team[]
-
+  id                    Int       @id @default(autoincrement())
+  name                  String    @unique
+  description           String?
   contest_spcialization contest[]
-
-  profile profile[]
-
+  profile               profile[]
+  team_spcialization    team[]
 }
 
 model team {
-  id                 Int             @id @default(autoincrement())
-  status             Boolean         @default(false)
-  createdAt          DateTime        @default(now()) @map(name: "created_at")
-  citizens           citizens[]
-  team_contest       contest[]
-  team_skill_stack   skill_stack[]
-  team_certificate   certificate[]
-  team_program       program[]
-  team_spcialization spcialization[]
-
-
+  id            Int             @id @default(autoincrement())
+  status        Boolean         @default(false)
+  createdAt     DateTime        @default(now()) @map("created_at")
+  certificate   certificate[]
+  citizens      citizens[]
+  contest       contest[]
+  program       program[]
+  skill_stack   skill_stack[]
+  spcialization spcialization[]
 }
 
 model contest {
-  id           Int      @id @default(autoincrement())
-  contest_name String
-  prize        Int
-  start_period DateTime @db.Date
-  end_period   DateTime @db.Date
-  content      String
-
+  id              Int               @id @default(autoincrement())
+  contest_name    String
+  prize           Int
+  content         String
+  end_period      DateTime          @db.Date
+  start_period    DateTime          @db.Date
   contest_article contest_article[]
-  skill_stack     skill_stack[]
   certificate     certificate[]
-
-  program        program[]
-  spcialization  spcialization[]
-  profile        profile[]
-  team           team[]
-  corporate_type corporate_type[]
+  corporate_type  corporate_type[]
+  profile         profile[]
+  program         program[]
+  skill_stack     skill_stack[]
+  spcialization   spcialization[]
+  team            team[]
 }
 
 model sns {
-  id   Int    @id @default(autoincrement())
-  name String
-
+  id      Int       @id @default(autoincrement())
+  name    String
   profile profile[]
 }
 
 model report {
   id         Int      @id @default(autoincrement())
   content    String
-  created_at DateTime @default(now()) @map(name: "created_at")
-  article    article? @relation(fields: [articleId], references: [id])
+  created_at DateTime @default(now())
   articleId  Int?
+  article    article? @relation(fields: [articleId], references: [id])
+
+  @@index([articleId], map: "report_articleId_fkey")
 }
 
 model resume {
   id          Int      @id @default(autoincrement())
-  profile     profile  @relation(fields: [profile_id], references: [id])
   profile_id  Int
   resume_name String
   url         String
-  created_at  DateTime @default(now()) @map(name: "created_at")
+  created_at  DateTime @default(now())
+  profile     profile  @relation(fields: [profile_id], references: [id])
+
+  @@index([profile_id], map: "resume_profile_id_fkey")
 }
 
 model corporate_type {
   id      Int       @id @default(autoincrement())
   name    String    @unique
   contest contest[]
+}
+
+model es_table {
+  id                BigInt   @id @unique(map: "unique_id") @db.UnsignedBigInt
+  client_name       String   @db.VarChar(32)
+  modification_time DateTime @default(now()) @db.Timestamp(0)
+  insertion_time    DateTime @default(now()) @db.Timestamp(0)
 }

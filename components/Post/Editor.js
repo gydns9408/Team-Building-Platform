@@ -2,31 +2,20 @@ import React, { useState } from "react";
 import Router from "next/router";
 
 const submitData = async (e) => {
-  // e.preventDefault();
-  // try {
-  //   const body = { title, content, authorEmail };
-  //   await fetch(`http://localhost:3000/api/post`, {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(body),
-  //   });
-  //   await Router.push("/drafts");
-  // } catch (error) {
-  //   console.error(error);
-  // }
   e.preventDefault();
   try {
     const body = {
-      contest_name: "제12회 대한민국 호국미술대전",
+      contest_name:
+        "제10회 산업통상자원부 공공데이터 활용 비즈니스 아이디어 공모전",
       content: "test",
       prize: 1000,
       start_period: "1970-01-01T00:00:00.000Z",
       end_period: "1970-01-01T00:00:00.000Z",
-      spcialization: "디자인/순수미술/공예",
-      corporate_type: "기타",
+      spcialization: "기획/아이디어",
+      corporate_type: "중소기업",
     };
     await fetch(`http://localhost:3000/api/post/contest`, {
-      method: "POST",
+      method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
