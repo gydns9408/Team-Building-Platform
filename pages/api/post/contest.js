@@ -40,15 +40,17 @@ export default async function handleCREATE(req, res) {
       end_period: end_period,
       //분야와 규모정의
       spcialization: {
-        connectOrCreate: {
-          where: { name: spcialization },
-          create: { name: spcialization },
-        },
+        connectOrCreate: spcialization.map((sp) => {
+          return {
+            where: { spcialization_name: sp },
+            create: { spcialization_name: sp },
+          };
+        }),
       },
       corporate_type: {
         connectOrCreate: {
-          where: { name: corporate_type },
-          create: { name: corporate_type },
+          where: { corporate_name: corporate_type },
+          create: { corporate_name: corporate_type },
         },
       },
     },

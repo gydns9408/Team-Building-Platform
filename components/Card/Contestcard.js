@@ -11,7 +11,7 @@ var skillStackAddress = "/asset/skillStack";
 const Card = (props) => {
   let tagsPrint = "";
 
-  const photosize = 50
+  const photosize = 50;
   let i = 0;
   for (; i < props.tags.length; i++) {
     tagsPrint += props.tags[i] + " ";

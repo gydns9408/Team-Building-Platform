@@ -204,35 +204,35 @@ model free_article {
 }
 
 model skill_stack {
-  id          Int       @id @default(autoincrement())
-  name        String
-  description String
-  contest     contest[]
-  profile     profile[]
-  team        team[]
+  id               Int       @id @default(autoincrement())
+  skill_stack_name String
+  description      String
+  contest          contest[]
+  profile          profile[]
+  team             team[]
 }
 
 model certificate {
-  id          Int       @id @default(autoincrement())
-  name        String
-  description String
-  contest     contest[]
-  profile     profile[]
-  team        team[]
+  id               Int       @id @default(autoincrement())
+  certificate_name String
+  description      String
+  contest          contest[]
+  profile          profile[]
+  team             team[]
 }
 
 model program {
-  id          Int       @id @default(autoincrement())
-  name        String
-  description String
-  contest     contest[]
-  profile     profile[]
-  team        team[]
+  id           Int       @id @default(autoincrement())
+  program_name String
+  description  String
+  contest      contest[]
+  profile      profile[]
+  team         team[]
 }
 
 model spcialization {
   id                    Int       @id @default(autoincrement())
-  name                  String    @unique
+  spcialization_name    String    @unique
   description           String?
   contest_spcialization contest[]
   profile               profile[]
@@ -269,9 +269,9 @@ model contest {
 }
 
 model sns {
-  id      Int       @id @default(autoincrement())
-  name    String
-  profile profile[]
+  id       Int       @id @default(autoincrement())
+  sns_name String
+  profile  profile[]
 }
 
 model report {
@@ -296,14 +296,14 @@ model resume {
 }
 
 model corporate_type {
-  id      Int       @id @default(autoincrement())
-  name    String    @unique
-  contest contest[]
+  id             Int       @id @default(autoincrement())
+  corporate_name String    @unique
+  contest        contest[]
 }
 
 model es_table {
   id                BigInt   @id @unique(map: "unique_id") @db.UnsignedBigInt
-  client_name       String   @db.VarChar(32)
+  client_name       String   @db.VarChar(32) 
   modification_time DateTime @default(now()) @db.Timestamp(0)
   insertion_time    DateTime @default(now()) @db.Timestamp(0)
 }
