@@ -29,7 +29,7 @@ const Upload = () => {
           spcialization: d.spcialization.split(", "),
           corporate_type: d.corporate_type,
         };
-        await fetch(`http://localhost:3000/api/post/contest`, {
+        await fetch(`http://localhost:3000/api/post/contest/create`, {
           method: "post",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),

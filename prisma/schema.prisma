@@ -258,7 +258,7 @@ model contest {
   content         String
   end_period      DateTime          @db.Date
   start_period    DateTime          @db.Date
-  contest_article contest_article[]
+  contest_article contest_article[] 
   certificate     certificate[]
   corporate_type  corporate_type[]
   profile         profile[]
