@@ -1,5 +1,14 @@
 import Link from "next/link";
 import styles from "../../styles/Home.module.css";
+import css from "styled-jsx/css";
+
+const style = css`
+  .test {
+    background-color: white;
+    height: 60px;
+    font-size: 1rem;
+  }
+`;
 
 export default function RegisterPage() {
   return (
@@ -111,6 +120,7 @@ export default function RegisterPage() {
           <a>메인으로</a>
         </Link>
       </h2>
+      <style jsx>{style}</style>
     </>
   );
 }

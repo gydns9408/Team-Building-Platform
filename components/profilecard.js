@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import React from "react";
 import styles from "../styles/Home.module.css";
+import css from "styled-jsx/css";
 import Image from "next/image";
 const imgType = { png: ".png" };
 var simbolImageAddress = "/asset/simbol";
@@ -9,12 +10,21 @@ var skillStackAddress = "/asset/skillStack";
 var profilePhotoAddress = "/asset/profilePhoto";
 var estimateAddress = "/asset/estimate_";
 
+const style = css`
+  .test {
+    background-color: white;
+    height: 60px;
+    font-size: 4rem;
+  }
+`;
+
 const Pcard = (props) => {
   
 
   const photosize = 50
 
   return (
+    <>
     <div>
       <Image
           src={`${profilePhotoAddress}${props.myPhoto}${imgType.png}`}
@@ -84,6 +94,8 @@ const Pcard = (props) => {
         />
         </header>
     </div>
+    <style jsx>{style}</style>
+    </>
   );
 };
 

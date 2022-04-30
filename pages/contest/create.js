@@ -1,7 +1,9 @@
 import Link from "next/link";
 import styles from "../../styles/Home.module.css";
+import css from "styled-jsx/css";
 import 'react-quill/dist/quill.snow.css';
 import dynamic from 'next/dynamic'
+
 
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
   ssr: false,
@@ -47,6 +49,13 @@ const formats = [
   'image',
 ]
 
+const style = css`
+  .test {
+    background-color: white;
+    height: 60px;
+    font-size: 1rem;
+  }
+`;
 
 export default function ContestCreatePage() {
 
@@ -80,6 +89,36 @@ export default function ContestCreatePage() {
       size="30"
       />
       </li>
+      <li>
+      <a>상금 </a>
+      <input
+      id="titleInput"
+      type="text"
+      placeholder="입력하세요"
+      className="contestCreate-class"
+      size="30"
+      />
+      </li>
+      <li>
+      <a>시작일 </a>
+      <input
+      id="titleInput"
+      type="text"
+      placeholder="입력하세요"
+      className="contestCreate-class"
+      size="30"
+      />
+      </li>
+      <li>
+      <a>종료일 </a>
+      <input
+      id="titleInput"
+      type="text"
+      placeholder="입력하세요"
+      className="contestCreate-class"
+      size="30"
+      />
+      </li>
       <QuillNoSSRWrapper modules={modules} formats={formats} theme="snow"
       placeholder={'내용을 입력하세요'} />
       <button type="submit" className="primary">
@@ -90,6 +129,7 @@ export default function ContestCreatePage() {
           <a>메인으로</a>
         </Link>
        </h2>
+       <style jsx>{style}</style>
     </>
   );
 }
