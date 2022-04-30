@@ -1,6 +1,15 @@
 import Link from "next/link";
 import styles from "../../styles/Home.module.css";
+import css from "styled-jsx/css";
 import PCard from "../../components/profilecard";
+
+const style = css`
+  .test {
+    background-color: white;
+    height: 60px;
+    font-size: 1rem;
+  }
+`;
 
 export default function ProfilePage() {
   return (
@@ -21,6 +30,7 @@ export default function ProfilePage() {
           <a>메인으로</a>
         </Link>
       </h2>
+      <style jsx>{style}</style>
     </>
   );
 }

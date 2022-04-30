@@ -177,7 +177,7 @@ Table free_article {
 
 Table skill_stack {
   id Int [pk, increment]
-  name String [not null]
+  skill_stack_name String [not null]
   description String [not null]
   contest contest [not null]
   profile profile [not null]
@@ -186,7 +186,7 @@ Table skill_stack {
 
 Table certificate {
   id Int [pk, increment]
-  name String [not null]
+  certificate_name String [not null]
   description String [not null]
   contest contest [not null]
   profile profile [not null]
@@ -195,7 +195,7 @@ Table certificate {
 
 Table program {
   id Int [pk, increment]
-  name String [not null]
+  program_name String [not null]
   description String [not null]
   contest contest [not null]
   profile profile [not null]
@@ -204,7 +204,7 @@ Table program {
 
 Table spcialization {
   id Int [pk, increment]
-  name String [unique, not null]
+  spcialization_name String [unique, not null]
   description String
   contest_spcialization contest [not null]
   profile profile [not null]
@@ -242,7 +242,7 @@ Table contest {
 
 Table sns {
   id Int [pk, increment]
-  name String [not null]
+  sns_name String [not null]
   profile profile [not null]
 }
 
@@ -265,7 +265,7 @@ Table resume {
 
 Table corporate_type {
   id Int [pk, increment]
-  name String [unique, not null]
+  corporate_name String [unique, not null]
   contest contest [not null]
 }
 
