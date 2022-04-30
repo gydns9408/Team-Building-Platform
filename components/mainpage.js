@@ -2,15 +2,19 @@ import Head from "next/head";
 import Link from "next/link";
 import React from "react";
 import styles from "../styles/Home.module.css";
+import css from "styled-jsx/css";
+
+const style = css`
+  .test {
+    background-color: white;
+    height: 60px;
+    font-size: 1rem;
+  }
+`;
 
 const Mainpage = () => {
   return (
-    (
-      <Head>
-        <title>메인 페이지</title>
-      </Head>
-    ),
-    (
+    <>
       <div>
         <header>
           <a className={styles.title2}>
@@ -52,8 +56,9 @@ const Mainpage = () => {
           </a>
         </header>
       </div>
+      <style jsx>{style}</style>
+      </>
     )
-  );
 };
 
 export default Mainpage;
