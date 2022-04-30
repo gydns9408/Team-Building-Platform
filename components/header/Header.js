@@ -11,7 +11,7 @@ const Header = () => {
 
   let left = (
     <div className="left">
-      <Link href="/">
+      <Link href="/" passHref>
         <a className="bold" data-active={isActive("/")}>
           Feed
         </a>
@@ -43,7 +43,7 @@ const Header = () => {
   if (status === "loading") {
     left = (
       <div className="left">
-        <Link href="/">
+        <Link href="/" passHref>
           <a className="bold" data-active={isActive("/")}>
             Feed
           </a>
@@ -84,7 +84,7 @@ const Header = () => {
   if (!session) {
     right = (
       <div className="right">
-        <Link href="/api/auth/signin">
+        <Link href="/api/auth/signin" passHref>
           <a data-active={isActive("/signup")}>Log in</a>
         </Link>
         <style jsx>{`
@@ -115,12 +115,12 @@ const Header = () => {
   if (session) {
     left = (
       <div className="left">
-        <Link href="/">
+        <Link href="/" passHref>
           <a className="bold" data-active={isActive("/")}>
             Feed
           </a>
         </Link>
-        <Link href="/drafts">
+        <Link href="/drafts" passHref>
           <a data-active={isActive("/drafts")}>My drafts</a>
         </Link>
         <style jsx>{`
@@ -149,7 +149,7 @@ const Header = () => {
         <p>
           {session.user.name} ({session.user.email})
         </p>
-        <Link href="/create">
+        <Link href="/create" passHref>
           <button>
             <a>New post</a>
           </button>

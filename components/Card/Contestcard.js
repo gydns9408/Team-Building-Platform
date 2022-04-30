@@ -1,6 +1,8 @@
 import Head from "next/head";
 import Link from "next/link";
 import React from "react";
+import styles from "../../styles/Home.module.css";
+import css from "styled-jsx/css";
 import Image from "next/image";
 
 const imgType = { png: ".png" };
@@ -8,16 +10,25 @@ const imgType = { png: ".png" };
 var simbolImageAddress = "/asset/simbol";
 var skillStackAddress = "/asset/skillStack";
 
+const style = css`
+  .test {
+    background-color: white;
+    height: 60px;
+    font-size: 1rem;
+  }
+`;
+
 const Card = (props) => {
   let tagsPrint = "";
 
-  const photosize = 50;
+  const photosize = 50
   let i = 0;
   for (; i < props.tags.length; i++) {
     tagsPrint += props.tags[i] + " ";
   }
 
   return (
+    <>
     <div>
       {props.participants}명
       <header>
@@ -61,6 +72,8 @@ const Card = (props) => {
       </header>
       상금 : {props.prize}원
     </div>
+    <style jsx>{style}</style>
+    </>
   );
 };
 

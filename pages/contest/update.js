@@ -4,7 +4,6 @@ import css from "styled-jsx/css";
 import 'react-quill/dist/quill.snow.css';
 import dynamic from 'next/dynamic'
 
-
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
   ssr: false,
   loading: () => <p>Loading?</p>,
@@ -67,13 +66,12 @@ export default function ContestCreatePage() {
 
   return (
     <>
-      <h1>공모전 생성</h1>
+      <h1>공모전 수정</h1>
       <li>
       <a>제목 </a>
       <input
       id="titleInput"
       type="text"
-      placeholder="입력하세요"
       className="contestCreate-class"
       size="150"
       onChange={titleInputCheck}
@@ -84,49 +82,17 @@ export default function ContestCreatePage() {
       <input
       id="titleInput"
       type="text"
-      placeholder="입력하세요"
       className="contestCreate-class"
       size="30"
       />
       </li>
-      <li>
-      <a>상금 </a>
-      <input
-      id="titleInput"
-      type="text"
-      placeholder="입력하세요"
-      className="contestCreate-class"
-      size="30"
-      />
-      </li>
-      <li>
-      <a>시작일 </a>
-      <input
-      id="titleInput"
-      type="text"
-      placeholder="입력하세요"
-      className="contestCreate-class"
-      size="30"
-      />
-      </li>
-      <li>
-      <a>종료일 </a>
-      <input
-      id="titleInput"
-      type="text"
-      placeholder="입력하세요"
-      className="contestCreate-class"
-      size="30"
-      />
-      </li>
-      <QuillNoSSRWrapper modules={modules} formats={formats} theme="snow"
-      placeholder={'내용을 입력하세요'} />
+      <QuillNoSSRWrapper modules={modules} formats={formats} theme="snow" />
       <button type="submit" className="primary">
-        등록
+        수정
         </button>
       <h2 className={styles.title}>
         <Link href="/">
-          <a>메인으로</a>
+          <a>취소</a>
         </Link>
        </h2>
        <style jsx>{style}</style>

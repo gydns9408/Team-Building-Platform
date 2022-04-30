@@ -1,8 +1,15 @@
 import Link from "next/link";
 import styles from "../../styles/Home.module.css";
 import Card from "../../components/Card/Contestcard";
-import moment from "moment";
-import { TextRank } from "textrank";
+import css from "styled-jsx/css";
+
+const style = css`
+  .test {
+    background-color: white;
+    height: 60px;
+    font-size: 1rem;
+  }
+`;
 
 export default function CompetitionSearchPage() {
   return (
@@ -52,16 +59,17 @@ export default function CompetitionSearchPage() {
       </h2>
       <h2 className={styles.title}>스레드</h2>
       <h2 className={styles.title}>
-        <Link href="/contestCreate" passHref>
+        <Link href="/contest/create" passHref>
           <button>공모전 생성</button>
         </Link>
-        <Link href="/contestUpdate" passHref>
+        <Link href="/contest/update" passHref>
           <button>공모전 수정</button>
         </Link>
         <Link href="/">
           <a>메인으로</a>
         </Link>
       </h2>
+      <style jsx>{style}</style>
     </>
   );
 }
