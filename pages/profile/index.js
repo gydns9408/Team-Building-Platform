@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styles from "../../styles/Home.module.css";
 import css from "styled-jsx/css";
-import PCard from "../../components/profilecard";
+import PCard from "../../components/Card/profilecard";
 
 const style = css`
   .test {
