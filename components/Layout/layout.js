@@ -29,7 +29,8 @@ const Layout = (props) => (
       button {
         cursor: pointer;
       }
-    `}</style>
+    `}
+    </style>
     <style jsx>{`
       .layout {
         padding: 0 2rem;

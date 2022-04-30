@@ -5,6 +5,7 @@ const handle = async (req, res) => {
     case "GET":
       break;
     case "POST":
+      createContest(req, res);
       break;
     case "PUT":
       updateContest(req, res);
@@ -17,18 +18,43 @@ const handle = async (req, res) => {
   }
 };
 
-//특정 아이디의 대회 정보를 삭제
-const deleteContest = async (req, res) => {
-  const { id } = req.body;
-  const result = await prisma.contest.delete({
-    where: {
-      id: id,
+const createContest = async (req, res) => {
+  const {
+    contest_name,
+    content,
+    prize,
+    start_period,
+    end_period,
+    spcialization,
+    corporate_type,
+  } = req.body;
+
+  const result = await prisma.contest.create({
+    data: {
+      contest_name: contest_name,
+      content: content,
+      prize: prize,
+      start_period: start_period,
+      end_period: end_period,
+      //분야와 규모정의
+      spcialization: {
+        connectOrCreate: spcialization.map((sp) => {
+          return {
+            where: { spcialization_name: sp },
+            create: { spcialization_name: sp },
+          };
+        }),
+      },
+      corporate_type: {
+        connectOrCreate: {
+          where: { corporate_name: corporate_type },
+          create: { corporate_name: corporate_type },
+        },
+      },
     },
   });
   res.json(result);
 };
-
-export default handle;
 
 const updateContest = async (req, res) => {
   const { id } = req.body;
@@ -66,3 +92,16 @@ const updateContest = async (req, res) => {
   });
   res.json(result);
 };
+
+//특정 아이디의 대회 정보를 삭제
+const deleteContest = async (req, res) => {
+  const { id } = req.body;
+  const result = await prisma.contest.delete({
+    where: {
+      id: id,
+    },
+  });
+  res.json(result);
+};
+
+export default handle;

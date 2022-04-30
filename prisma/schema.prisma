@@ -84,56 +84,68 @@ model citizens {
   id               Int                @id @default(autoincrement())
   userId           String             @unique
   user             User               @relation(fields: [userId], references: [id])
+  profile          profile?
+  team             team[]
   contest_article  contest_article[]
   free_article     free_article[]
-  profile          profile?
   question_article question_article[]
   team_article     team_article[]
-  team             team[]
 }
 
 model profile {
   id            Int             @id @default(autoincrement())
   citizens_id   Int             @unique
+
   content       String?
-  citizens      citizens        @relation(fields: [citizens_id], references: [id])
+  
   resume        resume[]
-  certificate   certificate[]
+  
   contest       contest[]
+  certificate   certificate[]
   program       program[]
   skill_stack   skill_stack[]
   sns           sns[]
   spcialization spcialization[]
+  
+  citizens      citizens        @relation(fields: [citizens_id], references: [id])
 }
 
 model article {
   id               Int               @id @default(autoincrement())
+  
+  comment          comment[]
+  content          content?
+  
   createdAt        DateTime          @default(now()) @map("created_at")
   updatedAt        DateTime          @updatedAt @map("updated_at")
   published        Boolean           @default(false)
+
+  report           report[]
+  
   answer_article   answer_article?
-  comment          comment[]
-  content          content?
   contest_article  contest_article?
   free_article     free_article?
   notice_article   notice_article?
   question_article question_article?
-  report           report[]
   team_article     team_article?
 }
 
 model content {
   id         Int      @id @default(autoincrement())
   article_id Int      @unique
+
   title      String
   body       String
+
   createdAt  DateTime @default(now()) @map("created_at")
   article    article  @relation(fields: [article_id], references: [id])
 }
 
 model comment {
   id         Int      @id @default(autoincrement())
+
   article_id Int
+
   createdAt  DateTime @default(now()) @map("created_at")
   article    article  @relation(fields: [article_id], references: [id])
 
@@ -142,8 +154,10 @@ model comment {
 
 model notice_article {
   id         Int     @id @default(autoincrement())
+  
   article_id Int     @unique
   manager_id Int
+
   article    article @relation(fields: [article_id], references: [id])
   manager    manager @relation(fields: [manager_id], references: [id])
 
@@ -205,8 +219,10 @@ model free_article {
 
 model skill_stack {
   id               Int       @id @default(autoincrement())
+  
   skill_stack_name String
   description      String
+  
   contest          contest[]
   profile          profile[]
   team             team[]
@@ -214,8 +230,10 @@ model skill_stack {
 
 model certificate {
   id               Int       @id @default(autoincrement())
+
   certificate_name String
   description      String
+
   contest          contest[]
   profile          profile[]
   team             team[]
@@ -223,8 +241,10 @@ model certificate {
 
 model program {
   id           Int       @id @default(autoincrement())
+  
   program_name String
   description  String
+
   contest      contest[]
   profile      profile[]
   team         team[]
@@ -232,8 +252,10 @@ model program {
 
 model spcialization {
   id                    Int       @id @default(autoincrement())
+  
   spcialization_name    String    @unique
   description           String?
+
   contest_spcialization contest[]
   profile               profile[]
   team_spcialization    team[]
@@ -253,12 +275,14 @@ model team {
 
 model contest {
   id              Int               @id @default(autoincrement())
+  
   contest_name    String
   prize           Int
   content         String
   end_period      DateTime          @db.Date
   start_period    DateTime          @db.Date
-  contest_article contest_article[] 
+  
+  contest_article contest_article[]
   certificate     certificate[]
   corporate_type  corporate_type[]
   profile         profile[]
@@ -276,8 +300,10 @@ model sns {
 
 model report {
   id         Int      @id @default(autoincrement())
+
   content    String
   created_at DateTime @default(now())
+  
   articleId  Int?
   article    article? @relation(fields: [articleId], references: [id])
 
@@ -286,9 +312,11 @@ model report {
 
 model resume {
   id          Int      @id @default(autoincrement())
+  
   profile_id  Int
   resume_name String
   url         String
+
   created_at  DateTime @default(now())
   profile     profile  @relation(fields: [profile_id], references: [id])
 
