@@ -1,8 +1,5 @@
 import prisma from "../../../utilities/prisma/client";
-import Axios from "../../../utilities/axios/http-common";
 import moment from "moment";
-import tr from "textrank";
-
 const handle = async (req, res) => {
   switch (req.method) {
     case "GET":
@@ -67,7 +64,7 @@ const createContestArticle = async (req, res) => {
     prize,
     start_period,
     end_period,
-    spcialization,
+    profession,
     corporate_type,
   } = req.body;
 
@@ -98,18 +95,18 @@ const createContestArticle = async (req, res) => {
         start_period: start_period,
         end_period: end_period,
         //분야
-        spcialization: {
-          connectOrCreate: spcialization.map((sp) => {
+        profession: {
+          connectOrCreate: profession.map((d) => {
             return {
-              where: { spcialization_name: sp },
-              create: { spcialization_name: sp },
+              where: { profession_name: d },
+              create: { profession_name: d },
             };
           }),
         },
         //회사 규모
         corporate_type: {
-            //이미 있는 회사 단위라면 id값을 가져온다.
-            //만일 존재하지 않은 새로운 단위라면 데이터를 생성한다.
+          //이미 있는 회사 단위라면 id값을 가져온다.
+          //만일 존재하지 않은 새로운 단위라면 데이터를 생성한다.
           connectOrCreate: {
             create: {
               corporate_name: corporate_type,
@@ -123,7 +120,7 @@ const createContestArticle = async (req, res) => {
     },
   };
 
-  const result = await prisma.contest_article.create({
+  const result = await prisma.ContestArticle.create({
     data: contestArticleCreateQuery,
   });
 

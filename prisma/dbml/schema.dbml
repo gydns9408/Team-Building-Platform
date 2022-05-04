@@ -53,174 +53,161 @@ Table users {
   address_2 String
   created_at DateTime [default: `now()`, not null]
   updated_at DateTime [not null]
+  citizens Citizens
+  manager Manager
   accounts Account [not null]
-  citizens citizens
-  manager manager
   sessions Session [not null]
 }
 
 Table manager {
   id Int [pk, increment]
-  userId String [unique, not null]
+  user_id String [unique, not null]
+  answer_article AnswerArticle [not null]
+  notice_article NoticeArticle [not null]
   user User [not null]
-  answer_article answer_article [not null]
-  notice_article notice_article [not null]
 }
 
 Table citizens {
   id Int [pk, increment]
-  userId String [unique, not null]
+  user_id String [unique, not null]
+  certificate Certificate [not null]
+  program Program [not null]
+  teck_stack TeckStack [not null]
+  profession Profession [not null]
+  user_attention_profession UserInterestProfession [not null]
+  team Team [not null]
   user User [not null]
-  contest_article contest_article [not null]
-  free_article free_article [not null]
-  profile profile
-  question_article question_article [not null]
-  team_article team_article [not null]
-  team team [not null]
+  profile Profile
+  contest_article ContestArticle [not null]
+  free_article FreeArticle [not null]
+  question_article QuestionArticle [not null]
+  team_article TeamArticle [not null]
+  Role Role [not null]
+  Thread Thread [not null]
 }
 
 Table profile {
   id Int [pk, increment]
   citizens_id Int [unique, not null]
+  profession_id Int
+  view_count Int [not null, default: 0]
+  like_count Int [not null, default: 0]
   content String
-  citizens citizens [not null]
-  resume resume [not null]
-  certificate certificate [not null]
-  contest contest [not null]
-  program program [not null]
-  skill_stack skill_stack [not null]
-  sns sns [not null]
-  spcialization spcialization [not null]
+  resume Resume [not null]
+  contest Contest [not null]
+  sns SNS [not null]
+  review Review [not null]
+  citizens Citizens [not null]
 }
 
-Table article {
+Table sns {
   id Int [pk, increment]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-  published Boolean [not null, default: false]
-  answer_article answer_article
-  comment comment [not null]
-  content content
-  contest_article contest_article
-  free_article free_article
-  notice_article notice_article
-  question_article question_article
-  report report [not null]
-  team_article team_article
+  sns_name String [not null]
+  sns_url String
+  image_url String
+  profile Profile [not null]
 }
 
-Table content {
+Table resume {
   id Int [pk, increment]
-  article_id Int [unique, not null]
-  title String [not null]
-  body String [not null]
-  createdAt DateTime [default: `now()`, not null]
-  article article [not null]
+  profile_id Int [not null]
+  resume_name String [not null]
+  resume_url String
+  created_at DateTime [default: `now()`, not null]
+  profile Profile [not null]
 }
 
-Table comment {
+Table professtion {
   id Int [pk, increment]
-  article_id Int [not null]
-  createdAt DateTime [default: `now()`, not null]
-  article article [not null]
+  profession_name String [unique, not null]
+  description String
+  image_url String
+  contest_profession Contest [not null]
+  team_profession Team [not null]
+  citizens Citizens [not null]
+  teck_stack TeckStack [not null]
+  certificate Certificate [not null]
+  program Program [not null]
+  user_interest_profession UserInterestProfession [not null]
 }
 
-Table notice_article {
+Table user_interest_professtion {
   id Int [pk, increment]
-  article_id Int [unique, not null]
-  manager_id Int [not null]
-  article article [not null]
-  manager manager [not null]
-}
-
-Table answer_article {
-  id Int [pk, increment]
-  article_id Int [unique, not null]
-  manager_id Int [not null]
-  article article [not null]
-  manager manager [not null]
-}
-
-Table question_article {
-  id Int [pk, increment]
-  article_id Int [unique, not null]
   citizens_id Int [not null]
-  article article [not null]
-  citizens citizens [not null]
+  profession Profession [not null]
+  citizens Citizens [not null]
 }
 
-Table contest_article {
+Table teck_stack {
   id Int [pk, increment]
-  article_id Int [unique, not null]
-  citizens_id Int [not null]
-  contestId Int [not null]
-  article article [not null]
-  citizens citizens [not null]
-  contest contest [not null]
-}
-
-Table team_article {
-  id Int [pk, increment]
-  article_id Int [unique, not null]
-  citizens_id Int [not null]
-  article article [not null]
-  citizens citizens [not null]
-}
-
-Table free_article {
-  id Int [pk, increment]
-  article_id Int [unique, not null]
-  citizens_id Int [not null]
-  article article [not null]
-  citizens citizens [not null]
-}
-
-Table skill_stack {
-  id Int [pk, increment]
-  skill_stack_name String [not null]
-  description String [not null]
-  contest contest [not null]
-  profile profile [not null]
-  team team [not null]
+  teck_stack_name String [not null]
+  teck_stack_description String
+  teck_stack_image_url String
+  profession Profession [not null]
+  certificate Certificate [not null]
+  program Program [not null]
+  contest Contest [not null]
+  team Team [not null]
+  citizens Citizens [not null]
 }
 
 Table certificate {
   id Int [pk, increment]
+  citizens_id Int
+  classification_id Int
+  authority_id Int
   certificate_name String [not null]
+  description String
+  image_url String
+  citizens Citizens [not null]
+  contest Contest [not null]
+  team Team [not null]
+  teckStack TeckStack [not null]
+  profession Profession [not null]
+  classification Classification
+  authority Authority
+}
+
+Table classification {
+  id Int [pk, increment]
+  classification_name String [unique, not null]
   description String [not null]
-  contest contest [not null]
-  profile profile [not null]
-  team team [not null]
+  certificate Certificate [not null]
+}
+
+Table authority {
+  id Int [pk, increment]
+  authority_name String [unique, not null]
+  description String [not null]
+  certificate Certificate [not null]
 }
 
 Table program {
   id Int [pk, increment]
   program_name String [not null]
-  description String [not null]
-  contest contest [not null]
-  profile profile [not null]
-  team team [not null]
-}
-
-Table spcialization {
-  id Int [pk, increment]
-  spcialization_name String [unique, not null]
   description String
-  contest_spcialization contest [not null]
-  profile profile [not null]
-  team_spcialization team [not null]
+  image_url String
+  profession Profession [not null]
+  contest Contest [not null]
+  team Team [not null]
+  citizens Citizens [not null]
+  teck_stack TeckStack [not null]
 }
 
 Table team {
   id Int [pk, increment]
   status Boolean [not null, default: false]
   createdAt DateTime [default: `now()`, not null]
-  certificate certificate [not null]
-  citizens citizens [not null]
-  contest contest [not null]
-  program program [not null]
-  skill_stack skill_stack [not null]
-  spcialization spcialization [not null]
+  citizens Citizens [not null]
+  program Program [not null]
+  certificate Certificate [not null]
+  teck_stack TeckStack [not null]
+  profession Profession [not null]
+  contest Contest [not null]
+  team_article TeamArticle [not null]
+  tag Tag [not null]
+  role Role [not null]
+  Thread Thread [not null]
 }
 
 Table contest {
@@ -230,177 +217,370 @@ Table contest {
   content String [not null]
   end_period DateTime [not null]
   start_period DateTime [not null]
-  contest_article contest_article [not null]
-  certificate certificate [not null]
-  corporate_type corporate_type [not null]
-  profile profile [not null]
-  program program [not null]
-  skill_stack skill_stack [not null]
-  spcialization spcialization [not null]
-  team team [not null]
-}
-
-Table sns {
-  id Int [pk, increment]
-  sns_name String [not null]
-  profile profile [not null]
-}
-
-Table report {
-  id Int [pk, increment]
-  content String [not null]
-  created_at DateTime [default: `now()`, not null]
-  articleId Int
-  article article
-}
-
-Table resume {
-  id Int [pk, increment]
-  profile_id Int [not null]
-  resume_name String [not null]
-  url String [not null]
-  created_at DateTime [default: `now()`, not null]
-  profile profile [not null]
+  createAt DateTime [default: `now()`, not null]
+  corporate_type CorporateType [not null]
+  certificate Certificate [not null]
+  program Program [not null]
+  teck_stack TeckStack [not null]
+  profession Profession [not null]
+  profile Profile [not null]
+  team Team [not null]
+  contest_article ContestArticle [not null]
+  team_article TeamArticle [not null]
+  Tag Tag [not null]
 }
 
 Table corporate_type {
   id Int [pk, increment]
   corporate_name String [unique, not null]
-  contest contest [not null]
+  description String
+  Contest Contest [not null]
 }
 
-Table es_table {
-  id BigInt [pk, unique]
-  client_name String [not null]
-  modification_time DateTime [default: `now()`, not null]
-  insertion_time DateTime [default: `now()`, not null]
+Table article {
+  id Int [pk, increment]
+  published Boolean [not null, default: false]
+  viewCount Int [not null, default: 0]
+  likeCount Int [not null, default: 0]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  comment Comment [not null]
+  content Content
+  report Report [not null]
+  tag Tag [not null]
+  answer_article AnswerArticle
+  contest_article ContestArticle
+  free_article FreeArticle
+  notice_article NoticeArticle
+  question_article QuestionArticle
+  team_article TeamArticle
+  Thread Thread
 }
 
-Table citizensToteam {
-  teamId Int [ref: > team.id]
-  citizensId Int [ref: > citizens.id]
+Table content {
+  id Int [pk, increment]
+  article_id Int [unique, not null]
+  title String [not null]
+  body String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  article Article [not null]
 }
 
-Table certificateToprofile {
-  certificateId Int [ref: > certificate.id]
-  profileId Int [ref: > profile.id]
+Table comment {
+  id Int [pk, increment]
+  article_id Int [not null]
+  body String [not null]
+  likeCount Int [not null]
+  article Article [not null]
+  createdAt DateTime [default: `now()`, not null]
 }
 
-Table contestToprofile {
-  contestId Int [ref: > contest.id]
-  profileId Int [ref: > profile.id]
+Table notice_article {
+  id Int [pk, increment]
+  article_id Int [unique, not null]
+  manager_id Int [not null]
+  article Article [not null]
+  manager Manager [not null]
 }
 
-Table profileToprogram {
-  programId Int [ref: > program.id]
-  profileId Int [ref: > profile.id]
+Table answer_article {
+  id Int [pk, increment]
+  article_id Int [unique, not null]
+  manager_id Int [not null]
+  article Article [not null]
+  manager Manager [not null]
 }
 
-Table profileToskill_stack {
-  skill_stackId Int [ref: > skill_stack.id]
-  profileId Int [ref: > profile.id]
+Table question_article {
+  id Int [pk, increment]
+  article_id Int [unique, not null]
+  citizens_id Int [not null]
+  article Article [not null]
+  citizens Citizens [not null]
 }
 
-Table profileTosns {
-  snsId Int [ref: > sns.id]
-  profileId Int [ref: > profile.id]
+Table contest_article {
+  id Int [pk, increment]
+  article_id Int [unique, not null]
+  citizens_id Int [not null]
+  contest_id Int [not null]
+  constest_image_url String
+  article Article [not null]
+  citizens Citizens [not null]
+  contest Contest [not null]
 }
 
-Table profileTospcialization {
-  spcializationId Int [ref: > spcialization.id]
-  profileId Int [ref: > profile.id]
+Table team_article {
+  id Int [pk, increment]
+  article_id Int [unique, not null]
+  citizens_id Int [not null]
+  team_id Int [not null]
+  contest_id Int [not null]
+  team_image_url String
+  team Team [not null]
+  contest Contest [not null]
+  article Article [not null]
+  citizens Citizens [not null]
 }
 
-Table contestToskill_stack {
-  contestId Int [ref: > contest.id]
-  skill_stackId Int [ref: > skill_stack.id]
+Table free_article {
+  id Int [pk, increment]
+  article_id Int [unique, not null]
+  citizens_id Int [not null]
+  article Article [not null]
+  citizens Citizens [not null]
 }
 
-Table skill_stackToteam {
-  teamId Int [ref: > team.id]
-  skill_stackId Int [ref: > skill_stack.id]
+Table thread {
+  id Int [pk, increment]
+  article_id Int [unique, not null]
+  citizens_id Int [not null]
+  article Article [not null]
+  citizens Citizens [not null]
+  team Team [not null]
 }
 
-Table certificateTocontest {
-  contestId Int [ref: > contest.id]
-  certificateId Int [ref: > certificate.id]
+Table report {
+  id Int [pk, increment]
+  article_id Int
+  content String [not null]
+  created_at DateTime [default: `now()`, not null]
+  article Article
 }
 
-Table certificateToteam {
-  teamId Int [ref: > team.id]
-  certificateId Int [ref: > certificate.id]
+Table tag {
+  id Int [pk, increment]
+  tag_name String [not null]
+  description String [not null]
+  tag_color String [not null]
+  article Article [not null]
+  team Team [not null]
+  contest Contest [not null]
 }
 
-Table contestToprogram {
-  contestId Int [ref: > contest.id]
-  programId Int [ref: > program.id]
+Table review {
+  id Int [pk, increment]
+  project_score Int [not null]
+  performance_satisfaction_score Int [not null]
+  communication_skills_score Int [not null]
+  compliance_with_the_schedule_score Int [not null]
+  activeness_score Int [not null]
+  professionalism_score Int [not null]
+  profile Profile [not null]
 }
 
-Table programToteam {
-  teamId Int [ref: > team.id]
-  programId Int [ref: > program.id]
+Table role {
+  id Int [pk, increment]
+  role_name String [not null]
+  description String [not null]
+  team Team [not null]
+  citizens Citizens [not null]
 }
 
-Table contestTospcialization {
-  contest_spcializationId Int [ref: > contest.id]
-  spcializationId Int [ref: > spcialization.id]
+Table CertificateToCitizens {
+  certificateId Int [ref: > Certificate.id]
+  citizensId Int [ref: > Citizens.id]
 }
 
-Table spcializationToteam {
-  team_spcializationId Int [ref: > team.id]
-  spcializationId Int [ref: > spcialization.id]
+Table CitizensToProgram {
+  programId Int [ref: > Program.id]
+  citizensId Int [ref: > Citizens.id]
 }
 
-Table contestToteam {
-  contestId Int [ref: > contest.id]
-  teamId Int [ref: > team.id]
+Table CitizensToTeckStack {
+  teck_stackId Int [ref: > TeckStack.id]
+  citizensId Int [ref: > Citizens.id]
 }
 
-Table contestTocorporate_type {
-  corporate_typeId Int [ref: > corporate_type.id]
-  contestId Int [ref: > contest.id]
+Table CitizensToProfession {
+  professionId Int [ref: > Profession.id]
+  citizensId Int [ref: > Citizens.id]
+}
+
+Table CitizensToTeam {
+  teamId Int [ref: > Team.id]
+  citizensId Int [ref: > Citizens.id]
+}
+
+Table CitizensToRole {
+  roleId Int [ref: > Role.id]
+  citizensId Int [ref: > Citizens.id]
+}
+
+Table ContestToProfile {
+  contestId Int [ref: > Contest.id]
+  profileId Int [ref: > Profile.id]
+}
+
+Table ProfileToSNS {
+  snsId Int [ref: > SNS.id]
+  profileId Int [ref: > Profile.id]
+}
+
+Table ProfileToReview {
+  reviewId Int [ref: > Review.id]
+  profileId Int [ref: > Profile.id]
+}
+
+Table ContestToProfession {
+  contest_professionId Int [ref: > Contest.id]
+  professionId Int [ref: > Profession.id]
+}
+
+Table ProfessionToTeam {
+  team_professionId Int [ref: > Team.id]
+  professionId Int [ref: > Profession.id]
+}
+
+Table ProfessionToTeckStack {
+  teck_stackId Int [ref: > TeckStack.id]
+  professionId Int [ref: > Profession.id]
+}
+
+Table CertificateToProfession {
+  certificateId Int [ref: > Certificate.id]
+  professionId Int [ref: > Profession.id]
+}
+
+Table ProfessionToProgram {
+  programId Int [ref: > Program.id]
+  professionId Int [ref: > Profession.id]
+}
+
+Table ProfessionToUserInterestProfession {
+  user_interest_professionId Int [ref: > UserInterestProfession.id]
+  professionId Int [ref: > Profession.id]
+}
+
+Table CertificateToTeckStack {
+  certificateId Int [ref: > Certificate.id]
+  teckstackId Int [ref: > TeckStack.id]
+}
+
+Table ProgramToTeckStack {
+  programId Int [ref: > Program.id]
+  teck_stackId Int [ref: > TeckStack.id]
+}
+
+Table ContestToTeckStack {
+  contestId Int [ref: > Contest.id]
+  teck_stackId Int [ref: > TeckStack.id]
+}
+
+Table TeamToTeckStack {
+  teamId Int [ref: > Team.id]
+  teck_stackId Int [ref: > TeckStack.id]
+}
+
+Table CertificateToContest {
+  contestId Int [ref: > Contest.id]
+  certificateId Int [ref: > Certificate.id]
+}
+
+Table CertificateToTeam {
+  teamId Int [ref: > Team.id]
+  certificateId Int [ref: > Certificate.id]
+}
+
+Table ContestToProgram {
+  contestId Int [ref: > Contest.id]
+  programId Int [ref: > Program.id]
+}
+
+Table ProgramToTeam {
+  teamId Int [ref: > Team.id]
+  programId Int [ref: > Program.id]
+}
+
+Table ContestToTeam {
+  contestId Int [ref: > Contest.id]
+  teamId Int [ref: > Team.id]
+}
+
+Table TagToTeam {
+  tagId Int [ref: > Tag.id]
+  teamId Int [ref: > Team.id]
+}
+
+Table RoleToTeam {
+  roleId Int [ref: > Role.id]
+  teamId Int [ref: > Team.id]
+}
+
+Table TeamToThread {
+  threadId Int [ref: > Thread.id]
+  teamId Int [ref: > Team.id]
+}
+
+Table ContestToCorporateType {
+  corporate_typeId Int [ref: > CorporateType.id]
+  contestId Int [ref: > Contest.id]
+}
+
+Table ContestToTag {
+  tagId Int [ref: > Tag.id]
+  contestId Int [ref: > Contest.id]
+}
+
+Table ArticleToTag {
+  tagId Int [ref: > Tag.id]
+  articleId Int [ref: > Article.id]
 }
 
 Ref: Account.userId > User.id [delete: Cascade]
 
 Ref: Session.userId > User.id [delete: Cascade]
 
-Ref: manager.userId - User.id
+Ref: Manager.user_id - User.id [delete: Cascade]
 
-Ref: citizens.userId - User.id
+Ref: Citizens.user_id - User.id [delete: Cascade]
 
-Ref: profile.citizens_id - citizens.id
+Ref: Profile.citizens_id - Citizens.id [delete: Cascade]
 
-Ref: content.article_id - article.id
+Ref: Resume.profile_id > Profile.id [delete: Cascade]
 
-Ref: comment.article_id > article.id
+Ref: UserInterestProfession.citizens_id > Citizens.id [delete: Cascade]
 
-Ref: notice_article.article_id - article.id
+Ref: Certificate.classification_id > Classification.id [delete: Cascade]
 
-Ref: notice_article.manager_id > manager.id
+Ref: Certificate.authority_id > Authority.id [delete: Cascade]
 
-Ref: answer_article.article_id - article.id
+Ref: Content.article_id - Article.id [delete: Cascade]
 
-Ref: answer_article.manager_id > manager.id
+Ref: Comment.article_id > Article.id [delete: Cascade]
 
-Ref: question_article.article_id - article.id
+Ref: NoticeArticle.article_id - Article.id [delete: Cascade]
 
-Ref: question_article.citizens_id > citizens.id
+Ref: NoticeArticle.manager_id > Manager.id [delete: Cascade]
 
-Ref: contest_article.article_id - article.id
+Ref: AnswerArticle.article_id - Article.id [delete: Cascade]
 
-Ref: contest_article.citizens_id > citizens.id
+Ref: AnswerArticle.manager_id > Manager.id [delete: Cascade]
 
-Ref: contest_article.contestId > contest.id
+Ref: QuestionArticle.article_id - Article.id [delete: Cascade]
 
-Ref: team_article.article_id - article.id
+Ref: QuestionArticle.citizens_id > Citizens.id [delete: Cascade]
 
-Ref: team_article.citizens_id > citizens.id
+Ref: ContestArticle.article_id - Article.id [delete: Cascade]
 
-Ref: free_article.article_id - article.id
+Ref: ContestArticle.citizens_id > Citizens.id [delete: Cascade]
 
-Ref: free_article.citizens_id > citizens.id
+Ref: ContestArticle.contest_id > Contest.id [delete: Cascade]
 
-Ref: report.articleId > article.id
+Ref: TeamArticle.team_id > Team.id [delete: Cascade]
 
-Ref: resume.profile_id > profile.id
+Ref: TeamArticle.contest_id > Contest.id [delete: Cascade]
+
+Ref: TeamArticle.article_id - Article.id [delete: Cascade]
+
+Ref: TeamArticle.citizens_id > Citizens.id [delete: Cascade]
+
+Ref: FreeArticle.article_id - Article.id [delete: Cascade]
+
+Ref: FreeArticle.citizens_id > Citizens.id [delete: Cascade]
+
+Ref: Thread.article_id - Article.id [delete: Cascade]
+
+Ref: Thread.citizens_id > Citizens.id [delete: Cascade]
+
+Ref: Report.article_id > Article.id [delete: Cascade]

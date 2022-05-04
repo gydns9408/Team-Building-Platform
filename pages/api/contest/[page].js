@@ -5,10 +5,10 @@ const findContestPage = async (req, res) => {
   const take = req.query.take;
 
   const result = await prisma.contest.findMany({
-    skip: (page - 1) * take,
-    take: take,
+    skip: parseInt((page - 1) * take),
+    take: parseInt(take),
     orderBy: {
-      start_period: "desc",
+      createAt: "desc",
     },
   });
   res.json(result);

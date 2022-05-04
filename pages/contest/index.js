@@ -2,6 +2,7 @@ import Link from "next/link";
 import styles from "../../styles/Home.module.css";
 import Card from "../../components/Card/Contestcard";
 import css from "styled-jsx/css";
+import moment from "moment";
 
 const style = css`
   .test {
@@ -76,19 +77,20 @@ export default function CompetitionSearchPage() {
 
 // export async function getServerSideProps() {
 //   const body = {
+//     id: 3,
 //     contest_name: "test contest name",
 //     content:
 //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
 //     prize: 100,
 //     start_period: moment().utc().toISOString(),
 //     end_period: moment().utc().toISOString(),
-//     spcialization: ["미술/공예"],
+//     profession: ["미술/공예"],
 //     corporate_type: "공공기관/공기업",
 //     userID: 1,
 //     title: "test Title",
 //   };
-//   const data = await fetch(`http://localhost:3000/api/artilce/contestArticle`, {
-//     method: "POST",
+//   const data = await fetch(`http://localhost:3000/api/contest`, {
+//     method: "PUT",
 //     headers: { "Content-Type": "application/json" },
 //     body: JSON.stringify(body),
 //   });
