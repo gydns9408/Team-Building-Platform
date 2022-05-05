@@ -72,7 +72,7 @@ Table citizens {
   user_id String [unique, not null]
   certificate Certificate [not null]
   program Program [not null]
-  teck_stack TeckStack [not null]
+  tech_stack techStack [not null]
   profession Profession [not null]
   user_attention_profession UserInterestProfession [not null]
   team Team [not null]
@@ -125,7 +125,7 @@ Table professtion {
   contest_profession Contest [not null]
   team_profession Team [not null]
   citizens Citizens [not null]
-  teck_stack TeckStack [not null]
+  tech_stack techStack [not null]
   certificate Certificate [not null]
   program Program [not null]
   user_interest_profession UserInterestProfession [not null]
@@ -138,11 +138,11 @@ Table user_interest_professtion {
   citizens Citizens [not null]
 }
 
-Table teck_stack {
+Table tech_stack {
   id Int [pk, increment]
-  teck_stack_name String [not null]
-  teck_stack_description String
-  teck_stack_image_url String
+  tech_stack_name String [not null]
+  tech_stack_description String
+  tech_stack_image_url String
   profession Profession [not null]
   certificate Certificate [not null]
   program Program [not null]
@@ -162,7 +162,7 @@ Table certificate {
   citizens Citizens [not null]
   contest Contest [not null]
   team Team [not null]
-  teckStack TeckStack [not null]
+  techStack techStack [not null]
   profession Profession [not null]
   classification Classification
   authority Authority
@@ -191,7 +191,7 @@ Table program {
   contest Contest [not null]
   team Team [not null]
   citizens Citizens [not null]
-  teck_stack TeckStack [not null]
+  tech_stack techStack [not null]
 }
 
 Table team {
@@ -201,7 +201,7 @@ Table team {
   citizens Citizens [not null]
   program Program [not null]
   certificate Certificate [not null]
-  teck_stack TeckStack [not null]
+  tech_stack techStack [not null]
   profession Profession [not null]
   contest Contest [not null]
   team_article TeamArticle [not null]
@@ -221,7 +221,7 @@ Table contest {
   corporate_type CorporateType [not null]
   certificate Certificate [not null]
   program Program [not null]
-  teck_stack TeckStack [not null]
+  tech_stack techStack [not null]
   profession Profession [not null]
   profile Profile [not null]
   team Team [not null]
@@ -387,8 +387,8 @@ Table CitizensToProgram {
   citizensId Int [ref: > Citizens.id]
 }
 
-Table CitizensToTeckStack {
-  teck_stackId Int [ref: > TeckStack.id]
+Table CitizensTotechStack {
+  tech_stackId Int [ref: > techStack.id]
   citizensId Int [ref: > Citizens.id]
 }
 
@@ -432,8 +432,8 @@ Table ProfessionToTeam {
   professionId Int [ref: > Profession.id]
 }
 
-Table ProfessionToTeckStack {
-  teck_stackId Int [ref: > TeckStack.id]
+Table ProfessionTotechStack {
+  tech_stackId Int [ref: > techStack.id]
   professionId Int [ref: > Profession.id]
 }
 
@@ -452,24 +452,24 @@ Table ProfessionToUserInterestProfession {
   professionId Int [ref: > Profession.id]
 }
 
-Table CertificateToTeckStack {
+Table CertificateTotechStack {
   certificateId Int [ref: > Certificate.id]
-  teckstackId Int [ref: > TeckStack.id]
+  techstackId Int [ref: > techStack.id]
 }
 
-Table ProgramToTeckStack {
+Table ProgramTotechStack {
   programId Int [ref: > Program.id]
-  teck_stackId Int [ref: > TeckStack.id]
+  tech_stackId Int [ref: > techStack.id]
 }
 
-Table ContestToTeckStack {
+Table ContestTotechStack {
   contestId Int [ref: > Contest.id]
-  teck_stackId Int [ref: > TeckStack.id]
+  tech_stackId Int [ref: > techStack.id]
 }
 
-Table TeamToTeckStack {
+Table TeamTotechStack {
   teamId Int [ref: > Team.id]
-  teck_stackId Int [ref: > TeckStack.id]
+  tech_stackId Int [ref: > techStack.id]
 }
 
 Table CertificateToContest {

@@ -132,11 +132,11 @@ CREATE TABLE `user_interest_professtion` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `teck_stack` (
+CREATE TABLE `tech_stack` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `teck_stack_name` CHAR(50) NOT NULL,
-    `teck_stack_description` TEXT NOT NULL,
-    `teck_stack_image_uri` CHAR(100) NOT NULL,
+    `tech_stack_name` CHAR(50) NOT NULL,
+    `tech_stack_description` TEXT NOT NULL,
+    `tech_stack_image_uri` CHAR(100) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -387,12 +387,12 @@ CREATE TABLE `_CitizensToProgram` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `_CitizensToTeckStack` (
+CREATE TABLE `_CitizensTotechStack` (
     `A` INTEGER NOT NULL,
     `B` INTEGER NOT NULL,
 
-    UNIQUE INDEX `_CitizensToTeckStack_AB_unique`(`A`, `B`),
-    INDEX `_CitizensToTeckStack_B_index`(`B`)
+    UNIQUE INDEX `_CitizensTotechStack_AB_unique`(`A`, `B`),
+    INDEX `_CitizensTotechStack_B_index`(`B`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -450,12 +450,12 @@ CREATE TABLE `_ProfessionToTeam` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `_ProfessionToTeckStack` (
+CREATE TABLE `_ProfessionTotechStack` (
     `A` INTEGER NOT NULL,
     `B` INTEGER NOT NULL,
 
-    UNIQUE INDEX `_ProfessionToTeckStack_AB_unique`(`A`, `B`),
-    INDEX `_ProfessionToTeckStack_B_index`(`B`)
+    UNIQUE INDEX `_ProfessionTotechStack_AB_unique`(`A`, `B`),
+    INDEX `_ProfessionTotechStack_B_index`(`B`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -504,12 +504,12 @@ CREATE TABLE `_CertificateToTeam` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `_CertificateToTeckStack` (
+CREATE TABLE `_CertificateTotechStack` (
     `A` INTEGER NOT NULL,
     `B` INTEGER NOT NULL,
 
-    UNIQUE INDEX `_CertificateToTeckStack_AB_unique`(`A`, `B`),
-    INDEX `_CertificateToTeckStack_B_index`(`B`)
+    UNIQUE INDEX `_CertificateTotechStack_AB_unique`(`A`, `B`),
+    INDEX `_CertificateTotechStack_B_index`(`B`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -531,21 +531,21 @@ CREATE TABLE `_ProgramToTeam` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `_ProgramToTeckStack` (
+CREATE TABLE `_ProgramTotechStack` (
     `A` INTEGER NOT NULL,
     `B` INTEGER NOT NULL,
 
-    UNIQUE INDEX `_ProgramToTeckStack_AB_unique`(`A`, `B`),
-    INDEX `_ProgramToTeckStack_B_index`(`B`)
+    UNIQUE INDEX `_ProgramTotechStack_AB_unique`(`A`, `B`),
+    INDEX `_ProgramTotechStack_B_index`(`B`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `_TeamToTeckStack` (
+CREATE TABLE `_TeamTotechStack` (
     `A` INTEGER NOT NULL,
     `B` INTEGER NOT NULL,
 
-    UNIQUE INDEX `_TeamToTeckStack_AB_unique`(`A`, `B`),
-    INDEX `_TeamToTeckStack_B_index`(`B`)
+    UNIQUE INDEX `_TeamTotechStack_AB_unique`(`A`, `B`),
+    INDEX `_TeamTotechStack_B_index`(`B`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -576,12 +576,12 @@ CREATE TABLE `_ContestToProgram` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `_ContestToTeckStack` (
+CREATE TABLE `_ContestTotechStack` (
     `A` INTEGER NOT NULL,
     `B` INTEGER NOT NULL,
 
-    UNIQUE INDEX `_ContestToTeckStack_AB_unique`(`A`, `B`),
-    INDEX `_ContestToTeckStack_B_index`(`B`)
+    UNIQUE INDEX `_ContestTotechStack_AB_unique`(`A`, `B`),
+    INDEX `_ContestTotechStack_B_index`(`B`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -741,10 +741,10 @@ ALTER TABLE `_CitizensToProgram` ADD CONSTRAINT `_CitizensToProgram_A_fkey` FORE
 ALTER TABLE `_CitizensToProgram` ADD CONSTRAINT `_CitizensToProgram_B_fkey` FOREIGN KEY (`B`) REFERENCES `program`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `_CitizensToTeckStack` ADD CONSTRAINT `_CitizensToTeckStack_A_fkey` FOREIGN KEY (`A`) REFERENCES `citizens`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `_CitizensTotechStack` ADD CONSTRAINT `_CitizensTotechStack_A_fkey` FOREIGN KEY (`A`) REFERENCES `citizens`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `_CitizensToTeckStack` ADD CONSTRAINT `_CitizensToTeckStack_B_fkey` FOREIGN KEY (`B`) REFERENCES `teck_stack`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `_CitizensTotechStack` ADD CONSTRAINT `_CitizensTotechStack_B_fkey` FOREIGN KEY (`B`) REFERENCES `tech_stack`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `_CitizensToProfession` ADD CONSTRAINT `_CitizensToProfession_A_fkey` FOREIGN KEY (`A`) REFERENCES `citizens`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -783,10 +783,10 @@ ALTER TABLE `_ProfessionToTeam` ADD CONSTRAINT `_ProfessionToTeam_A_fkey` FOREIG
 ALTER TABLE `_ProfessionToTeam` ADD CONSTRAINT `_ProfessionToTeam_B_fkey` FOREIGN KEY (`B`) REFERENCES `team`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `_ProfessionToTeckStack` ADD CONSTRAINT `_ProfessionToTeckStack_A_fkey` FOREIGN KEY (`A`) REFERENCES `professtion`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `_ProfessionTotechStack` ADD CONSTRAINT `_ProfessionTotechStack_A_fkey` FOREIGN KEY (`A`) REFERENCES `professtion`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `_ProfessionToTeckStack` ADD CONSTRAINT `_ProfessionToTeckStack_B_fkey` FOREIGN KEY (`B`) REFERENCES `teck_stack`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `_ProfessionTotechStack` ADD CONSTRAINT `_ProfessionTotechStack_B_fkey` FOREIGN KEY (`B`) REFERENCES `tech_stack`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `_ProfessionToProgram` ADD CONSTRAINT `_ProfessionToProgram_A_fkey` FOREIGN KEY (`A`) REFERENCES `professtion`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -819,10 +819,10 @@ ALTER TABLE `_CertificateToTeam` ADD CONSTRAINT `_CertificateToTeam_A_fkey` FORE
 ALTER TABLE `_CertificateToTeam` ADD CONSTRAINT `_CertificateToTeam_B_fkey` FOREIGN KEY (`B`) REFERENCES `team`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `_CertificateToTeckStack` ADD CONSTRAINT `_CertificateToTeckStack_A_fkey` FOREIGN KEY (`A`) REFERENCES `certificate`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `_CertificateTotechStack` ADD CONSTRAINT `_CertificateTotechStack_A_fkey` FOREIGN KEY (`A`) REFERENCES `certificate`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `_CertificateToTeckStack` ADD CONSTRAINT `_CertificateToTeckStack_B_fkey` FOREIGN KEY (`B`) REFERENCES `teck_stack`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `_CertificateTotechStack` ADD CONSTRAINT `_CertificateTotechStack_B_fkey` FOREIGN KEY (`B`) REFERENCES `tech_stack`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `_CertificateToProfession` ADD CONSTRAINT `_CertificateToProfession_A_fkey` FOREIGN KEY (`A`) REFERENCES `certificate`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -837,16 +837,16 @@ ALTER TABLE `_ProgramToTeam` ADD CONSTRAINT `_ProgramToTeam_A_fkey` FOREIGN KEY 
 ALTER TABLE `_ProgramToTeam` ADD CONSTRAINT `_ProgramToTeam_B_fkey` FOREIGN KEY (`B`) REFERENCES `team`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `_ProgramToTeckStack` ADD CONSTRAINT `_ProgramToTeckStack_A_fkey` FOREIGN KEY (`A`) REFERENCES `program`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `_ProgramTotechStack` ADD CONSTRAINT `_ProgramTotechStack_A_fkey` FOREIGN KEY (`A`) REFERENCES `program`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `_ProgramToTeckStack` ADD CONSTRAINT `_ProgramToTeckStack_B_fkey` FOREIGN KEY (`B`) REFERENCES `teck_stack`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `_ProgramTotechStack` ADD CONSTRAINT `_ProgramTotechStack_B_fkey` FOREIGN KEY (`B`) REFERENCES `tech_stack`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `_TeamToTeckStack` ADD CONSTRAINT `_TeamToTeckStack_A_fkey` FOREIGN KEY (`A`) REFERENCES `team`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `_TeamTotechStack` ADD CONSTRAINT `_TeamTotechStack_A_fkey` FOREIGN KEY (`A`) REFERENCES `team`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `_TeamToTeckStack` ADD CONSTRAINT `_TeamToTeckStack_B_fkey` FOREIGN KEY (`B`) REFERENCES `teck_stack`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `_TeamTotechStack` ADD CONSTRAINT `_TeamTotechStack_B_fkey` FOREIGN KEY (`B`) REFERENCES `tech_stack`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `_TeamToThread` ADD CONSTRAINT `_TeamToThread_A_fkey` FOREIGN KEY (`A`) REFERENCES `team`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -867,10 +867,10 @@ ALTER TABLE `_ContestToProgram` ADD CONSTRAINT `_ContestToProgram_A_fkey` FOREIG
 ALTER TABLE `_ContestToProgram` ADD CONSTRAINT `_ContestToProgram_B_fkey` FOREIGN KEY (`B`) REFERENCES `program`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `_ContestToTeckStack` ADD CONSTRAINT `_ContestToTeckStack_A_fkey` FOREIGN KEY (`A`) REFERENCES `contest`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `_ContestTotechStack` ADD CONSTRAINT `_ContestTotechStack_A_fkey` FOREIGN KEY (`A`) REFERENCES `contest`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `_ContestToTeckStack` ADD CONSTRAINT `_ContestToTeckStack_B_fkey` FOREIGN KEY (`B`) REFERENCES `teck_stack`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `_ContestTotechStack` ADD CONSTRAINT `_ContestTotechStack_B_fkey` FOREIGN KEY (`B`) REFERENCES `tech_stack`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `_ContestToProfession` ADD CONSTRAINT `_ContestToProfession_A_fkey` FOREIGN KEY (`A`) REFERENCES `contest`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
