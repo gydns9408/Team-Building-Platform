@@ -92,9 +92,9 @@ model Citizens {
   id      Int    @id @default(autoincrement())
   user_id String @unique
 
-  certificate               Certificate[]
+  certificate               Certification[]
   program                   Program[]
-  tech_stack                techStack[]
+  tech_stack                TechStack[]
   profession                Profession[]
   user_attention_profession UserInterestProfession[]
 
@@ -132,7 +132,7 @@ model Profile {
 model SNS {
   id Int @id @default(autoincrement())
 
-  sns_name  String  @db.Char(50)
+  sns_name  String  @unique @db.Char(50)
   sns_url   String? @db.Char(100)
   image_url String? @db.Char(100)
 
@@ -147,7 +147,7 @@ model Resume {
   profile_id  Int
   //attr
   resume_name String  @db.Char(50)
-  resume_url  String? @db.Char(100)
+  image_url   String? @db.Char(100)
 
   created_at DateTime @default(now())
   profile    Profile  @relation(fields: [profile_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
@@ -166,8 +166,8 @@ model Profession {
   contest_profession       Contest[]
   team_profession          Team[]
   citizens                 Citizens[]
-  tech_stack               techStack[]
-  certificate              Certificate[]
+  tech_stack               TechStack[]
+  certificate              Certification[]
   program                  Program[]
   user_interest_profession UserInterestProfession[]
 
@@ -184,16 +184,16 @@ model UserInterestProfession {
   @@map("user_interest_professtion")
 }
 
-model techStack {
+model TechStack {
   //id
-  id                     Int     @id @default(autoincrement())
+  id              Int     @id @default(autoincrement())
   //attr
-  tech_stack_name        String  @db.Char(50)
-  tech_stack_description String? @db.Text
-  tech_stack_image_url   String? @db.Char(100)
+  tech_stack_name String  @unique @db.Char(50)
+  description     String? @db.Text
+  image_url       String? @db.Char(100)
 
   profession  Profession[]
-  certificate Certificate[]
+  certificate Certification[]
   program     Program[]
   contest     Contest[]
   team        Team[]
@@ -202,26 +202,26 @@ model techStack {
   @@map("tech_stack")
 }
 
-model Certificate {
+model Certification {
   //id
   id                Int             @id @default(autoincrement())
   citizens_id       Int?
   classification_id Int?
   authority_id      Int?
   //attribution
-  certificate_name  String          @db.Char(50)
+  certificate_name  String          @unique @db.Char(50)
   description       String?         @db.Text
   image_url         String?         @db.Char(100)
   //relation
   citizens          Citizens[]
   contest           Contest[]
   team              Team[]
-  techStack         techStack[]
+  techStack         TechStack[]
   profession        Profession[]
   classification    Classification? @relation(fields: [classification_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   authority         Authority?      @relation(fields: [authority_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
-  @@map("certificate")
+  @@map("certification")
 }
 
 model Classification {
@@ -230,7 +230,7 @@ model Classification {
   classification_name String @unique
   description         String @db.Text
 
-  certificate Certificate[]
+  certificate Certification[]
 
   @@map("classification")
 }
@@ -241,7 +241,7 @@ model Authority {
   authority_name String @unique
   description    String @db.Text
 
-  certificate Certificate[]
+  certificate Certification[]
 
   @@map("authority")
 }
@@ -249,7 +249,7 @@ model Authority {
 model Program {
   id Int @id @default(autoincrement())
 
-  program_name String  @db.Char(50)
+  program_name String  @unique @db.Char(50)
   description  String? @db.Text
   image_url    String? @db.Char(100)
 
@@ -257,7 +257,7 @@ model Program {
   contest    Contest[]
   team       Team[]
   citizens   Citizens[]
-  tech_stack techStack[]
+  tech_stack TechStack[]
   @@map("program")
 }
 
@@ -269,8 +269,8 @@ model Team {
 
   citizens     Citizens[]
   program      Program[]
-  certificate  Certificate[]
-  tech_stack   techStack[]
+  certificate  Certification[]
+  tech_stack   TechStack[]
   profession   Profession[]
   contest      Contest[]
   team_article TeamArticle[]
@@ -291,9 +291,9 @@ model Contest {
   createAt     DateTime @default(now()) @map("create_at") @db.Date
 
   corporate_type  CorporateType[]
-  certificate     Certificate[]
+  certificate     Certification[]
   program         Program[]
-  tech_stack      techStack[]
+  tech_stack      TechStack[]
   profession      Profession[]
   profile         Profile[]
   team            Team[]
@@ -475,7 +475,7 @@ model Report {
 
 model Tag {
   id          Int    @id @default(autoincrement())
-  tag_name    String @db.Char(50)
+  tag_name    String @unique @db.Char(50)
   description String @db.Text
   tag_color   String @db.Char(6)
 
@@ -501,7 +501,7 @@ model Review {
 
 model Role {
   id          Int    @id @default(autoincrement())
-  role_name   String @db.Char(50)
+  role_name   String @unique @db.Char(50)
   description String @db.Text
 
   team     Team[]

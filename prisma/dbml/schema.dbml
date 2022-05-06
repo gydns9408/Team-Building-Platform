@@ -70,9 +70,9 @@ Table manager {
 Table citizens {
   id Int [pk, increment]
   user_id String [unique, not null]
-  certificate Certificate [not null]
+  certificate Certification [not null]
   program Program [not null]
-  tech_stack techStack [not null]
+  tech_stack TechStack [not null]
   profession Profession [not null]
   user_attention_profession UserInterestProfession [not null]
   team Team [not null]
@@ -102,7 +102,7 @@ Table profile {
 
 Table sns {
   id Int [pk, increment]
-  sns_name String [not null]
+  sns_name String [unique, not null]
   sns_url String
   image_url String
   profile Profile [not null]
@@ -112,7 +112,7 @@ Table resume {
   id Int [pk, increment]
   profile_id Int [not null]
   resume_name String [not null]
-  resume_url String
+  image_url String
   created_at DateTime [default: `now()`, not null]
   profile Profile [not null]
 }
@@ -125,8 +125,8 @@ Table professtion {
   contest_profession Contest [not null]
   team_profession Team [not null]
   citizens Citizens [not null]
-  tech_stack techStack [not null]
-  certificate Certificate [not null]
+  tech_stack TechStack [not null]
+  certificate Certification [not null]
   program Program [not null]
   user_interest_profession UserInterestProfession [not null]
 }
@@ -140,29 +140,29 @@ Table user_interest_professtion {
 
 Table tech_stack {
   id Int [pk, increment]
-  tech_stack_name String [not null]
-  tech_stack_description String
-  tech_stack_image_url String
+  tech_stack_name String [unique, not null]
+  description String
+  image_url String
   profession Profession [not null]
-  certificate Certificate [not null]
+  certificate Certification [not null]
   program Program [not null]
   contest Contest [not null]
   team Team [not null]
   citizens Citizens [not null]
 }
 
-Table certificate {
+Table certification {
   id Int [pk, increment]
   citizens_id Int
   classification_id Int
   authority_id Int
-  certificate_name String [not null]
+  certificate_name String [unique, not null]
   description String
   image_url String
   citizens Citizens [not null]
   contest Contest [not null]
   team Team [not null]
-  techStack techStack [not null]
+  techStack TechStack [not null]
   profession Profession [not null]
   classification Classification
   authority Authority
@@ -172,26 +172,26 @@ Table classification {
   id Int [pk, increment]
   classification_name String [unique, not null]
   description String [not null]
-  certificate Certificate [not null]
+  certificate Certification [not null]
 }
 
 Table authority {
   id Int [pk, increment]
   authority_name String [unique, not null]
   description String [not null]
-  certificate Certificate [not null]
+  certificate Certification [not null]
 }
 
 Table program {
   id Int [pk, increment]
-  program_name String [not null]
+  program_name String [unique, not null]
   description String
   image_url String
   profession Profession [not null]
   contest Contest [not null]
   team Team [not null]
   citizens Citizens [not null]
-  tech_stack techStack [not null]
+  tech_stack TechStack [not null]
 }
 
 Table team {
@@ -200,8 +200,8 @@ Table team {
   createdAt DateTime [default: `now()`, not null]
   citizens Citizens [not null]
   program Program [not null]
-  certificate Certificate [not null]
-  tech_stack techStack [not null]
+  certificate Certification [not null]
+  tech_stack TechStack [not null]
   profession Profession [not null]
   contest Contest [not null]
   team_article TeamArticle [not null]
@@ -219,9 +219,9 @@ Table contest {
   start_period DateTime [not null]
   createAt DateTime [default: `now()`, not null]
   corporate_type CorporateType [not null]
-  certificate Certificate [not null]
+  certificate Certification [not null]
   program Program [not null]
-  tech_stack techStack [not null]
+  tech_stack TechStack [not null]
   profession Profession [not null]
   profile Profile [not null]
   team Team [not null]
@@ -350,7 +350,7 @@ Table report {
 
 Table tag {
   id Int [pk, increment]
-  tag_name String [not null]
+  tag_name String [unique, not null]
   description String [not null]
   tag_color String [not null]
   article Article [not null]
@@ -371,14 +371,14 @@ Table review {
 
 Table role {
   id Int [pk, increment]
-  role_name String [not null]
+  role_name String [unique, not null]
   description String [not null]
   team Team [not null]
   citizens Citizens [not null]
 }
 
-Table CertificateToCitizens {
-  certificateId Int [ref: > Certificate.id]
+Table CertificationToCitizens {
+  certificateId Int [ref: > Certification.id]
   citizensId Int [ref: > Citizens.id]
 }
 
@@ -387,8 +387,8 @@ Table CitizensToProgram {
   citizensId Int [ref: > Citizens.id]
 }
 
-Table CitizensTotechStack {
-  tech_stackId Int [ref: > techStack.id]
+Table CitizensToTechStack {
+  tech_stackId Int [ref: > TechStack.id]
   citizensId Int [ref: > Citizens.id]
 }
 
@@ -432,13 +432,13 @@ Table ProfessionToTeam {
   professionId Int [ref: > Profession.id]
 }
 
-Table ProfessionTotechStack {
-  tech_stackId Int [ref: > techStack.id]
+Table ProfessionToTechStack {
+  tech_stackId Int [ref: > TechStack.id]
   professionId Int [ref: > Profession.id]
 }
 
-Table CertificateToProfession {
-  certificateId Int [ref: > Certificate.id]
+Table CertificationToProfession {
+  certificateId Int [ref: > Certification.id]
   professionId Int [ref: > Profession.id]
 }
 
@@ -452,34 +452,34 @@ Table ProfessionToUserInterestProfession {
   professionId Int [ref: > Profession.id]
 }
 
-Table CertificateTotechStack {
-  certificateId Int [ref: > Certificate.id]
-  techstackId Int [ref: > techStack.id]
+Table CertificationToTechStack {
+  certificateId Int [ref: > Certification.id]
+  techstackId Int [ref: > TechStack.id]
 }
 
-Table ProgramTotechStack {
+Table ProgramToTechStack {
   programId Int [ref: > Program.id]
-  tech_stackId Int [ref: > techStack.id]
+  tech_stackId Int [ref: > TechStack.id]
 }
 
-Table ContestTotechStack {
+Table ContestToTechStack {
   contestId Int [ref: > Contest.id]
-  tech_stackId Int [ref: > techStack.id]
+  tech_stackId Int [ref: > TechStack.id]
 }
 
-Table TeamTotechStack {
+Table TeamToTechStack {
   teamId Int [ref: > Team.id]
-  tech_stackId Int [ref: > techStack.id]
+  tech_stackId Int [ref: > TechStack.id]
 }
 
-Table CertificateToContest {
+Table CertificationToContest {
   contestId Int [ref: > Contest.id]
-  certificateId Int [ref: > Certificate.id]
+  certificateId Int [ref: > Certification.id]
 }
 
-Table CertificateToTeam {
+Table CertificationToTeam {
   teamId Int [ref: > Team.id]
-  certificateId Int [ref: > Certificate.id]
+  certificateId Int [ref: > Certification.id]
 }
 
 Table ContestToProgram {
@@ -541,9 +541,9 @@ Ref: Resume.profile_id > Profile.id [delete: Cascade]
 
 Ref: UserInterestProfession.citizens_id > Citizens.id [delete: Cascade]
 
-Ref: Certificate.classification_id > Classification.id [delete: Cascade]
+Ref: Certification.classification_id > Classification.id [delete: Cascade]
 
-Ref: Certificate.authority_id > Authority.id [delete: Cascade]
+Ref: Certification.authority_id > Authority.id [delete: Cascade]
 
 Ref: Content.article_id - Article.id [delete: Cascade]
 
