@@ -1,4 +1,4 @@
-import prisma from "../../../utilities/prisma/client";
+import prisma from "../../../../utilities/prisma/client";
 
 const handle = async (req, res) => {
   switch (req.method) {
@@ -20,25 +20,22 @@ const handle = async (req, res) => {
 };
 
 const findOneTechStack = async (req, res) => {
-  const { name } = req.body;
-  const { type } = req.query;
+  const { type, name } = req.query;
   const teckStackFindQuery = {
-    ...(await typeNaming(type, name)),
+    ...(name !== undefined && { name: name }),
   };
-
   const result = await prisma?.[type].findUnique({
     where: teckStackFindQuery,
   });
-
   res.json(result);
 };
 
 const createTechStack = async (req, res) => {
-  const { name, description, imageUrl } = req.body;
-  const { type } = req.query;
+  const { description, imageUrl } = req.body;
+  const { type, name } = req.query;
 
   const techStackCreateQuery = {
-    ...(await typeNaming(type, name)),
+    ...(name !== undefined && { name: name }),
     ...(description !== undefined && { description: description }),
     ...(imageUrl !== undefined && { image_url: imageUrl }),
   };
@@ -48,10 +45,10 @@ const createTechStack = async (req, res) => {
 };
 
 const updateTechStack = async (req, res) => {
-  const { id, name, description, imageUrl } = req.body;
-  const { type } = req.query;
+  const { id, description, imageUrl } = req.body;
+  const { type, name } = req.query;
   const techStackUpdateQuery = {
-    ...(name !== undefined && (await typeNaming(type, name))),
+    ...(name !== undefined && { name: name }),
     ...(description !== undefined && { description: description }),
     ...(imageUrl !== undefined && { image_url: imageUrl }),
   };
@@ -75,7 +72,7 @@ const deleteTechStack = async (req, res) => {
   res.json(result);
 };
 
-const typeNaming = async (type, name) => {
+const typeOption = async (type, name) => {
   switch (type) {
     case "Role":
       return { role_name: name };

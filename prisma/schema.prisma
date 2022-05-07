@@ -132,7 +132,7 @@ model Profile {
 model SNS {
   id Int @id @default(autoincrement())
 
-  sns_name  String  @unique @db.Char(50)
+  name      String  @unique @db.Char(50)
   sns_url   String? @db.Char(100)
   image_url String? @db.Char(100)
 
@@ -159,9 +159,9 @@ model Resume {
 model Profession {
   id Int @id @default(autoincrement())
 
-  profession_name String  @unique
-  description     String? @db.Text
-  image_url       String? @db.Char(100)
+  name        String  @unique
+  description String? @db.Text
+  image_url   String? @db.Char(100)
 
   contest_profession       Contest[]
   team_profession          Team[]
@@ -186,11 +186,11 @@ model UserInterestProfession {
 
 model TechStack {
   //id
-  id              Int     @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   //attr
-  tech_stack_name String  @unique @db.Char(50)
-  description     String? @db.Text
-  image_url       String? @db.Char(100)
+  name        String  @unique @db.Char(50)
+  description String? @db.Text
+  image_url   String? @db.Char(100)
 
   profession  Profession[]
   certificate Certification[]
@@ -209,7 +209,7 @@ model Certification {
   classification_id Int?
   authority_id      Int?
   //attribution
-  certificate_name  String          @unique @db.Char(50)
+  name              String          @unique @db.Char(50)
   description       String?         @db.Text
   image_url         String?         @db.Char(100)
   //relation
@@ -227,8 +227,8 @@ model Certification {
 model Classification {
   id Int @id @default(autoincrement())
 
-  classification_name String @unique
-  description         String @db.Text
+  name        String @unique
+  description String @db.Text
 
   certificate Certification[]
 
@@ -238,8 +238,8 @@ model Classification {
 model Authority {
   id Int @id @default(autoincrement())
 
-  authority_name String @unique
-  description    String @db.Text
+  name        String @unique
+  description String @db.Text
 
   certificate Certification[]
 
@@ -249,9 +249,9 @@ model Authority {
 model Program {
   id Int @id @default(autoincrement())
 
-  program_name String  @unique @db.Char(50)
-  description  String? @db.Text
-  image_url    String? @db.Char(100)
+  name        String  @unique @db.Char(50)
+  description String? @db.Text
+  image_url   String? @db.Char(100)
 
   profession Profession[]
   contest    Contest[]
@@ -283,7 +283,7 @@ model Team {
 model Contest {
   id Int @id @default(autoincrement())
 
-  contest_name String   @db.Char(200)
+  name         String   @db.Char(200)
   prize        Int
   content      String   @db.Text
   end_period   DateTime @db.Date
@@ -307,8 +307,8 @@ model Contest {
 model CorporateType {
   id Int @id @default(autoincrement())
 
-  corporate_name String  @unique
-  description    String? @db.Text
+  name        String  @unique
+  description String? @db.Text
 
   Contest Contest[]
   @@map("corporate_type")
@@ -475,7 +475,7 @@ model Report {
 
 model Tag {
   id          Int    @id @default(autoincrement())
-  tag_name    String @unique @db.Char(50)
+  name        String @unique @db.Char(50)
   description String @db.Text
   tag_color   String @db.Char(6)
 
@@ -500,11 +500,13 @@ model Review {
 }
 
 model Role {
-  id          Int    @id @default(autoincrement())
-  role_name   String @unique @db.Char(50)
-  description String @db.Text
+  id          Int     @id @default(autoincrement())
+  name        String  @unique @db.Char(50)
+  description String  @db.Text
+  image_url   String? @db.Char(100)
 
   team     Team[]
   citizens Citizens[]
+
   @@map("role")
 }

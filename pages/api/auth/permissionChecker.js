@@ -16,7 +16,7 @@ const permissionChecker = async (req, res) => {
     .then(async (result) => {
       return result !== null
         ? result
-        : await prisma.citizens.create({
+        : await prisma.Citizens.create({
             data: {
               user: {
                 connect: {

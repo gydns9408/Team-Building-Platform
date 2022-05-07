@@ -89,7 +89,8 @@ const createContestArticle = async (req, res) => {
     contest: {
       create: {
         //대회 이름, 내용, 상금, 시작 날짜,종료 날짜
-        contest_name: contest_name,
+
+        name: contest_name,
         content: content.slice(20),
         prize: prize,
         start_period: start_period,
@@ -98,8 +99,8 @@ const createContestArticle = async (req, res) => {
         profession: {
           connectOrCreate: profession.map((d) => {
             return {
-              where: { profession_name: d },
-              create: { profession_name: d },
+              where: { name: d },
+              create: { name: d },
             };
           }),
         },
@@ -109,10 +110,10 @@ const createContestArticle = async (req, res) => {
           //만일 존재하지 않은 새로운 단위라면 데이터를 생성한다.
           connectOrCreate: {
             create: {
-              corporate_name: corporate_type,
+              name: corporate_type,
             },
             where: {
-              corporate_name: corporate_type,
+              name: corporate_type,
             },
           },
         },

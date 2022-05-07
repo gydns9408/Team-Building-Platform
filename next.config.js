@@ -22,3 +22,5 @@ module.exports = {
     return config;
   },
 };
+
+module.exports = { env: { HOSTNAME: process.env.HOSTNAME } };

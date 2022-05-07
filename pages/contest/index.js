@@ -75,25 +75,22 @@ export default function CompetitionSearchPage() {
   );
 }
 
-// export async function getServerSideProps() {
-//   const body = {
-//     id: 3,
-//     contest_name: "test contest name",
-//     content:
-//       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-//     prize: 100,
-//     start_period: moment().utc().toISOString(),
-//     end_period: moment().utc().toISOString(),
-//     profession: ["미술/공예"],
-//     corporate_type: "공공기관/공기업",
-//     userID: 1,
-//     title: "test Title",
-//   };
-//   const data = await fetch(`http://localhost:3000/api/contest`, {
-//     method: "PUT",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify(body),
-//   });
-//   console.log(data);
-//   return { props: {} };
-// }
+export async function getServerSideProps() {
+  const name = "program";
+  const type = "TechStack";
+  const data = await fetch(
+    `${process.env.HOSTNAME}/api/tags/${type}?name=${name}`,
+    {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }
+  )
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+    });
+
+  return { props: {data} };
+}
