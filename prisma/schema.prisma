@@ -1,0 +1,510 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String  @map("user_id")
+  type               String
+  provider           String
+  providerAccountId  String  @map("provider_account_id")
+  refresh_token      String?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+  oauth_token_secret String?
+  oauth_token        String?
+  user               User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId], map: "accounts_user_id_fkey")
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "sessions_user_id_fkey")
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verificationtokens")
+}
+
+model User {
+  //id
+  id            String    @id @default(cuid())
+  //attr
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  name          String
+  password      String?
+  image         String?
+  address_1     String?
+  address_2     String?
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+  //relation
+  citizens      Citizens?
+  manager       Manager?
+  accounts      Account[]
+  sessions      Session[]
+
+  @@map("users")
+}
+
+model Manager {
+  //id
+  id             Int             @id @default(autoincrement())
+  user_id        String          @unique
+  //relation
+  answer_article AnswerArticle[]
+  notice_article NoticeArticle[]
+  user           User            @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@map("manager")
+}
+
+model Citizens {
+  //id
+  id      Int    @id @default(autoincrement())
+  user_id String @unique
+
+  certificate               Certificate[]
+  program                   Program[]
+  teck_stack                TeckStack[]
+  profession                Profession[]
+  user_attention_profession UserInterestProfession[]
+
+  team Team[]
+
+  user    User     @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  profile Profile?
+
+  contest_article  ContestArticle[]
+  free_article     FreeArticle[]
+  question_article QuestionArticle[]
+  team_article     TeamArticle[]
+  Role             Role[]
+  Thread           Thread[]
+  @@map("citizens")
+}
+
+model Profile {
+  id            Int  @id @default(autoincrement())
+  citizens_id   Int  @unique
+  profession_id Int?
+
+  view_count Int     @default(0) @db.Int
+  like_count Int     @default(0) @db.Int
+  content    String? @db.Text
+
+  resume   Resume[]
+  contest  Contest[]
+  sns      SNS[]
+  review   Review[]
+  citizens Citizens  @relation(fields: [citizens_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  @@map("profile")
+}
+
+model SNS {
+  id Int @id @default(autoincrement())
+
+  sns_name  String @db.Char(50)
+  sns_url   String? @db.Char(100)
+  image_url String? @db.Char(100)
+
+  profile Profile[]
+
+  @@map("sns")
+}
+
+model Resume {
+  //id
+  id          Int    @id @default(autoincrement())
+  profile_id  Int
+  //attr
+  resume_name String @db.Char(50)
+  resume_url  String? @db.Char(100)
+
+  created_at DateTime @default(now())
+  profile    Profile  @relation(fields: [profile_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@index([profile_id], map: "resume_profile_id_fkey")
+  @@map("resume")
+}
+
+model Profession {
+  id Int @id @default(autoincrement())
+
+  profession_name String  @unique
+  description     String? @db.Text
+  image_url       String?  @db.Char(100)
+
+  contest_profession       Contest[]
+  team_profession          Team[]
+  citizens                 Citizens[]
+  teck_stack               TeckStack[]
+  certificate              Certificate[]
+  program                  Program[]
+  user_interest_profession UserInterestProfession[]
+
+  @@map("professtion")
+}
+
+model UserInterestProfession {
+  id          Int @id @default(autoincrement())
+  citizens_id Int
+
+  profession Profession[]
+  citizens   Citizens     @relation(fields: [citizens_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@map("user_interest_professtion")
+}
+
+model TeckStack {
+  //id
+  id                     Int    @id @default(autoincrement())
+  //attr
+  teck_stack_name        String @db.Char(50)
+  teck_stack_description String? @db.Text
+  teck_stack_image_url   String? @db.Char(100)
+
+  profession  Profession[]
+  certificate Certificate[]
+  program     Program[]
+  contest     Contest[]
+  team        Team[]
+  citizens    Citizens[]
+
+  @@map("teck_stack")
+}
+
+model Certificate {
+  //id
+  id                Int             @id @default(autoincrement())
+  citizens_id       Int?
+  classification_id Int?
+  authority_id      Int?
+  //attribution
+  certificate_name  String          @db.Char(50)
+  description       String?         @db.Text
+  image_url         String?          @db.Char(100)
+  //relation
+  citizens          Citizens[]
+  contest           Contest[]
+  team              Team[]
+  teckStack         TeckStack[]
+  profession        Profession[]
+  classification    Classification? @relation(fields: [classification_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  authority         Authority?      @relation(fields: [authority_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@map("certificate")
+}
+
+model Classification {
+  id Int @id @default(autoincrement())
+
+  classification_name String @unique
+  description         String @db.Text
+
+  certificate Certificate[]
+
+  @@map("classification")
+}
+
+model Authority {
+  id Int @id @default(autoincrement())
+
+  authority_name String @unique
+  description    String @db.Text
+
+  certificate Certificate[]
+
+  @@map("authority")
+}
+
+model Program {
+  id Int @id @default(autoincrement())
+
+  program_name String @db.Char(50)
+  description  String? @db.Text
+  image_url    String? @db.Char(100)
+
+  profession Profession[]
+  contest    Contest[]
+  team       Team[]
+  citizens   Citizens[]
+  teck_stack TeckStack[]
+  @@map("program")
+}
+
+model Team {
+  id Int @id @default(autoincrement())
+
+  status    Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  citizens     Citizens[]
+  program      Program[]
+  certificate  Certificate[]
+  teck_stack   TeckStack[]
+  profession   Profession[]
+  contest      Contest[]
+  team_article TeamArticle[]
+  tag          Tag[]
+  role         Role[]
+  Thread       Thread[]
+  @@map("team")
+}
+
+model Contest {
+  id Int @id @default(autoincrement())
+
+  contest_name String   @db.Char(200)
+  prize        Int
+  content      String   @db.Text
+  end_period   DateTime @db.Date
+  start_period DateTime @db.Date
+  createAt     DateTime @default(now()) @map("create_at") @db.Date
+
+  corporate_type  CorporateType[]
+  certificate     Certificate[]
+  program         Program[]
+  teck_stack      TeckStack[]
+  profession      Profession[]
+  profile         Profile[]
+  team            Team[]
+  contest_article ContestArticle[]
+  team_article    TeamArticle[]
+  Tag             Tag[]
+
+  @@map("contest")
+}
+
+model CorporateType {
+  id Int @id @default(autoincrement())
+
+  corporate_name String @unique
+  description    String? @db.Text
+
+  Contest Contest[]
+  @@map("corporate_type")
+}
+
+model Article {
+  id Int @id @default(autoincrement())
+
+  published Boolean @default(false)
+
+  viewCount Int      @default(0) @db.Int
+  likeCount Int      @default(0) @db.Int
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  comment Comment[]
+  content Content?
+  report  Report[]
+  tag     Tag[]
+
+  answer_article   AnswerArticle?
+  contest_article  ContestArticle?
+  free_article     FreeArticle?
+  notice_article   NoticeArticle?
+  question_article QuestionArticle?
+  team_article     TeamArticle?
+  Thread           Thread?
+  @@map("article")
+}
+
+model Content {
+  id         Int @id @default(autoincrement())
+  article_id Int @unique
+
+  title     String   @db.Char(200)
+  body      String   @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
+
+  article Article @relation(fields: [article_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@map("content")
+}
+
+model Comment {
+  id         Int @id @default(autoincrement())
+  article_id Int
+
+  body      String @db.Text
+  likeCount Int    @db.Int
+
+  article   Article  @relation(fields: [article_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([article_id], map: "comment_article_id_fkey")
+  @@map("comment")
+}
+
+model NoticeArticle {
+  id         Int @id @default(autoincrement())
+  article_id Int @unique
+  manager_id Int
+
+  article Article @relation(fields: [article_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  manager Manager @relation(fields: [manager_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@index([manager_id], map: "notice_article_manager_id_fkey")
+  @@map("notice_article")
+}
+
+model AnswerArticle {
+  id         Int @id @default(autoincrement())
+  article_id Int @unique
+  manager_id Int
+
+  article Article @relation(fields: [article_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  manager Manager @relation(fields: [manager_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@index([manager_id], map: "answer_article_manager_id_fkey")
+  @@map("answer_article")
+}
+
+model QuestionArticle {
+  id          Int @id @default(autoincrement())
+  article_id  Int @unique
+  citizens_id Int
+
+  article  Article  @relation(fields: [article_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  citizens Citizens @relation(fields: [citizens_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@index([citizens_id], map: "question_article_citizens_id_fkey")
+  @@map("question_article")
+}
+
+model ContestArticle {
+  id          Int @id @default(autoincrement())
+  article_id  Int @unique
+  citizens_id Int
+  contest_id  Int
+
+  constest_image_url String? @db.Char(100)
+
+  article  Article  @relation(fields: [article_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  citizens Citizens @relation(fields: [citizens_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  contest  Contest  @relation(fields: [contest_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+
+  @@index([citizens_id], map: "contest_article_citizens_id_fkey")
+  @@index([contest_id], map: "contest_article_contest_id_fkey")
+  @@map("contest_article")
+}
+
+model TeamArticle {
+  id          Int @id @default(autoincrement())
+  article_id  Int @unique
+  citizens_id Int
+  team_id     Int
+  contest_id  Int
+
+  team_image_url String? @db.Char(100)
+
+  team     Team     @relation(fields: [team_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  contest  Contest  @relation(fields: [contest_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  article  Article  @relation(fields: [article_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  citizens Citizens @relation(fields: [citizens_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@index([citizens_id], map: "team_article_citizens_id_fkey")
+  @@map("team_article")
+}
+
+model FreeArticle {
+  id          Int      @id @default(autoincrement())
+  article_id  Int      @unique
+  citizens_id Int
+  article     Article  @relation(fields: [article_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  citizens    Citizens @relation(fields: [citizens_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@index([citizens_id], map: "free_article_citizens_id_fkey")
+  @@map("free_article")
+}
+
+model Thread {
+  id          Int @id @default(autoincrement())
+  article_id  Int @unique
+  citizens_id Int
+
+  article  Article  @relation(fields: [article_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  citizens Citizens @relation(fields: [citizens_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  team     Team[]
+  @@map("thread")
+}
+
+model Report {
+  id         Int  @id @default(autoincrement())
+  article_id Int?
+
+  content    String   @db.Text
+  created_at DateTime @default(now())
+
+  article Article? @relation(fields: [article_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@index([article_id], map: "report_article_id_fkey")
+  @@map("report")
+}
+
+model Tag {
+  id          Int    @id @default(autoincrement())
+  tag_name    String @db.Char(50)
+  description String @db.Text
+  tag_color   String @db.Char(6)
+
+  article Article[]
+  team    Team[]
+  contest Contest[]
+  @@map("tag")
+}
+
+model Review {
+  id Int @id @default(autoincrement())
+
+  project_score                      Int @db.TinyInt
+  performance_satisfaction_score     Int @db.TinyInt
+  communication_skills_score         Int @db.TinyInt
+  compliance_with_the_schedule_score Int @db.TinyInt
+  activeness_score                   Int @db.TinyInt
+  professionalism_score              Int @db.TinyInt
+
+  profile Profile[]
+  @@map("review")
+}
+
+model Role {
+  id          Int    @id @default(autoincrement())
+  role_name   String @db.Char(50)
+  description String @db.Text
+
+  team     Team[]
+  citizens Citizens[]
+  @@map("role")
+}
