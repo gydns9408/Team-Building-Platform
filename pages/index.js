@@ -1,12 +1,9 @@
 import Mainpage from "../components/Header/Mainpage";
-import Header from "../components/Header/header";
-import TeckStack from "../components/Tags/TagsContainer";
+import MainLayout from "../components/Layout/MainLayout";
 export default function MainPage() {
   return (
-    <>
-      <Header />
+    <MainLayout>
       <Mainpage />
-      
-    </>
+    </MainLayout>
   );
 }

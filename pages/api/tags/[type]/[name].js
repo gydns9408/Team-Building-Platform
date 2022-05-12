@@ -72,6 +72,9 @@ const deleteTechStack = async (req, res) => {
   res.json(result);
 };
 
+export default handle;
+
+/*
 const typeOption = async (type, name) => {
   switch (type) {
     case "Role":
@@ -90,5 +93,4 @@ const typeOption = async (type, name) => {
       throw new Error(console.log(type));
   }
 };
-
-export default handle;
+*/ 
