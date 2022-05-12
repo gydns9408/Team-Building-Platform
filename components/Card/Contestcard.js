@@ -1,6 +1,10 @@
 import Head from "next/head";
 import Link from "next/link";
 import React from "react";
+import { Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Avatar, IconButton, Typography, Chip, Stack } from '@mui/material';
+import { FavoriteIcon, ShareIcon, ExpandMoreIcon, MoreVertIcon} from '@mui/icons-material';
+import { styled } from '@mui/material/styles';
+import { red } from '@mui/material/colors';
 import styles from "../../styles/Home.module.css";
 import css from "styled-jsx/css";
 import Image from "next/image";
@@ -18,7 +22,7 @@ const style = css`
   }
 `;
 
-const Card = (props) => {
+const CCard = (props) => {
   let tagsPrint = "";
 
   const photosize = 50
@@ -27,54 +31,47 @@ const Card = (props) => {
     tagsPrint += props.tags[i] + " ";
   }
 
+  let participantsPerfect = props.participants + "팀 모집"
+  let prizePerfect = "상금 : " + props.prize + "원"
+
+
   return (
     <>
-    <div>
-      {props.participants}명
+    <Card sx={{ maxWidth: 345 }}>
+    <CardHeader
+        title= {participantsPerfect}
+        subheader={tagsPrint}
+        />
+    <CardHeader
+            avatar={
+            <Avatar alt="photo" src={`${simbolImageAddress}${props.field}${imgType.png}`} />
+            }    
+        title= {props.maintitle}
+        subheader={props.subtitle}
+        />
+        <CardContent>
+        <Typography variant="body2" color="text.secondary">
+        {props.explan}
+        </Typography>
+      </CardContent>
       <header>
-        <Image
-          src={`${simbolImageAddress}${props.field}${imgType.png}`}
-          alt="Picture of the author"
-          width={photosize}
-          height={photosize}
-        />
-        &nbsp;
-        {props.maintitle}
+      {props.skillStack.map((skillStackData, i) => {
+                        return (<Image 
+                          src={`${skillStackAddress}${skillStackData.number}${imgType.png}`}
+                          alt="이미지"
+                          width={photosize}
+                          height={photosize}
+                          key={i}/>);
+                                              })}
+ 
       </header>
-      <header>{props.subtitle}</header>
-      <header>{props.explan}</header>
-      <header>{tagsPrint}</header>
-      <header>
-        <Image
-          src={`${skillStackAddress}${props.skillStack[0]}${imgType.png}`}
-          alt="이미지"
-          width={photosize}
-          height={photosize}
+      <CardHeader
+        title= {prizePerfect} 
         />
-        <Image
-          src={`${skillStackAddress}${props.skillStack[1]}${imgType.png}`}
-          alt="이미지"
-          width={photosize}
-          height={photosize}
-        />
-        <Image
-          src={`${skillStackAddress}${props.skillStack[2]}${imgType.png}`}
-          alt="이미지"
-          width={photosize}
-          height={photosize}
-        />
-        <Image
-          src={`${skillStackAddress}${props.skillStack[3]}${imgType.png}`}
-          alt="이미지"
-          width={photosize}
-          height={photosize}
-        />
-      </header>
-      상금 : {props.prize}원
-    </div>
+    </Card>
     <style jsx>{style}</style>
     </>
   );
 };
 
-export default Card;
+export default CCard;
