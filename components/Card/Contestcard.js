@@ -1,14 +1,16 @@
 import Head from "next/head";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../../styles/Home.module.css";
 import css from "styled-jsx/css";
 import Image from "next/image";
-
-const imgType = { png: ".png" };
-
-var simbolImageAddress = "/asset/simbol";
-var skillStackAddress = "/asset/skillStack";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import { CardActionArea } from "@mui/material";
+import Tag from "../Tags/Tag";
+import TagContainer from "../Tags/TagsContainer";
 
 const style = css`
   .test {
@@ -18,63 +20,61 @@ const style = css`
   }
 `;
 
-const Card = (props) => {
-  let tagsPrint = "";
+const ContestCard = (props) => {
+  const { contestID } = props;
 
-  const photosize = 50
-  let i = 0;
-  for (; i < props.tags.length; i++) {
-    tagsPrint += props.tags[i] + " ";
-  }
+  const [contest, setContest] = useState({});
+  const [loading, setLoading] = React.useState(true);
 
+  const contestRequest = async (contestID) => {
+    const data = await fetch(
+      `${process.env.HOSTNAME}/api/article/Contest/page/${contestID}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    ).then(async (response) => {
+      return await response.json();
+    });
+    setContest(data);
+  };
+
+  useEffect(() => {}, []);
+  useEffect(() => {
+    contestRequest(contestID).then(() => {
+      setLoading(false);
+    });
+  }, [contest]);
+  const photosize = 50;
+
+  if (loading) return <div>Loading...</div>;
   return (
-    <>
-    <div>
-      {props.participants}명
-      <header>
-        <Image
-          src={`${simbolImageAddress}${props.field}${imgType.png}`}
-          alt="Picture of the author"
-          width={photosize}
-          height={photosize}
-        />
-        &nbsp;
-        {props.maintitle}
-      </header>
-      <header>{props.subtitle}</header>
-      <header>{props.explan}</header>
-      <header>{tagsPrint}</header>
-      <header>
-        <Image
-          src={`${skillStackAddress}${props.skillStack[0]}${imgType.png}`}
-          alt="이미지"
-          width={photosize}
-          height={photosize}
-        />
-        <Image
-          src={`${skillStackAddress}${props.skillStack[1]}${imgType.png}`}
-          alt="이미지"
-          width={photosize}
-          height={photosize}
-        />
-        <Image
-          src={`${skillStackAddress}${props.skillStack[2]}${imgType.png}`}
-          alt="이미지"
-          width={photosize}
-          height={photosize}
-        />
-        <Image
-          src={`${skillStackAddress}${props.skillStack[3]}${imgType.png}`}
-          alt="이미지"
-          width={photosize}
-          height={photosize}
-        />
-      </header>
-      상금 : {props.prize}원
-    </div>
-    <style jsx>{style}</style>
-    </>
+    <Card>
+      <CardActionArea>
+        <CardContent>
+          <CardMedia
+            component="img"
+            height="140"
+            image={
+              contest.constest_image_url !== null
+                ? `${contest.constest_image_url}`
+                : `/asset/image/background/contest/default.svg`
+            }
+            alt="green iguana"
+          />
+          <Typography>{contest.contest.team.length}명 </Typography>
+
+          {contest.article.content.title}
+
+          <Typography variant="body2" color="text.secondary">
+            {contest.article.content.body}
+          </Typography>
+          <TagContainer tags={contest.contest.Tag} />
+          <Typography>{contest.contest.prize}원</Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
   );
 };
 
-export default Card;
+export default ContestCard;

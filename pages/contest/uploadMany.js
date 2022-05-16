@@ -22,14 +22,16 @@ const Upload = () => {
 
         const body = {
           contest_name: d.contest_name,
+          title: d.contest_name,
           content: "test",
           prize: parseInt(d.prize),
           start_period: moment(d.start_period).toISOString(),
           end_period: moment(d.end_period).toISOString(),
-          spcialization: d.spcialization.split(", "),
+          profession: d.profession.split(","),
           corporate_type: d.corporate_type,
+          userID: 1,
         };
-        await fetch(`http://localhost:3000/api/post/contest/`, {
+        await fetch(`${process.env.HOSTNAME}/api/artilce/contestArticle`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),

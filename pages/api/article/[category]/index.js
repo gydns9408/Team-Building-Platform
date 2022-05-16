@@ -1,18 +1,18 @@
-import prisma from "../../../utilities/prisma/client";
+import prisma from "../../../../utilities/prisma/client";
 import moment from "moment";
 const handle = async (req, res) => {
   switch (req.method) {
     case "GET":
-      findContestArticle(req, res);
+      findContstArticle(req, res);
       break;
     case "POST":
       createContestArticle(req, res);
       break;
     case "PUT":
-      updateContestArticle(req, res);
+      updateContest(req, res);
       break;
     case "DELETE":
-      deleteContestArticle(req, res);
+      deleteContest(req, res);
       break;
     default:
       throw new Error(console.log(req.method));
@@ -54,6 +54,20 @@ contest
 대회를 생성후 게시물을 생성 
 이때 contestArticle이 생성이 된다면 동시에 article와 content를 생성하라
 */
+
+const findContstArticle = async (req, res) => {
+  const articleId = req.query.articleId;
+
+  const query = {
+    ...(articleId !== undefined && { article_id: parseInt(articleId) }),
+  };
+  const result = await prisma.ContestArticle.findUnique({
+    where: query,
+  });
+
+  res.json(result);
+  resolve();
+};
 
 const createContestArticle = async (req, res) => {
   //요청 데이터 가져오기
@@ -127,6 +141,7 @@ const createContestArticle = async (req, res) => {
   });
 
   res.json(result);
+  resolve();
 };
 
 export default handle;
