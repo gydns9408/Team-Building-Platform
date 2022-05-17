@@ -35,7 +35,7 @@ const Tag = (props) => {
     <ListItem key={getTagInfo.id}>
       <Chip
         icon={<Image src={getTagInfo.image_url} width={16} height={16} />}
-        label={getTagInfo.name}
+        label={getTagInfo.name !== null ? getTagInfo.name : ""}
       />
     </ListItem>
   );

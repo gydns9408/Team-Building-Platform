@@ -13,6 +13,15 @@
     "generate": "prisma generate"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-basic-styles": "^34.0.0",
+    "@ckeditor/ckeditor5-build-classic": "19.0.0",
+    "@ckeditor/ckeditor5-clipboard": "^34.0.0",
+    "@ckeditor/ckeditor5-dev-utils": "^30.1.4",
+    "@ckeditor/ckeditor5-editor-classic": "^34.0.0",
+    "@ckeditor/ckeditor5-essentials": "^34.0.0",
+    "@ckeditor/ckeditor5-paragraph": "^34.0.0",
+    "@ckeditor/ckeditor5-react": "^5.0.0",
+    "@ckeditor/ckeditor5-theme-lark": "^34.0.0",
     "@elastic/elasticsearch": "^8.1.0",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
@@ -30,6 +39,7 @@
     "csv-loader": "^3.0.3",
     "d3": "^7.4.4",
     "dotenv": "^16.0.0",
+    "draft-js": "0.11.5",
     "moment": "^2.29.3",
     "mysql": "^2.18.1",
     "next": "^12.1.5-canary.3",
@@ -38,8 +48,9 @@
     "papaparse": "^5.3.2",
     "react": "^17.0.2",
     "react-dom": "17.0.2",
+    "react-editor-js": "1.4.1",
     "react-quill": "^1.3.5",
-    "textrank": "^1.0.5"
+    "react-router-dom": "^6.3.0"
   },
   "devDependencies": {
     "@mermaid-js/mermaid-cli": "^9.0.3",

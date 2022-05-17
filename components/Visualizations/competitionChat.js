@@ -17,7 +17,6 @@ const pathTween = (path, previous, length) => {
       .attr("cy", point.y) // Set the cy
       .attr("x", point.x) // Set the cx
       .attr("y", point.y); // Set the cy
-    console.log(point.y);
   };
 };
 
@@ -35,7 +34,6 @@ const competitionChat = (props) => {
   useEffect(() => {
     if (svgRef.current) {
       const svg = d3.select(svgRef.current).select("svg");
-
       const mountainLine = svg.select("#mountainLine");
       const mountainPoints = svg.select("#mountainLine").attr("d");
       const startPoint = mountainPoints.match(re);
