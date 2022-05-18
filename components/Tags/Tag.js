@@ -7,6 +7,30 @@ const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
+const TagOptions = (tag) => {
+  switch (tag) {
+    case "Profession":
+      return (
+        <Chip
+          icon={
+            <Image
+              src={
+                getTagInfo.image_url !== null
+                  ? getTagInfo.image_url
+                  : `/asset/image/background/contest/default.svg`
+              }
+              width={16}
+              height={16}
+            />
+          }
+          label={getTagInfo.name !== null ? getTagInfo.name : ""}
+        />
+      );
+    default:
+      throw new Error(console.log(tag));
+  }
+};
+
 const Tag = (props) => {
   const { name, type } = props;
 
@@ -20,8 +44,8 @@ const Tag = (props) => {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       }
-    ).then((response) => {
-      return response.json();
+    ).then(async (response) => {
+      return await response.json();
     });
     setTagInfo(data);
   };
@@ -31,14 +55,7 @@ const Tag = (props) => {
   }, []);
 
   if (loading) return <div>Loading...</div>;
-  return (
-    <ListItem key={getTagInfo.id}>
-      <Chip
-        icon={<Image src={getTagInfo.image_url} width={16} height={16} />}
-        label={getTagInfo.name !== null ? getTagInfo.name : ""}
-      />
-    </ListItem>
-  );
+  return <ListItem key={getTagInfo.id}>{TagOptions(type)}</ListItem>;
 };
 
 export default Tag;
