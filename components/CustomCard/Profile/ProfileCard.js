@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
 import React from "react";
-import styles from "../../styles/Home.module.css";
 import css from "styled-jsx/css";
 import Image from "next/image";
 const imgType = { png: ".png" };

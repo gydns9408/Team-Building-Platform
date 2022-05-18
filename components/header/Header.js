@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 
 const Header = () => {
   const router = useRouter();
@@ -147,13 +148,8 @@ const Header = () => {
     right = (
       <div className="right">
         <p>
-          {session.user.name} ({session.user.email})
+          <Image src={session.user.image} width={24} height={24}></Image>
         </p>
-        <Link href="/create" passHref>
-          <button>
-            <a>New post</a>
-          </button>
-        </Link>
         <button onClick={() => signOut()}>
           <a>Log out</a>
         </button>

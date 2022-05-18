@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 
-const contestIndex = () => {
+const ContestIndex = () => {
   const router = useRouter();
 
   useEffect(() => {
     // Always do navigations after the first render
     router.push("/contest/1", undefined, { shallow: true });
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     // The counter changed!
@@ -15,4 +15,4 @@ const contestIndex = () => {
   return <></>;
 };
 
-export default contestIndex;
+export default ContestIndex;

@@ -25,8 +25,9 @@ const SVGBackground = forwardRef((props, ref) => (
     <CompetitionBackgorund />
   </div>
 ));
+SVGBackground.displayName = "SVGBackground";
 
-const competitionChat = (props) => {
+const CompetitionChat = (props) => {
   const scale = useRef(0);
 
   const svgRef = React.createRef();
@@ -88,7 +89,7 @@ const competitionChat = (props) => {
   );
 };
 
-export default competitionChat;
+export default CompetitionChat;
 /*
 각 선 좌표에서 적절한 데이터를 출력해야한다.
 그렇게 하기 위해서는 크게 두가지 방법이 있다.

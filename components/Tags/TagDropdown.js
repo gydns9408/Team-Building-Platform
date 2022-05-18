@@ -16,7 +16,11 @@ const MenuPopupState = ({ names, type }) => {
           </Button>
           <Menu {...bindMenu(popupState)}>
             {names.map((d) => {
-              return <MenuItem onClick={popupState.close}>{d.name}</MenuItem>;
+              return (
+                <MenuItem key={d.id} onClick={popupState.close}>
+                  {d.name}
+                </MenuItem>
+              );
             })}
           </Menu>
         </React.Fragment>

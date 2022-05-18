@@ -1,8 +1,8 @@
 import Link from "next/link";
 import styles from "../../styles/Home.module.css";
 import css from "styled-jsx/css";
-import React, { useState } from 'react';
-import PCard from "../../components/Card/profilecard";
+import React, { useState } from "react";
+import PCard from "../../components/CustomCard/Profile/ProfileCard";
 
 const style = css`
   .test {
@@ -13,15 +13,14 @@ const style = css`
 `;
 
 export default function ProfilePage() {
-
-  let [myPhotoVar, myPhotoVarHandler] = useState("1")
-  let [myFieldVar, myFieldVarHandler]  = useState("1")
+  let [myPhotoVar, myPhotoVarHandler] = useState("1");
+  let [myFieldVar, myFieldVarHandler] = useState("1");
   let [explanVar, explanVarHandler] = useState("안녕하세요");
   let [nameVar, nameVarHandler] = useState("오박사");
   let [addressVar, addressVarHandler] = useState("태초마을");
-  let [contactAddressVar, contactAddressVarHandler] =useState("010 8465 4865");
-  let [skillStackVar, skillStackVarHandler] = useState([1, 2, 3, 4])
-  let [myEstimateVar, myEstimateVarHandler]  = useState(["AAA", "AAA", "AAA"])
+  let [contactAddressVar, contactAddressVarHandler] = useState("010 8465 4865");
+  let [skillStackVar, skillStackVarHandler] = useState([1, 2, 3, 4]);
+  let [myEstimateVar, myEstimateVarHandler] = useState(["AAA", "AAA", "AAA"]);
   return (
     <>
       <h1>프로필</h1>

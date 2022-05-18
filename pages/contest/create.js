@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Editor from "../../components/Editors/CKEditorTextEditor";
-const contestCreatePage = () => {
+const ContestCreatePage = () => {
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [data, setData] = useState("");
 
@@ -25,7 +25,7 @@ const contestCreatePage = () => {
   );
 };
 
-export default contestCreatePage;
+export default ContestCreatePage;
 
 // const QuillNoSSRWrapper = dynamic(import("react-quill"), {
 //   ssr: false,

@@ -26,7 +26,7 @@ export default function CompetitionSearchPage({ data }) {
       >
         {data.map((d) => {
           return (
-            <GridItem xs={3} sm={3} md={3}>
+            <GridItem key={d.id} xs={3} sm={3} md={3}>
               <Card contestID={d.id} />
             </GridItem>
           );
