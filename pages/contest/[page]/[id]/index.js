@@ -1,5 +1,4 @@
 import * as React from "react";
-import Main from "../../../../components/Article/MainArticle";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
@@ -7,6 +6,7 @@ import Box from "@mui/material/Box";
 import GridContainer from "../../../../components/Grid/GridContainer";
 import GridItem from "../../../../components/Grid/GridItem";
 import TagDropdown from "../../../../components/Tags/TagDropdown";
+import MainLayout from "../../../../components/Layout/MainLayout";
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
 
@@ -81,7 +81,7 @@ const BasicTabs = ({ data }) => {
   };
   if (loading) return <div>Loading...</div>;
   return (
-    <Box sx={{ width: "100%" }}>
+    <MainLayout>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           value={value}
@@ -105,7 +105,7 @@ const BasicTabs = ({ data }) => {
       <TabPanel value={value} index={2}>
         Item Three
       </TabPanel>
-    </Box>
+    </MainLayout>
   );
 };
 

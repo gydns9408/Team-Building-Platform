@@ -16,14 +16,7 @@ export default function CompetitionSearchPage({ data }) {
 
   return (
     <MainLayout>
-      <GridContainer
-        direction="row"
-        spacing={2}
-        sm={12}
-        md={12}
-        lg={12}
-        className={classes.card}
-      >
+      <GridContainer direction="row" spacing={2} xs={12} sm={12} md={12}>
         {data.map((d) => {
           return (
             <GridItem key={d.id} xs={3} sm={3} md={3}>
@@ -52,7 +45,7 @@ export default function CompetitionSearchPage({ data }) {
 export async function getServerSideProps(context) {
   const { page } = context.query;
   const data = await fetch(
-    `${process.env.HOSTNAME}/api/article/Contest/${page}?take=${10}`,
+    `${process.env.HOSTNAME}/api/article/Contest/${page}?take=${16}`,
     {
       method: "GET",
       headers: { "Content-Type": "application/json" },

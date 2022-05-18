@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-
+import Avatar from "@mui/material/Avatar";
 const Header = () => {
   const router = useRouter();
   const isActive = (pathname) => router.pathname === pathname;
@@ -121,9 +121,13 @@ const Header = () => {
             Feed
           </a>
         </Link>
-        <Link href="/drafts" passHref>
-          <a data-active={isActive("/drafts")}>My drafts</a>
+        <Link href="/contest" passHref>
+          <a data-active={isActive("/drafts")}>대회</a>
         </Link>
+        <Link href="/partner" passHref>
+          <a data-active={isActive("/drafts")}>파트너</a>
+        </Link>
+
         <style jsx>{`
           .bold {
             font-weight: bold;
@@ -147,12 +151,9 @@ const Header = () => {
     );
     right = (
       <div className="right">
-        <p>
-          <Image src={session.user.image} width={24} height={24}></Image>
-        </p>
-        <button onClick={() => signOut()}>
-          <a>Log out</a>
-        </button>
+        <Link href="/profile" passHref>
+          <Avatar src={session.user.image}></Avatar>
+        </Link>
         <style jsx>{`
           a {
             text-decoration: none;
