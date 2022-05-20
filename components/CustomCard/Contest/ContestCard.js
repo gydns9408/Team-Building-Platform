@@ -39,7 +39,6 @@ const ContestCard = (props) => {
     setContest(data);
   };
 
-  useEffect(() => {}, []);
   useEffect(() => {
     contestRequest(contestID).then(() => {
       setLoading(false);
@@ -48,11 +47,7 @@ const ContestCard = (props) => {
 
   if (loading) return <div>Loading...</div>;
   return (
-    <Link
-      href={`${process.env.HOSTNAME}/contest/Read/${contest.id}`}
-      prefetch
-      passHref
-    >
+    <Link href={`${process.env.HOSTNAME}/contest/Read/${contest.id}`} passHref>
       <Card className={classes.card + " " + className}>
         <CardActionArea>
           <CardContent>

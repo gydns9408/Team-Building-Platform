@@ -16,7 +16,7 @@ export default function CompetitionSearchPage({ data }) {
 
   return (
     <MainLayout>
-      <GridContainer direction="row" spacing={2} xs={12} sm={12} md={12}>
+      <GridContainer direction="row" spacing={2}>
         {data.map((d) => {
           return (
             <GridItem key={d.id} xs={3} sm={3} md={3}>

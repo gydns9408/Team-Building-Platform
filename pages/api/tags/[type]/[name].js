@@ -1,19 +1,20 @@
+import { resolve } from "path";
 import prisma from "../../../../utilities/prisma/client";
 
 const handle = async (req, res) => {
   switch (req.method) {
     case "GET":
       findOneTag(req, res);
-      break;
+      return resolve();
     case "POST":
       createTag(req, res);
-      break;
+      return resolve();
     case "PUT":
       updateTag(req, res);
-      break;
+      return resolve();
     case "DELETE":
       deleteTag(req, res);
-      break;
+      return resolve();
     default:
       throw new Error(console.log(req.method));
   }
@@ -93,4 +94,4 @@ const typeOption = async (type, name) => {
       throw new Error(console.log(type));
   }
 };
-*/ 
+*/

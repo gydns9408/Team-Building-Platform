@@ -64,7 +64,7 @@ export default handle;
 const articleIncludeOption = (type) => {
   switch (type) {
     case "Contest":
-      return { team: true, Tag: true, tech_stack: true };
+      return { team: true, Tag: true, tech_stack: true, profession: true };
     default:
       throw new Error(console.log(type));
   }

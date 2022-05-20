@@ -3,21 +3,46 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
+import { makeStyles } from "@material-ui/core/styles";
 import Tag from "./Tag";
 
+const styles = {
+  menu: {
+    position: "relative",
+    width: "4rem",
+    height: "4rem",
+    minHeight: "1px",
+    paddingRight: "15px",
+    paddingLeft: "15px",
+  },
+};
+
+const useStyles = makeStyles(styles);
+
 const MenuPopupState = ({ names, type }) => {
-  console.log(names);
+  const classes = useStyles();
+  const [menu, setMenu] = React.useState("분야");
   return (
     <PopupState variant="popover" popupId="demo-popup-menu">
       {(popupState) => (
         <React.Fragment>
-          <Button variant="contained" {...bindTrigger(popupState)}>
-            Dashboard
+          <Button
+            variant="contained"
+            className={classes.menu}
+            {...bindTrigger(popupState)}
+          >
+            {menu}
           </Button>
           <Menu {...bindMenu(popupState)}>
             {names.map((d) => {
               return (
-                <MenuItem key={d.id} onClick={popupState.close}>
+                <MenuItem
+                  key={d.id}
+                  onClick={() => {
+                    setMenu(d.name);
+                    return popupState.close;
+                  }}
+                >
                   {d.name}
                 </MenuItem>
               );

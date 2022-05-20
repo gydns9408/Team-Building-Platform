@@ -29,7 +29,7 @@ export default function MainPage() {
   if (loading) return <div>loading...</div>;
   return (
     <MainLayout>
-      <GridContainer direction="row" spacing={2} xs={12} sm={12} md={12}>
+      <GridContainer direction="row" spacing={2}>
         <Grid xs={6} sm={6} md={6}>
           <Typography variant="h2">{headCopy}</Typography>
           <Typography variant="subtitle1">{subCopy}</Typography>

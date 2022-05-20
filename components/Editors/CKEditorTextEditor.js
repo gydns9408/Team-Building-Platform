@@ -1,35 +1,35 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-function Editor({ onChange, editorLoaded, name, value }) {
-  const editorRef = useRef();
+const Editor = ({ onChange, editorLoaded, name, value }) => {
+  const editorRef = useRef(null);
+  const [loading, setLoading] = useState(true);
   const { CKEditor, ClassicEditor } = editorRef.current || {};
 
   useEffect(() => {
     editorRef.current = {
-      CKEditor: require("@ckeditor/ckeditor5-react").CKEditor, // v3+
+      CKEditor: require("@ckeditor/ckeditor5-react").CKEditor,
       ClassicEditor: require("@ckeditor/ckeditor5-build-classic"),
     };
   }, []);
 
+  useEffect(() => {
+    if (editorRef.current !== null) setLoading(false);
+  }, [editorRef]);
+
+  if (loading) return <div>loading...</div>;
+  
   return (
-    <div>
-      {editorLoaded ? (
-        <CKEditor
-          type=""
-          name={name}
-          editor={ClassicEditor}
-          data={value}
-          onChange={(event, editor) => {
-            const data = editor.getData();
-            // console.log({ event, editor, data })
-            onChange(data);
-          }}
-        />
-      ) : (
-        <div>Editor loading</div>
-      )}
-    </div>
+    <CKEditor
+      type=""
+      name={name}
+      editor={ClassicEditor}
+      data={value}
+      onChange={(event, editor) => {
+        const data = editor.getData();
+        onChange(data);
+      }}
+    />
   );
-}
+};
 
 export default Editor;
