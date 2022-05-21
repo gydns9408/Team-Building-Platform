@@ -10,7 +10,8 @@ const handle = async (req, res) => {
       await updateArticle(req, res);
       return resolve();
     case "PUT":
-      break;
+      await updateArticle(req, res);
+      return resolve();
     case "DELETE":
       break;
     default:

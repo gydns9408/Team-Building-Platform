@@ -5,8 +5,7 @@ const handle = async (req, res) => {
   switch (req.method) {
     case "GET":
       findTags(req, res);
-      resolve();
-      break;
+      return resolve();
     case "POST":
       break;
     case "PUT":

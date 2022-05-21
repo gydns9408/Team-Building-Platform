@@ -126,55 +126,54 @@ const styles = {};
 
 const useStyles = makeStyles(styles);
 
+const reqTags = async (type) => {
+  const data = await fetch(`${process.env.HOSTNAME}/api/tags/${type}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  }).then(async (response) => {
+    return await response.json();
+  });
+  return data;
+};
+
 const Published = () => {
   const classes = useStyles();
   const [article, dispatch] = React.useReducer(reducer, actionOption);
   const [professionsList, setProfessionsList] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
 
-  const reqProfession = async (type) => {
-    const data = await fetch(`${process.env.HOSTNAME}/api/tags/${type}`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    }).then(async (response) => {
-      return await response.json();
-    });
-    setProfessionsList(data);
-  };
-
   React.useEffect(() => {
-    reqProfession("Profession").then(() => {
-      setLoading(false);
-    });
+    reqTags("Profession")
+      .then((data) => {
+        setProfessionsList(data);
+      })
+      .then(() => {
+        setLoading(false);
+      });
   }, []);
 
   const handleArticleChange = (data) => {
     dispatch({ type: "contentBody", result: data });
   };
-  const handleProfession = async (event) => {
-    dispatch({ type: "contestProfession", result: event.target.value });
+  const handleProfession = async (data) => {
+    dispatch({ type: "contestProfession", result: data.target.value });
   };
-
+  const handleTagAppender = (data) => {
+    dispatch({ type: "contestTag", result: data.target.value });
+  };
   if (loading) return <div>Loading</div>;
   return (
-    <GridContainer>
-      <GridItem>
-        <TagAppender />
-      </GridItem>
-      <GridItem>
-        <Slider />
-      </GridItem>
+    <GridContainer spacing={2}>
+      <GridContainer direction="row" spacing={2}>
+        <GridItem xs={1}>
+          <TagDropdown names={professionsList} onClick={handleProfession} />
+        </GridItem>
+        <GridItem xs={11}>
+          <TitleInput />
+        </GridItem>
+      </GridContainer>
       <GridItem>
         <TimePicker />
-      </GridItem>
-      <GridItem>
-        <TimePicker />
-      </GridItem>
-      <GridItem>
-        <TitleInput />
-      </GridItem>
-      <GridItem>
-        <TagDropdown names={professionsList} onClick={handleProfession} />
       </GridItem>
       <GridItem>
         <Editor
@@ -185,6 +184,12 @@ const Published = () => {
         />
         {article.article.content.body}
         {article.contest.profession}
+      </GridItem>
+      <GridItem>
+        <Slider />
+      </GridItem>
+      <GridItem>
+        <TagAppender names={[{ name: "", description: "" }]} />
       </GridItem>
       <GridItem>
         <Button>출판</Button>
