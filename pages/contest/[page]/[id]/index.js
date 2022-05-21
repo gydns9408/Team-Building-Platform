@@ -39,6 +39,7 @@ const actionOption = {
     team: [],
     Tag: [],
     tech_stack: [],
+    profession: "",
   },
 };
 
@@ -111,6 +112,13 @@ const reducer = (prevState, action) => {
           tech_stack: action.result,
         },
       };
+    case "contestProfession":
+      return {
+        ...prevState,
+        contest: {
+          profession: action.result,
+        },
+      };
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }
@@ -133,19 +141,8 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 const ContestPage = ({ title, body, professions }) => {
-  const [professionsList, setProfessionsList] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const classes = useStyles();
-
-  const reqProfession = async (type) => {
-    const data = await fetch(`${process.env.HOSTNAME}/api/tags/${type}`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    }).then(async (response) => {
-      return await response.json();
-    });
-    setProfessionsList(data);
-  };
 
   React.useEffect(() => {
     reqProfession("Profession").then(() => {
@@ -179,11 +176,32 @@ const ContestPage = ({ title, body, professions }) => {
 
 const PublishedPage = () => {
   const [article, dispatch] = React.useReducer(reducer, actionOption);
+  const [professionsList, setProfessionsList] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+
+  const reqProfession = async (type) => {
+    const data = await fetch(`${process.env.HOSTNAME}/api/tags/${type}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }).then(async (response) => {
+      return await response.json();
+    });
+    setProfessionsList(data);
+  };
+
   const handleArticleChange = (data) => {
     dispatch({ type: "contentBody", result: data });
   };
+  const handleProfession = async (event) => {
+    dispatch({ type: "contestProfession", result: event.target.value });
+  };
+
+  React.useEffect(() => {}, []);
   return (
     <GridContainer>
+      <GridItem>
+        <TagDropdown names={professionsList} onClick={handleProfession} />
+      </GridItem>
       <GridItem>
         <Editor
           onChange={handleArticleChange}
@@ -192,6 +210,7 @@ const PublishedPage = () => {
           data="testData"
         />
         {article.article.content.body}
+        {article.contest.profession}
       </GridItem>
       <GridItem>
         <Button>출판</Button>
