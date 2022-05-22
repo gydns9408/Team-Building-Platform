@@ -17,11 +17,11 @@ function MyFormHelperText() {
   return <FormHelperText>{helperText}</FormHelperText>;
 }
 
-export default function UseFormControl() {
+export default function UseFormControl({ onChange }) {
   return (
     <Box component="form" noValidate autoComplete="off">
       <FormControl sx={{ width: "25ch" }}>
-        <OutlinedInput placeholder="Please enter text" />
+        <OutlinedInput placeholder="Please enter text" onChange={onChange} />
         <MyFormHelperText />
       </FormControl>
     </Box>

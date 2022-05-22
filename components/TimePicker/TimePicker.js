@@ -5,11 +5,11 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
-const MaterialUIPickers = () => {
+const MaterialUIPickers = ({ onChange }) => {
   const [value, setValue] = React.useState(new Date());
 
   const handleChange = (newValue) => {
-    setValue(newValue);
+    setValue(newValue, onChange(newValue));
   };
 
   return (

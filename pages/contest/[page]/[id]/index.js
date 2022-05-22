@@ -9,10 +9,11 @@ import GridContainer from "../../../../components/Grid/GridContainer";
 import GridItem from "../../../../components/Grid/GridItem";
 import MainLayout from "../../../../components/Layout/MainLayout";
 import TabPanel from "../../../../components/Tab/TabPanel";
-//section
-import Overview from "../../../../pages-sections/tabSections/SectionOverview";
-import Published from "../../../../pages-sections/tabSections/SectionPublished";
 
+//section
+import Overview from "../../../../pages-sections/contest/tabSections/SectionOverview";
+import Published from "../../../../pages-sections/contest/tabSections/SectionPublished";
+import HeaderImage from "../../../../pages-sections/contest/tabSections/SectionHeaderImage";
 const styles = {
   title: {
     borderBottom: "0.5px",
@@ -22,8 +23,14 @@ const styles = {
   body: {
     margin: "2rem",
   },
-  contestHead: {
-    border: "1px",
+  contestHead: {},
+  headerImage: {
+    height: "15rem",
+  },
+  headerButton: {
+    position: "absolute",
+    bottom: "1rem",
+    right: "1rem",
   },
 };
 
@@ -38,6 +45,7 @@ const a11yProps = (index) => {
 
 const BasicTabs = ({ data }) => {
   const [value, setValue] = React.useState(0);
+  const [editing, setEditing] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
   const classes = useStyles(styles);
   const handleChange = (event, newValue) => {
@@ -54,11 +62,7 @@ const BasicTabs = ({ data }) => {
     <MainLayout>
       <GridContainer direction="column" className={classes.contestHead}>
         <GridItem>
-          <Image
-            src={`/asset/image/background/contest/default.svg`}
-            width="100%"
-            height="100%"
-          ></Image>
+          <HeaderImage />
         </GridItem>
         <GridItem>
           <Tabs

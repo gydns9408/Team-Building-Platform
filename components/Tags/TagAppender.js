@@ -9,7 +9,7 @@ const componentLabels = {
   button: "add tag",
 };
 
-const TagAppender = ({ tag = [], type, onClick }) => {
+const TagAppender = ({ tag = [], type, handle }) => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     setLoading(false);
@@ -43,11 +43,11 @@ const TagAppender = ({ tag = [], type, onClick }) => {
               placeholder="Favorites"
             />
           )}
+          onChange={handle}
         />
       </GridItem>
     </GridContainer>
   );
 };
 
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
 export default TagAppender;
