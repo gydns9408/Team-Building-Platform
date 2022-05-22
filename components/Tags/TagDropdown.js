@@ -12,14 +12,12 @@ const styles = {
     width: "4rem",
     height: "4rem",
     minHeight: "1px",
-    paddingRight: "15px",
-    paddingLeft: "15px",
   },
 };
 
 const useStyles = makeStyles(styles);
 
-const MenuPopupState = ({ names, type }) => {
+const MenuPopupState = ({ names, onClick }) => {
   const classes = useStyles();
   const [menu, setMenu] = React.useState("분야");
   return (
@@ -38,9 +36,10 @@ const MenuPopupState = ({ names, type }) => {
               return (
                 <MenuItem
                   key={d.id}
-                  onClick={() => {
+                  onClick={(e) => {
+                    onClick(e);
                     setMenu(d.name);
-                    return popupState.close;
+                    popupState.close;
                   }}
                 >
                   {d.name}

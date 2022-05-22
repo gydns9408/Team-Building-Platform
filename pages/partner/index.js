@@ -1,25 +1,18 @@
-import Link from "next/link";
-import styles from "../../styles/Home.module.css";
-import css from "styled-jsx/css";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
-const style = css`
-  .test {
-    background-color: white;
-    height: 60px;
-    font-size: 1rem;
-  }
-`;
+const ContestIndex = () => {
+  const router = useRouter();
 
-export default function PartnerSearchPage() {
-  return (
-    <>
-      <h1>파트너 탐색</h1>
-      <h2 className={styles.title}>
-        <Link href="/">
-          <a>메인으로</a>
-        </Link>
-      </h2>
-      <style jsx>{style}</style>
-    </>
-  );
-}
+  useEffect(() => {
+    // Always do navigations after the first render
+    router.push("/partner/1", undefined, { shallow: true });
+  }, [router]);
+
+  useEffect(() => {
+    // The counter changed!
+  }, [router.query.counter]);
+  return <></>;
+};
+
+export default ContestIndex;

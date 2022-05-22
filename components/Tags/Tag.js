@@ -9,6 +9,8 @@ const ListItem = styled("li")(({ theme }) => ({
 
 const TagOptions = (tag) => {
   switch (tag) {
+    case "Tag":
+      return <Chip label={getTagInfo.name !== null ? getTagInfo.name : ""} />;
     case "Profession":
       return (
         <Chip
