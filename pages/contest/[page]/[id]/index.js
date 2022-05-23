@@ -43,6 +43,8 @@ const a11yProps = (index) => {
   };
 };
 
+
+
 const BasicTabs = ({ data }) => {
   const [value, setValue] = React.useState(0);
   const [editing, setEditing] = React.useState(false);

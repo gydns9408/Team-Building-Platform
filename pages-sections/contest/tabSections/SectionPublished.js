@@ -10,10 +10,19 @@ import TitleInput from "../../../components/Input/Title";
 import TimePicker from "../../../components/TimePicker/TimePicker";
 import Slider from "../../../components/Slider/SmallSteps";
 import TagAppender from "../../../components/Tags/TagAppender";
+import Tag from "../../../components/Tags/Tag";
+import TagsContainer from "../../../components/Tags/TagsContainer";
+import Modal from "../../../components/Modal/Modal";
+
+import GenerateTags from "../../tags/SectionGenerateTags";
 
 import { makeStyles } from "@material-ui/core/styles";
 
 import moment from "moment";
+
+const headCopy = {
+  tech_stack: "기술 스택 생성",
+};
 
 const articleOtion = {
   published: false,
@@ -158,9 +167,11 @@ const Published = () => {
   const handleTagAppender = (data) => {
     contestDispatch({ type: "contestTag", result: data.target.value });
   };
-  const handelTimePicker = (data) => {
+  const handleTimePicker = (data) => {
     contestDispatch({ type: "contestEndPeriod", result: data });
-    // console.log(data);
+  };
+  const handlePrize = (data) => {
+    contestDispatch({ type: "contestPrize", result: data });
   };
 
   const handlePublished = () => {
@@ -171,18 +182,18 @@ const Published = () => {
   if (loading) return <div>Loading</div>;
 
   return (
-    <GridContainer spacing={2}>
+    <GridContainer direction="column" spacing={2}>
       <GridContainer direction="row" spacing={2}>
-        <GridItem xs={3} sm={3} md={3}>
+        <GridItem xs={2} sm={2} md={2}>
           <TagDropdown names={professionsList} onClick={handleProfession} />
         </GridItem>
-        <GridItem xs={7} sm={9} md={9}>
+        <GridItem xs={9} sm={9} md={9}>
           <TitleInput onChange={handleTitleChange} />
         </GridItem>
       </GridContainer>
-      <GridContainer direction="row" spacing={2}>
+      <GridContainer direction="column" spacing={2}>
         <GridItem>
-          <TimePicker onChange={handelTimePicker} />
+          <TimePicker onChange={handleTimePicker} />
         </GridItem>
         <GridItem>
           <Editor
@@ -191,12 +202,9 @@ const Published = () => {
             name="testName"
             data="testData"
           />
-          {article.content.body}
-          {contest.profession}
-          {contest.Tag}
         </GridItem>
         <GridItem>
-          <Slider />
+          <Slider onChange={handlePrize} />
         </GridItem>
         <GridItem>
           <TagAppender
@@ -206,7 +214,13 @@ const Published = () => {
           />
         </GridItem>
         <GridItem>
+          <TagsContainer tags={[]} />
+        </GridItem>
+        <GridItem>
           <Button onClick={handlePublished}>출판</Button>
+          <Modal title={headCopy.tech_stack}>
+            <GenerateTags />
+          </Modal>
         </GridItem>
       </GridContainer>
     </GridContainer>
