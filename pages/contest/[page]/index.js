@@ -37,6 +37,7 @@ export default function CompetitionSearchPage({ data }) {
           { text: "..." },
           { text: 12 },
         ]}
+        pageLink={"/contest/"}
       />
     </MainLayout>
   );

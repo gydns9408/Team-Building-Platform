@@ -1,5 +1,6 @@
 import React from "react";
 // nodejs library to set properties for components
+import Link from "next/link";
 import PropTypes from "prop-types";
 // nodejs library that concatenates classes
 import classNames from "classnames";
@@ -30,12 +31,16 @@ export default function Pagination(props) {
                 {prop.text}
               </Button>
             ) : (
+              <Link
+              href={`${process.env.HOSTNAME}${props.pageLink}${prop.text}`}
+              >
               <Button
-                onClick={() => alert("you've clicked " + prop.text)}
+               onClick={() => alert("you've clicked " + prop.text)}
                 className={paginationLink}
               >
                 {prop.text}
               </Button>
+              </Link>
             )}
           </li>
         );
