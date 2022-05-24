@@ -8,7 +8,8 @@ const ListItem = styled("li")(({ theme }) => ({
 }));
 
 export default function ChipsArray(props) {
-  const { tags, type } = props;
+  const { tags, type, form } = props;
+  console.log(tags);
   return (
     <Paper
       sx={{
@@ -25,7 +26,7 @@ export default function ChipsArray(props) {
         ? tags.map((data) => {
             return (
               <ListItem key={data.id}>
-                <Tag name={data.name} type={type} />
+                <Tag name={data.name} type={type} form={form} />
               </ListItem>
             );
           })

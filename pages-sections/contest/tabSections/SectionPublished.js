@@ -20,8 +20,9 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import moment from "moment";
 
-const headCopy = {
+const pageCopys = {
   tech_stack: "기술 스택 생성",
+  submitButton: "제출",
 };
 
 const articleOtion = {
@@ -104,7 +105,7 @@ const contestReducer = (prevState, action) => {
     case "contestTechStack":
       return {
         ...prevState,
-        tech_stack: action.result,
+        tech_stack: [...prevState.tech_stack, action.result],
       };
     case "contestProfession":
       return {
@@ -173,6 +174,9 @@ const Published = () => {
   const handlePrize = (data) => {
     contestDispatch({ type: "contestPrize", result: data });
   };
+  const handleTechStack = (data) => {
+    contestDispatch({ type: "contestTechStack", result: data });
+  };
 
   const handlePublished = () => {
     console.log(article);
@@ -214,12 +218,16 @@ const Published = () => {
           />
         </GridItem>
         <GridItem>
-          <TagsContainer tags={[]} />
+          <TagsContainer
+            tags={contest.tech_stack}
+            type="TechStack"
+            form="iconOnly"
+          />
         </GridItem>
         <GridItem>
-          <Button onClick={handlePublished}>출판</Button>
-          <Modal title={headCopy.tech_stack}>
-            <GenerateTags />
+          <Button onClick={handlePublished}>{pageCopys.submitButton}</Button>
+          <Modal title={pageCopys.tech_stack}>
+            <GenerateTags handle={handleTechStack} />
           </Modal>
         </GridItem>
       </GridContainer>

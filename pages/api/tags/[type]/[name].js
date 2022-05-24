@@ -22,6 +22,7 @@ const handle = async (req, res) => {
 
 const findOneTag = async (req, res) => {
   const { type, name } = req.query;
+  console.log(name);
   const teckStackFindQuery = {
     ...(name !== undefined && { name: name }),
   };
@@ -32,13 +33,13 @@ const findOneTag = async (req, res) => {
 };
 
 const createTag = async (req, res) => {
-  const { description, imageUrl } = req.body;
+  const { description, image_url } = req.body;
   const { type, name } = req.query;
 
   const techStackCreateQuery = {
     ...(name !== undefined && { name: name }),
     ...(description !== undefined && { description: description }),
-    ...(imageUrl !== undefined && { image_url: imageUrl }),
+    ...(image_url !== undefined && { image_url: image_url }),
   };
   const result = await prisma?.[type].create({ data: techStackCreateQuery });
 

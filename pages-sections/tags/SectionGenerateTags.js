@@ -7,6 +7,10 @@ import Button from "../../components/CustomButtons/Button";
 import Editor from "../../components/Editors/CKEditorTextEditor";
 import { makeStyles } from "@material-ui/core/styles";
 
+const assetPath = {
+  tech_stack: "/asset/icon/tech_stack",
+};
+
 const styles = {
   stackImage: {
     width: "5rem",
@@ -34,12 +38,12 @@ const techStackReducer = (prevState, action) => {
     case "imageUrl":
       return {
         ...prevState,
-        image_url: `/asset/icon/tech_stack/${prevState.name}`,
+        image_url: `${assetPath.tech_stack}/${action.result}`,
       };
   }
 };
 
-const SectionGenerateTags = () => {
+const SectionGenerateTags = ({ handle }) => {
   const [techStack, dispatch] = useReducer(techStackReducer, techStackOption);
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -51,6 +55,7 @@ const SectionGenerateTags = () => {
       const image = event.target.files[0];
       setImage(image);
       setCreateObjectURL(URL.createObjectURL(image));
+      handleImageChange(image.name);
     }
   };
   const handleTitleChange = (data) => {
@@ -59,34 +64,56 @@ const SectionGenerateTags = () => {
   const handleDescriptionChange = (data) => {
     dispatch({ type: "description", result: data });
   };
-  const handleImageChange = () => {
-    dispatch({ type: "imageUrl" });
+  const handleImageChange = (data) => {
+    dispatch({ type: "imageUrl", result: data });
   };
-
   const uploadToServer = async () => {
     const body = new FormData();
     body.append("file", image);
-    const response = await fetch(`${process.env.HOSTNAME}/api/file`, {
-      method: "POST",
-      body: body,
-    });
+
+    const response = await fetch(
+      `${process.env.HOSTNAME}/api/file${assetPath.tech_stack}/`,
+      {
+        method: "post",
+        body: body,
+      }
+    );
 
     return response;
   };
 
   const handelStackSubmit = async () => {
-    const body = { techStack };
-    handleImageChange();
-    await uploadToServer();
-    const data = await fetch(
-      `${process.env.HOSTNAME}/api/tags/TechStack/${techStack.name}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      }
-    );
-    return data;
+    if (techStack.name.length !== 0 && techStack.image_url.length !== 0) {
+      const body = { ...techStack };
+
+      await uploadToServer();
+      const data = await fetch(
+        `${process.env.HOSTNAME}/api/tags/TechStack/${techStack.name}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        }
+      )
+        .then(async (response) => {
+          const isJson = response.headers
+            .get("content-type")
+            ?.includes("application/json");
+          const data = isJson ? await response.json() : null;
+
+          // check for error response
+          if (!response.ok) {
+            // get error message from body or default to response status
+            const error = (data && data.message) || response.status;
+            return Promise.reject(error);
+          }
+        })
+        .catch((error) => {
+          console.error("There was an error!", error);
+        });
+
+      return data;
+    }
   };
   useEffect(() => {
     setCreateObjectURL("/asset/image/background/contest/default.svg");
@@ -118,9 +145,15 @@ const SectionGenerateTags = () => {
         />
       </GridItem>
       <GridItem>
-        <Button onClick={handelStackSubmit} />
+        <Button
+          onClick={async () => {
+            await handelStackSubmit().then(() => {
+              console.log(techStack);
+              handle(techStack);
+            });
+          }}
+        />
       </GridItem>
-      {/* {image} */}
     </GridContainer>
   );
 };
