@@ -1,25 +1,18 @@
-import * as React from "react";
+import { useEffect, useState, useReducer, Fragment } from "react";
 
 //components
 import GridContainer from "../../../components/Grid/GridContainer";
 import GridItem from "../../../components/Grid/GridItem";
-import TagDropdown from "../../../components/Tags/TagDropdown";
-import Editor from "../../../components/Editors/CKEditorTextEditor";
+import TabPanel from "../../../components/Tab/TabPanel";
 import Button from "../../../components/CustomButtons/Button";
-import TitleInput from "../../../components/Input/Title";
-import TimePicker from "../../../components/TimePicker/TimePicker";
-import Slider from "../../../components/Slider/SmallSteps";
-import TagAppender from "../../../components/Tags/TagAppender";
-import Tag from "../../../components/Tags/Tag";
-import TagsContainer from "../../../components/Tags/TagsContainer";
-import Modal from "../../../components/Modal/Modal";
-
-import GenerateTags from "../../tags/SectionGenerateTags";
-
 import { makeStyles } from "@material-ui/core/styles";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 
+import SectionArticle from "./published/SectionArticle";
+import SectionContest from "./published/SectionContest";
+import SectionTags from "./published/SectionTags";
 import moment from "moment";
-
 const pageCopys = {
   tech_stack: "기술 스택 생성",
   submitButton: "제출",
@@ -72,7 +65,7 @@ const articleReducer = (prevState, action) => {
 };
 const contestReducer = (prevState, action) => {
   switch (action.type) {
-    case "contestName":
+    case "contestTitle":
       return {
         ...prevState,
         name: action.result,
@@ -117,62 +110,55 @@ const contestReducer = (prevState, action) => {
   }
 };
 
-const tagForm = { name: "", description: "" };
-
 const styles = {};
 
 const useStyles = makeStyles(styles);
 
-const reqTags = async (type) => {
-  const data = await fetch(`${process.env.HOSTNAME}/api/tags/${type}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  }).then(async (response) => {
-    return await response.json();
-  });
-  return data;
+const a11yProps = (index) => {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
 };
 
-const Published = () => {
-  const classes = useStyles();
-  const [article, articleDispatch] = React.useReducer(
-    articleReducer,
-    articleOtion
-  );
-  const [contest, contestDispatch] = React.useReducer(
-    contestReducer,
-    contestOption
-  );
-  const [professionsList, setProfessionsList] = React.useState([]);
-  const [loading, setLoading] = React.useState(true);
+const PublishedTab = ({ data }) => {
+  const [article, articleDispatch] = useReducer(articleReducer, articleOtion);
+  const [contest, contestDispatch] = useReducer(contestReducer, contestOption);
+  const [value, setValue] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const classes = useStyles(styles);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
-  React.useEffect(() => {
-    reqTags("Profession")
-      .then((data) => {
-        setProfessionsList(data);
-      })
-      .then(() => {
-        setLoading(false);
-      });
+  useEffect(() => {
+    setLoading(false);
   }, []);
 
-  const handleTitleChange = (data) => {
+  const handleArticleTitleChange = (data) => {
     articleDispatch({ type: "contentTitle", result: data.target.value });
   };
-  const handleArticleChange = (data) => {
+  const handleArticleBodyChange = (data) => {
     articleDispatch({ type: "contentBody", result: data });
+  };
+  const handleContestTitleChange = (data) => {
+    contestDispatch({ type: "contestTitle", result: data.target.value });
+  };
+  const handleContestContentChange = (data) => {
+    contestDispatch({ type: "contestContent", result: data });
   };
   const handleProfession = async (data) => {
     contestDispatch({ type: "contestProfession", result: data.target.value });
-  };
-  const handleTagAppender = (data) => {
-    contestDispatch({ type: "contestTag", result: data.target.value });
+    console.log(data);
   };
   const handleTimePicker = (data) => {
     contestDispatch({ type: "contestEndPeriod", result: data });
   };
   const handlePrize = (data) => {
     contestDispatch({ type: "contestPrize", result: data });
+  };
+  const handleTagAppender = (data) => {
+    contestDispatch({ type: "contestTag", result: data.target.value });
   };
   const handleTechStack = (data) => {
     contestDispatch({ type: "contestTechStack", result: data });
@@ -183,56 +169,53 @@ const Published = () => {
     console.log(contest);
   };
 
-  if (loading) return <div>Loading</div>;
+  if (loading) return <div>Loading...</div>;
 
   return (
-    <GridContainer direction="column" spacing={2}>
-      <GridContainer direction="row" spacing={2}>
-        <GridItem xs={2} sm={2} md={2}>
-          <TagDropdown names={professionsList} onClick={handleProfession} />
+    <Fragment>
+      <Button onClick={handlePublished}>{pageCopys.submitButton}</Button>
+      <GridContainer direction="row" className={classes.contestHead}>
+        <GridItem xs={3} sm={3} md={3}>
+          <Tabs
+            orientation="vertical"
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+          >
+            <Tab label="대회 개요" {...a11yProps(0)} />
+            <Tab label="대회 정보" {...a11yProps(1)} />
+            <Tab label="태그" {...a11yProps(2)} />
+          </Tabs>
         </GridItem>
         <GridItem xs={9} sm={9} md={9}>
-          <TitleInput onChange={handleTitleChange} />
+          <TabPanel value={value} index={0}>
+            <SectionArticle
+              title={article.content.title}
+              content={article.content.body}
+              handleArticleTitleChange={handleArticleTitleChange}
+              handleArticleBodyChange={handleArticleBodyChange}
+            />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <SectionContest
+              handleProfession={handleProfession}
+              handleContestTitleChange={handleContestTitleChange}
+              handleContestContentChange={handleContestContentChange}
+              handleTimePicker={handleTimePicker}
+              handlePrize={handlePrize}
+            />
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <SectionTags
+              handleTagAppender={handleTagAppender}
+              handleTechStack={handleTechStack}
+              tech_stacks={contest.tech_stack}
+            />
+          </TabPanel>
         </GridItem>
       </GridContainer>
-      <GridContainer direction="column" spacing={2}>
-        <GridItem>
-          <TimePicker onChange={handleTimePicker} />
-        </GridItem>
-        <GridItem>
-          <Editor
-            onChangeHandle={handleArticleChange}
-            editorLoaded={true}
-            name="testName"
-            data="testData"
-          />
-        </GridItem>
-        <GridItem>
-          <Slider onChange={handlePrize} />
-        </GridItem>
-        <GridItem>
-          <TagAppender
-            names={[tagForm]}
-            type="Tag"
-            handle={handleTagAppender}
-          />
-        </GridItem>
-        <GridItem>
-          <TagsContainer
-            tags={contest.tech_stack}
-            type="TechStack"
-            form="iconOnly"
-          />
-        </GridItem>
-        <GridItem>
-          <Button onClick={handlePublished}>{pageCopys.submitButton}</Button>
-          <Modal title={pageCopys.tech_stack}>
-            <GenerateTags handle={handleTechStack} />
-          </Modal>
-        </GridItem>
-      </GridContainer>
-    </GridContainer>
+    </Fragment>
   );
 };
 
-export default Published;
+export default PublishedTab;

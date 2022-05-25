@@ -33,7 +33,6 @@ const Tag = (props) => {
   }, []);
 
   const TagOptions = (form) => {
-    console.log(getTagInfo);
     switch (form) {
       case "chip":
         return (

@@ -12,8 +12,8 @@ import TabPanel from "../../../../components/Tab/TabPanel";
 
 //section
 import Overview from "../../../../pages-sections/contest/tabSections/SectionOverview";
-import Published from "../../../../pages-sections/contest/tabSections/SectionPublished";
 import HeaderImage from "../../../../pages-sections/contest/tabSections/SectionHeaderImage";
+import PublishedTab from "../../../../pages-sections/contest/tabSections/SectionPublishedTab";
 const styles = {
   title: {
     borderBottom: "0.5px",
@@ -42,8 +42,6 @@ const a11yProps = (index) => {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 };
-
-
 
 const BasicTabs = ({ data }) => {
   const [value, setValue] = React.useState(0);
@@ -74,7 +72,7 @@ const BasicTabs = ({ data }) => {
           >
             <Tab label="개요" {...a11yProps(0)} />
             <Tab label="팀" {...a11yProps(1)} />
-            <Tab label="업데이트" {...a11yProps(1)} />
+            <Tab label="탭" {...a11yProps(2)} />
           </Tabs>
         </GridItem>
       </GridContainer>
@@ -89,7 +87,7 @@ const BasicTabs = ({ data }) => {
         Item Two
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Published />
+        <PublishedTab />
       </TabPanel>
     </MainLayout>
   );

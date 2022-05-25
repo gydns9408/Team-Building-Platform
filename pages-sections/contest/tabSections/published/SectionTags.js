@@ -3,8 +3,12 @@ import * as React from "react";
 //components
 import GridContainer from "../../../../components/Grid/GridContainer";
 import GridItem from "../../../../components/Grid/GridItem";
-import Editor from "../../../../components/Editors/CKEditorTextEditor";
-import TitleInput from "../../../../components/Input/Title";
+import TagAppender from "../../../../components/Tags/TagAppender";
+import TagsContainer from "../../../../components/Tags/TagsContainer";
+import Modal from "../../../../components/Modal/Modal";
+
+import GenerateTags from "../../../tags/SectionGenerateTags";
+
 import { makeStyles } from "@material-ui/core/styles";
 
 const pageCopys = {
@@ -12,36 +16,34 @@ const pageCopys = {
   submitButton: "제출",
 };
 
+const tagForm = { name: "", description: "" };
+
 const styles = {};
 
 const useStyles = makeStyles(styles);
 
-const Published = ({
-  title,
-  content,
-  handleArticleTitleChange,
-  handleArticleBodyChange,
-}) => {
+const Published = ({ handleTagAppender, handleTechStack, tech_stacks }) => {
   const classes = useStyles();
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     setLoading(false);
   }, []);
+
   if (loading) return <div>Loading</div>;
 
   return (
     <GridContainer direction="column" spacing={2}>
       <GridItem>
-        <TitleInput onChange={handleArticleTitleChange} value={title} />
+        <TagAppender names={[tagForm]} type="Tag" handle={handleTagAppender} />
       </GridItem>
       <GridItem>
-        <Editor
-          onChangeHandle={handleArticleBodyChange}
-          editorLoaded={true}
-          name="article"
-          value={content}
-        />
+        <TagsContainer tags={tech_stacks} type="TechStack" form="iconOnly" />
+      </GridItem>
+      <GridItem>
+        <Modal title={pageCopys.tech_stack}>
+          <GenerateTags handle={handleTechStack} />
+        </Modal>
       </GridItem>
     </GridContainer>
   );
