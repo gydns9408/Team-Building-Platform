@@ -7,14 +7,13 @@ const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
-export default function ChipsArray(props) {
-  const { tags, type, form } = props;
+export default function ChipsArray({ tags, type, form, children }) {
   console.log(tags);
   return (
     <Paper
       sx={{
         display: "flex",
-        justifyContent: "center",
+        justifyContent: "left",
         flexWrap: "wrap",
         listStyle: "none",
         p: 0.5,
@@ -31,6 +30,7 @@ export default function ChipsArray(props) {
             );
           })
         : null}
+      {children}
     </Paper>
   );
 }

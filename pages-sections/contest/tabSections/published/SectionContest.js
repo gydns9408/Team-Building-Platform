@@ -33,6 +33,11 @@ const reqTags = async (type) => {
 };
 
 const Published = ({
+  profession,
+  end_period,
+  content,
+  name,
+  prize,
   handleProfession,
   handleContestTitleChange,
   handleContestContentChange,
@@ -57,24 +62,28 @@ const Published = ({
   return (
     <GridContainer direction="column" spacing={2}>
       <GridItem xs={2} sm={2} md={2}>
-        <TagDropdown names={professionsList} onClick={handleProfession} />
+        <TagDropdown
+          names={professionsList}
+          onClick={handleProfession}
+          data={profession}
+        />
       </GridItem>
       <GridItem xs={9} sm={9} md={9}>
-        <TitleInput onChange={handleContestTitleChange} />
+        <TitleInput onChange={handleContestTitleChange} data={name} />
       </GridItem>
       <GridItem>
-        <TimePicker onChange={handleTimePicker} />
+        <TimePicker onChange={handleTimePicker} data={end_period} />
       </GridItem>
       <GridItem>
         <Editor
           onChangeHandle={handleContestContentChange}
           editorLoaded={true}
           name="testName"
-          data="testData"
+          data={content}
         />
       </GridItem>
       <GridItem>
-        <Slider onChange={handlePrize} />
+        <Slider onChange={handlePrize} data={prize} />
       </GridItem>
     </GridContainer>
   );

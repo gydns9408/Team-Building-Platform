@@ -1,7 +1,11 @@
 import { Fragment } from "react";
-
+import TechStackSearcher from "../components/Tags/TechStack/TechStackSearcher";
 const searchPage = ({ data }) => {
-  return <Fragment></Fragment>;
+  return (
+    <Fragment>
+      <TechStackSearcher />
+    </Fragment>
+  );
 };
 
 export default searchPage;
@@ -23,6 +27,7 @@ export async function getServerSideProps(context) {
   }).then((response) => {
     return response.json();
   });
+  console.log(data);
   return {
     props: { data },
   };

@@ -138,7 +138,7 @@ const SectionGenerateTags = ({ handle }) => {
       </GridContainer>
       <GridItem>
         <Editor
-          onChange={handleDescriptionChange}
+          onChangeHandle={handleDescriptionChange}
           editorLoaded={true}
           name="testName"
           data=""

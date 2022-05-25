@@ -13,6 +13,7 @@ import SectionArticle from "./published/SectionArticle";
 import SectionContest from "./published/SectionContest";
 import SectionTags from "./published/SectionTags";
 import moment from "moment";
+
 const pageCopys = {
   tech_stack: "기술 스택 생성",
   submitButton: "제출",
@@ -32,13 +33,13 @@ const contestOption = {
   name: "",
   prize: 0,
   content: "",
-  end_period: null,
-  start_period: null,
+  end_period: moment().toISOString(),
+  start_period: moment().toISOString(),
   createAt: moment().toISOString(),
   team: [],
   Tag: [],
   tech_stack: [],
-  profession: "",
+  profession: "분야",
 };
 
 const articleReducer = (prevState, action) => {
@@ -148,8 +149,7 @@ const PublishedTab = ({ data }) => {
     contestDispatch({ type: "contestContent", result: data });
   };
   const handleProfession = async (data) => {
-    contestDispatch({ type: "contestProfession", result: data.target.value });
-    console.log(data);
+    contestDispatch({ type: "contestProfession", result: data });
   };
   const handleTimePicker = (data) => {
     contestDispatch({ type: "contestEndPeriod", result: data });
@@ -173,7 +173,6 @@ const PublishedTab = ({ data }) => {
 
   return (
     <Fragment>
-      <Button onClick={handlePublished}>{pageCopys.submitButton}</Button>
       <GridContainer direction="row" className={classes.contestHead}>
         <GridItem xs={3} sm={3} md={3}>
           <Tabs
@@ -198,6 +197,11 @@ const PublishedTab = ({ data }) => {
           </TabPanel>
           <TabPanel value={value} index={1}>
             <SectionContest
+              profession={contest.profession}
+              end_period={contest.end_period}
+              content={contest.content}
+              name={contest.name}
+              prize={contest.prize}
               handleProfession={handleProfession}
               handleContestTitleChange={handleContestTitleChange}
               handleContestContentChange={handleContestContentChange}
@@ -212,6 +216,7 @@ const PublishedTab = ({ data }) => {
               tech_stacks={contest.tech_stack}
             />
           </TabPanel>
+          <Button onClick={handlePublished}>{pageCopys.submitButton}</Button>
         </GridItem>
       </GridContainer>
     </Fragment>

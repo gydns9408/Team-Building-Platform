@@ -2,7 +2,7 @@ import { resolve } from "path";
 import elastic from "../../../utilities/elasticsearch/elasticsearch";
 
 const searchES = async (req, res) => {
-  const { searchQuery, index, filed } = req.body;
+  const { searchQuery, index, filed, size } = req.body;
   try {
     const client = await elastic();
     let results = [];
@@ -21,6 +21,7 @@ const searchES = async (req, res) => {
             },
           },
         },
+        size: size,
       },
       // _source_excludes: 'content', //no need to return the content of the file only need to metadata
     });

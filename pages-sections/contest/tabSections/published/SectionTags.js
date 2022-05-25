@@ -10,7 +10,7 @@ import Modal from "../../../../components/Modal/Modal";
 import GenerateTags from "../../../tags/SectionGenerateTags";
 
 import { makeStyles } from "@material-ui/core/styles";
-
+import TechStackSearcher from "../../../../components/Tags/TechStack/TechStackSearcher";
 const pageCopys = {
   tech_stack: "기술 스택 생성",
   submitButton: "제출",
@@ -38,12 +38,9 @@ const Published = ({ handleTagAppender, handleTechStack, tech_stacks }) => {
         <TagAppender names={[tagForm]} type="Tag" handle={handleTagAppender} />
       </GridItem>
       <GridItem>
-        <TagsContainer tags={tech_stacks} type="TechStack" form="iconOnly" />
-      </GridItem>
-      <GridItem>
-        <Modal title={pageCopys.tech_stack}>
-          <GenerateTags handle={handleTechStack} />
-        </Modal>
+        <TagsContainer tags={tech_stacks} type="TechStack" form="iconOnly">
+          <TechStackSearcher handle={handleTechStack} />
+        </TagsContainer>
       </GridItem>
     </GridContainer>
   );

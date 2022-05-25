@@ -33,7 +33,7 @@ const Published = ({
   return (
     <GridContainer direction="column" spacing={2}>
       <GridItem>
-        <TitleInput onChange={handleArticleTitleChange} value={title} />
+        <TitleInput onChange={handleArticleTitleChange} data={title} />
       </GridItem>
       <GridItem>
         <Editor
