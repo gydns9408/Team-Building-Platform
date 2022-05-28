@@ -23,6 +23,7 @@ const styles = {};
 const useStyles = makeStyles(styles);
 
 const Published = ({ handleTagAppender, handleTechStack, tech_stacks }) => {
+  console.log(tech_stacks);
   const classes = useStyles();
   const [loading, setLoading] = React.useState(true);
 

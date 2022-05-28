@@ -14,6 +14,7 @@ import TabPanel from "../../../../components/Tab/TabPanel";
 import Overview from "../../../../pages-sections/contest/tabSections/SectionOverview";
 import HeaderImage from "../../../../pages-sections/contest/tabSections/SectionHeaderImage";
 import PublishedTab from "../../../../pages-sections/contest/tabSections/SectionPublishedTab";
+
 const styles = {
   title: {
     borderBottom: "0.5px",
@@ -87,7 +88,10 @@ const BasicTabs = ({ data }) => {
         Item Two
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <PublishedTab />
+        <PublishedTab
+          articleValue={{ ...data.article }}
+          contestValue={{ ...data.contest }}
+        />
       </TabPanel>
     </MainLayout>
   );
@@ -105,6 +109,7 @@ export async function getServerSideProps(context) {
   ).then((response) => {
     return response.json();
   });
+  console.log(data);
   return { props: { data } };
 }
 

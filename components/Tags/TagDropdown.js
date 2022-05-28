@@ -4,27 +4,23 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
 import Fade from "@mui/material/Fade";
-const styles = {
-  menu: {
-    position: "relative",
-    width: "4rem",
-    height: "4rem",
-    minHeight: "1px",
-  },
-};
-
-const useStyles = makeStyles(styles);
 
 const MenuPopupState = ({ names, onClick, data }) => {
-  const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
-  const [menu, setMenu] = useState("분야");
+  const [menu, setMenu] = useState({
+    description: null,
+    id: null,
+    image_url: null,
+    name: "분야",
+  });
   const open = Boolean(anchorEl);
 
   useEffect(() => {
+    console.log(menu);
     setMenu(data);
   }, []);
   useEffect(() => {
+    console.log(menu);
     setMenu(data);
   }, [data]);
 
@@ -44,7 +40,7 @@ const MenuPopupState = ({ names, onClick, data }) => {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        {menu}
+        {menu !== undefined ? menu.name : "분야"}
       </Button>
       <Menu
         id="fade-menu"
@@ -59,10 +55,10 @@ const MenuPopupState = ({ names, onClick, data }) => {
         {names.map((d) => {
           return (
             <MenuItem
-              key={d.id}
+              key={d.name}
               onClick={(e) => {
-                onClick(d.name);
-                setMenu(d.name);
+                onClick(d);
+                setMenu(d);
                 handleClose();
               }}
             >

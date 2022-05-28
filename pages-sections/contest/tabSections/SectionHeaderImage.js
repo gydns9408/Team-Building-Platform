@@ -54,7 +54,7 @@ const HeaderImage = () => {
 
   if (loading) return <div>Loading...</div>;
   return (
-    <GridContainer >
+    <GridContainer>
       <GridItem className={classes.contestHead}>
         <img src={createObjectURL} className={classes.image}></img>
         <Button
@@ -65,7 +65,6 @@ const HeaderImage = () => {
           <input type="file" hidden onChange={onImgChange} />
         </Button>
       </GridItem>
-
     </GridContainer>
   );
 };

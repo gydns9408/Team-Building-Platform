@@ -1,5 +1,5 @@
 import { resolve } from "path";
-import prisma from "../../../../../utilities/prisma/client";
+import prisma from "../../../../utilities/prisma/client";
 
 const handle = async (req, res) => {
   switch (req.method) {
@@ -19,26 +19,18 @@ const handle = async (req, res) => {
   }
 };
 
-const findArticleID = async (req, res) => {
+const findUserID = async (req, res) => {
   const id = req.query.id;
-  const category = req.query.category;
 
   const whereQuery = {
-    article_id: parseInt(id),
-  };
-  const includeQuery = {
-    article: { include: { content: true } },
-    [category.toLowerCase()]: {
-      include: { ...articleIncludeOption(category) },
+    user: {
+      name: id,
     },
   };
-  const result = await prisma?.[`${category}Article`].findUnique({
+  const result = await prisma.Citizens.findMany({
     where: whereQuery,
-    include: includeQuery,
   });
-
-  await res.json(result);
-  return resolve();
+  return await res.json(result);
 };
 
 const updateArticle = async (req, res) => {

@@ -1,5 +1,5 @@
 import { useEffect, useState, useReducer, Fragment } from "react";
-
+import { useRouter } from "next/router";
 //components
 import GridContainer from "../../../components/Grid/GridContainer";
 import GridItem from "../../../components/Grid/GridItem";
@@ -23,13 +23,19 @@ const articleOtion = {
   published: false,
   createdAt: moment().toISOString(),
   updatedAt: moment().toISOString(),
+  viewCount: 0,
+  likeCount: 0,
+  id: 0,
   content: {
+    id: 0,
+    article_id: 0,
     title: "",
     body: "",
     createdAt: moment().toISOString(),
   },
 };
 const contestOption = {
+  id: 0,
   name: "",
   prize: 0,
   content: "",
@@ -39,11 +45,12 @@ const contestOption = {
   team: [],
   Tag: [],
   tech_stack: [],
-  profession: "분야",
+  profession: [{}],
 };
-
 const articleReducer = (prevState, action) => {
   switch (action.type) {
+    case "init":
+      return { ...action.result };
     case "contentTitle":
       return {
         ...prevState,
@@ -66,6 +73,8 @@ const articleReducer = (prevState, action) => {
 };
 const contestReducer = (prevState, action) => {
   switch (action.type) {
+    case "init":
+      return { ...action.result };
     case "contestTitle":
       return {
         ...prevState,
@@ -104,13 +113,12 @@ const contestReducer = (prevState, action) => {
     case "contestProfession":
       return {
         ...prevState,
-        profession: action.result,
+        profession: { ...action.result },
       };
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }
 };
-
 const styles = {};
 
 const useStyles = makeStyles(styles);
@@ -122,20 +130,108 @@ const a11yProps = (index) => {
   };
 };
 
-const PublishedTab = ({ data }) => {
+const PublishedTab = ({ articleValue, contestValue }) => {
+  const router = useRouter();
   const [article, articleDispatch] = useReducer(articleReducer, articleOtion);
   const [contest, contestDispatch] = useReducer(contestReducer, contestOption);
   const [value, setValue] = useState(0);
   const [loading, setLoading] = useState(true);
   const classes = useStyles(styles);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  useEffect(() => {
-    setLoading(false);
-  }, []);
+  const reqUpdate = async () => {
+    const body = await {
+      article: {
+        update: {
+          published: true,
+          updatedAt: moment().toISOString(),
+          viewCount: 0,
+          likeCount: 0,
 
+          content: {
+            update: {
+              title: article.content.title,
+              body: article.content.body,
+            },
+          },
+        },
+      },
+      contest: {
+        update: {
+          name: contest.name,
+          prize: contest.prize,
+          content: contest.content,
+          end_period: contest.end_period,
+          start_period: contest.start_period,
+          createAt: contest.createAt,
+          ...(contest.Tag[0] !== undefined && {
+            Tag: {
+              connectOrCreate: contest.Tag.map((t) => {
+                return {
+                  where: {
+                    name: t,
+                  },
+                  create: {
+                    name: t,
+                    description: "",
+                    tag_color: "",
+                  },
+                };
+              }),
+            },
+          }),
+          ...(contest.tech_stack[0] !== undefined && {
+            tech_stack: {
+              connect: contest.tech_stack.map((stack) => {
+                return {
+                  name: stack.name,
+                };
+              }),
+            },
+          }),
+          ...(contest.profession[0] !== undefined && {
+            profession: {
+              connect: {
+                name: contest.profession[0].name,
+              },
+            },
+          }),
+        },
+      },
+    };
+    console.log(body);
+    const data = await fetch(
+      `${process.env.HOSTNAME}/api/article/Contest/${router.query.page}/${router.query.id}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      }
+    ).then((response) => {
+      return response.json();
+    });
+  };
+
+  useEffect(() => {
+    Promise.all([
+      articleDispatch({ type: "init", result: articleValue }),
+      contestDispatch({ type: "init", result: contestValue }),
+    ]).then(() => {
+      console.log(contestValue);
+      setLoading(false);
+    });
+  }, []);
+  useEffect(() => {
+    Promise.all([
+      articleDispatch({ type: "init", result: articleValue }),
+      contestDispatch({ type: "init", result: contestValue }),
+    ]).then(() => {
+      setLoading(false);
+    });
+  }, [articleValue, contestValue]);
   const handleArticleTitleChange = (data) => {
     articleDispatch({ type: "contentTitle", result: data.target.value });
   };
@@ -164,9 +260,10 @@ const PublishedTab = ({ data }) => {
     contestDispatch({ type: "contestTechStack", result: data });
   };
 
-  const handlePublished = () => {
+  const handlePublished = async () => {
     console.log(article);
     console.log(contest);
+    await reqUpdate();
   };
 
   if (loading) return <div>Loading...</div>;
@@ -197,7 +294,7 @@ const PublishedTab = ({ data }) => {
           </TabPanel>
           <TabPanel value={value} index={1}>
             <SectionContest
-              profession={contest.profession}
+              profession={contest.profession[0]}
               end_period={contest.end_period}
               content={contest.content}
               name={contest.name}

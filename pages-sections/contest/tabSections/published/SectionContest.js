@@ -49,6 +49,7 @@ const Published = ({
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
+    console.log(profession);
     reqTags("Profession")
       .then((data) => {
         setProfessionsList(data);
@@ -79,7 +80,7 @@ const Published = ({
           onChangeHandle={handleContestContentChange}
           editorLoaded={true}
           name="testName"
-          data={content}
+          value={content}
         />
       </GridItem>
       <GridItem>
