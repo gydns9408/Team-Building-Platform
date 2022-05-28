@@ -22,7 +22,6 @@ const handle = async (req, res) => {
 
 const findOneTag = async (req, res) => {
   const { type, name } = req.query;
-  console.log(name);
   const teckStackFindQuery = {
     ...(name !== undefined && { name: name }),
   };

@@ -32,7 +32,6 @@ const Overview = ({ title, body, professions }) => {
     <GridContainer direction="column" spacing={3}>
       <GridContainer direction="row" spacing={3} className={classes.title}>
         <GridItem xs={1} sm={1} md={1}>
-          {/* <TagDropdown names={professions} type={"Profession"} /> */}
           <Box bgcolor={"#88b9ff"} height="4rem" width="4rem" fontSize={"8px"}>
             {professions.map((profession) => {
               return profession.name;

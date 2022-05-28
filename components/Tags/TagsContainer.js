@@ -1,6 +1,6 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
 import Tag from "./Tag";
 
 const ListItem = styled("li")(({ theme }) => ({
@@ -9,7 +9,7 @@ const ListItem = styled("li")(({ theme }) => ({
 
 export default function ChipsArray({ tags, type, form, children }) {
   return (
-    <Paper
+    <Box
       sx={{
         display: "flex",
         justifyContent: "left",
@@ -17,6 +17,7 @@ export default function ChipsArray({ tags, type, form, children }) {
         listStyle: "none",
         p: 0.5,
         m: 0,
+        flexDirection: "row",
       }}
       component="ul"
     >
@@ -30,6 +31,6 @@ export default function ChipsArray({ tags, type, form, children }) {
           })
         : null}
       {children}
-    </Paper>
+    </Box>
   );
 }

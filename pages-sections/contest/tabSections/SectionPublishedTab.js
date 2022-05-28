@@ -14,7 +14,7 @@ import SectionContest from "./published/SectionContest";
 import SectionTags from "./published/SectionTags";
 import moment from "moment";
 
-const pageCopys = {
+const pageLabels = {
   tech_stack: "기술 스택 생성",
   submitButton: "제출",
 };
@@ -313,7 +313,7 @@ const PublishedTab = ({ articleValue, contestValue }) => {
               tech_stacks={contest.tech_stack}
             />
           </TabPanel>
-          <Button onClick={handlePublished}>{pageCopys.submitButton}</Button>
+          <Button onClick={handlePublished}>{pageLabels.submitButton}</Button>
         </GridItem>
       </GridContainer>
     </Fragment>

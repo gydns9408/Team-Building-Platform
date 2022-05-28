@@ -8,9 +8,7 @@ const Layout = (props) => {
   return (
     <Fragment>
       <Header />
-      <Box sx={{ mx: 9.125 }}>
-        <div className="layout">{props.children}</div>
-      </Box>
+      <Box sx={{ mx: 9.125 }}>{props.children}</Box>
     </Fragment>
   );
 };

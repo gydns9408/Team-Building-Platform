@@ -10,7 +10,7 @@ import InputBase from "@mui/material/InputBase";
 import Image from "next/image";
 import Modal from "../../Modal/Modal";
 import GenerateTags from "../../../pages-sections/tags/SectionGenerateTags";
-const pageCopy = {
+const pageLabel = {
   tech_stack_append: "기술 스택 생성하기",
   tech_stack: "기술 스택 생성",
 };
@@ -115,13 +115,14 @@ export default function FadeMenu({ handle }) {
         setPreview(data);
         setLoading(false);
       });
+    } else {
+      const index = "tech_stack_index";
+      const filed = "name";
+      const size = 10;
+      reqSearch(searchQuery, index, filed, size).then((data) => {
+        setPreview(data);
+      });
     }
-    const index = "tech_stack_index";
-    const filed = "name";
-    const size = 10;
-    reqSearch(searchQuery, index, filed, size).then((data) => {
-      setPreview(data);
-    });
   }, [searchQuery]);
 
   const handleModalOpen = () => {
@@ -190,11 +191,11 @@ export default function FadeMenu({ handle }) {
         })}
         <MenuItem onClick={handleModalOpen}>
           <AddIcon />
-          {pageCopy.tech_stack_append}
+          {pageLabel.tech_stack_append}
         </MenuItem>
       </Menu>
       <Modal
-        title={pageCopy.tech_stack}
+        title={pageLabel.tech_stack}
         open={modalToggle}
         handleModalClose={handleModalClose}
       >

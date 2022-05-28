@@ -14,6 +14,11 @@ const styles = {
     width: "auto",
     height: "100%",
   },
+  image: {
+    width: "100%",
+    objectFit: "cover",
+    objectPosition: "center",
+  },
 };
 
 const useStyles = makeStyles(styles);
@@ -50,32 +55,29 @@ const ContestCard = (props) => {
     <Link href={`${process.env.HOSTNAME}/contest/Read/${contest.id}`} passHref>
       <Card className={classes.card + " " + className}>
         <CardActionArea>
-          <CardContent>
-            <CardMedia
-              component="img"
-              height="140"
-              image={
-                contest.constest_image_url !== null
-                  ? `${contest.constest_image_url}`
-                  : `/asset/image/background/contest/default.svg`
-              }
-              alt="green iguana"
-            />
-            <Typography>{contest.contest.team.length}명 </Typography>
-            <Typography>{contest.article.content.title}</Typography>
-            <TagContainer
-              tags={contest.contest.tech_stack}
-              type="TechStack"
-              form="iconOnly"
-            />
-            <DateProgress
-              bgcolor={"#000000"}
-              start_period={contest.contest.start_period}
-              end_period={contest.contest.end_period}
-            />
-            <Typography>{contest.contest.prize}원</Typography>
-          </CardContent>
+          <img
+            src={
+              contest.constest_image_url !== null
+                ? `${contest.constest_image_url}`
+                : `/asset/image/background/contest/default.svg`
+            }
+            alt="green iguana"
+            className={classes.image}
+          />
         </CardActionArea>
+        <CardContent>
+          <Typography>{contest.contest.team.length}명 </Typography>
+          <Typography>{contest.article.content.title}</Typography>
+          <TagContainer
+            tags={contest.contest.tech_stack}
+            type="TechStack"
+            form="iconOnly"
+          />
+          <Typography>{contest.contest.start_period}</Typography>
+          <Typography>{contest.contest.end_period}</Typography>
+          <Typography>{contest.contest.prize}원</Typography>
+        </CardContent>
+        <TagContainer tags={contest.contest.Tag} type="Tag" form="textOnly" />
       </Card>
     </Link>
   );

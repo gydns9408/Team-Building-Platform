@@ -11,7 +11,7 @@ import Slider from "../../../../components/Slider/SmallSteps";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-const pageCopys = {
+const pageLabels = {
   tech_stack: "기술 스택 생성",
   submitButton: "제출",
 };
