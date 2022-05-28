@@ -15,10 +15,10 @@ const useStyles = makeStyles(styles);
 export default function CompetitionSearchPage({ data, maxPage }) {
   const classes = useStyles();
   const router = useRouter();
-  const [currentPage, setCurrentPage] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    console.log(router.query.page);
-    setCurrentPage(router.query.page);
+    setCurrentPage(router.query.page, setLoading(false));
   }, []);
   useEffect(() => {
     router.push(`/contest/${currentPage}`);
@@ -27,6 +27,7 @@ export default function CompetitionSearchPage({ data, maxPage }) {
   const handelPageChange = (page) => {
     setCurrentPage(page);
   };
+  if (loading) return <div>Loading</div>;
   return (
     <MainLayout>
       <GridContainer direction="row" spacing={2}>
