@@ -63,7 +63,11 @@ const ContestCard = (props) => {
             />
             <Typography>{contest.contest.team.length}명 </Typography>
             <Typography>{contest.article.content.title}</Typography>
-            <TagContainer tags={contest.contest.Tag} />
+            <TagContainer
+              tags={contest.contest.tech_stack}
+              type="TechStack"
+              form="iconOnly"
+            />
             <DateProgress
               bgcolor={"#000000"}
               start_period={contest.contest.start_period}

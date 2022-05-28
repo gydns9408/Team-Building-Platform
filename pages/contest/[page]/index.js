@@ -1,19 +1,32 @@
 import Link from "next/link";
 import Card from "../../../components/CustomCard/Contest/ContestCard";
 import css from "styled-jsx/css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import GridContainer from "../../../components/Grid/GridContainer";
 import GridItem from "../../../components/Grid/GridItem";
 import Paginations from "../../../components/Pagination/Pagination";
 import MainLayout from "../../../components/Layout/MainLayout";
 import styles from "../../../styles/jss/nextjs-material-kit/components/cardStyle";
 import { makeStyles } from "@material-ui/core/styles";
+import { useRouter } from "next/router";
 
 const useStyles = makeStyles(styles);
 
-export default function CompetitionSearchPage({ data }) {
+export default function CompetitionSearchPage({ data, maxPage }) {
   const classes = useStyles();
+  const router = useRouter();
+  const [currentPage, setCurrentPage] = useState();
+  useEffect(() => {
+    console.log(router.query.page);
+    setCurrentPage(router.query.page);
+  }, []);
+  useEffect(() => {
+    router.push(`/contest/${currentPage}`);
+  }, [currentPage]);
 
+  const handelPageChange = (page) => {
+    setCurrentPage(page);
+  };
   return (
     <MainLayout>
       <GridContainer direction="row" spacing={2}>
@@ -26,18 +39,9 @@ export default function CompetitionSearchPage({ data }) {
         })}
       </GridContainer>
       <Paginations
-        pages={[
-          { text: 1 },
-          { text: "..." },
-          { text: 5 },
-          { text: 6 },
-          { active: true, text: 7 },
-          { text: 8 },
-          { text: 9 },
-          { text: "..." },
-          { text: 12 },
-        ]}
-        pageLink={"/contest/"}
+        currentPage={currentPage}
+        MaxPage={maxPage}
+        handel={handelPageChange}
       />
     </MainLayout>
   );
@@ -54,5 +58,11 @@ export async function getServerSideProps(context) {
   ).then((response) => {
     return response.json();
   });
-  return { props: { data } };
+  const maxPage = await fetch(`${process.env.HOSTNAME}/api/article/Contest/`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  }).then((response) => {
+    return response.json();
+  });
+  return { props: { data, maxPage } };
 }
