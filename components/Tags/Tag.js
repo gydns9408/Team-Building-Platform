@@ -2,39 +2,14 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Chip from "@mui/material/Chip";
 import Image from "next/image";
+import IconButton from "@mui/material/IconButton";
 
 const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
-const TagOptions = (tag) => {
-  switch (tag) {
-    case "Tag":
-      return <Chip label={getTagInfo.name !== null ? getTagInfo.name : ""} />;
-    case "Profession":
-      return (
-        <Chip
-          icon={
-            <Image
-              src={
-                getTagInfo.image_url !== null
-                  ? getTagInfo.image_url
-                  : `/asset/image/background/contest/default.svg`
-              }
-              width={16}
-              height={16}
-            />
-          }
-          label={getTagInfo.name !== null ? getTagInfo.name : ""}
-        />
-      );
-    default:
-      throw new Error(console.log(tag));
-  }
-};
-
 const Tag = (props) => {
-  const { name, type } = props;
+  const { name, type, form } = props;
 
   const [getTagInfo, setTagInfo] = React.useState({});
   const [loading, setLoading] = React.useState(true);
@@ -49,6 +24,7 @@ const Tag = (props) => {
     ).then(async (response) => {
       return await response.json();
     });
+
     setTagInfo(data);
   };
 
@@ -56,8 +32,48 @@ const Tag = (props) => {
     TagRequest().then(() => setLoading(false));
   }, []);
 
+  const TagOptions = (form) => {
+    switch (form) {
+      case "chip":
+        return (
+          <Chip
+            icon={
+              <Image
+                src={
+                  getTagInfo.image_url !== null
+                    ? getTagInfo.image_url
+                    : `/asset/image/background/contest/default.svg`
+                }
+                width={16}
+                height={16}
+              />
+            }
+            label={getTagInfo.name !== null ? getTagInfo.name : ""}
+          />
+        );
+      case "iconOnly":
+        return (
+          <IconButton aria-label="delete" size="large">
+            <Image
+              src={
+                getTagInfo.image_url !== null
+                  ? getTagInfo.image_url
+                  : `/asset/image/background/contest/default.svg`
+              }
+              width={24}
+              height={24}
+            />
+          </IconButton>
+        );
+      case "textOnly":
+        return <Chip label={getTagInfo.name !== null ? getTagInfo.name : ""} />;
+      default:
+        throw new Error(console.log(form));
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
-  return <ListItem key={getTagInfo.id}>{TagOptions(type)}</ListItem>;
+  return <ListItem key={getTagInfo.id}>{TagOptions(form)}</ListItem>;
 };
 
 export default Tag;
