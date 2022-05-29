@@ -14,7 +14,9 @@ const TagAppender = ({ tag = [], type, handle }) => {
   useEffect(() => {
     setLoading(false);
   }, []);
-  useEffect(() => {}, [tag]);
+  useEffect(() => {
+    console.log(tag);
+  }, [tag]);
 
   if (loading) return <div>loading</div>;
   return (

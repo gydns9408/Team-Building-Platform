@@ -3,13 +3,13 @@ import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { makeStyles } from "@material-ui/core/styles";
-import Image from "next/image";
+
 //components
 import GridContainer from "../../../../components/Grid/GridContainer";
 import GridItem from "../../../../components/Grid/GridItem";
 import MainLayout from "../../../../components/Layout/MainLayout";
 import TabPanel from "../../../../components/Tab/TabPanel";
-
+import Button from "../../../../components/CustomButtons/Button";
 //section
 import Overview from "../../../../pages-sections/contest/tabSections/SectionOverview";
 import HeaderImage from "../../../../pages-sections/contest/tabSections/SectionHeaderImage";
@@ -56,9 +56,11 @@ const BasicTabs = ({ data }) => {
   React.useEffect(() => {
     setLoading(false);
   }, []);
+  const handleEditing = () => {
+    setEditing(!editing);
+  };
 
   if (loading) return <div>Loading...</div>;
-
   return (
     <MainLayout>
       <GridContainer direction="column" className={classes.contestHead}>
@@ -73,25 +75,27 @@ const BasicTabs = ({ data }) => {
           >
             <Tab label="개요" {...a11yProps(0)} />
             <Tab label="팀" {...a11yProps(1)} />
-            <Tab label="탭" {...a11yProps(2)} />
           </Tabs>
         </GridItem>
       </GridContainer>
       <TabPanel value={value} index={0}>
-        <Overview
-          title={data.article.content.title}
-          body={data.article.content.body}
-          professions={data.contest.profession}
-        />
+        {editing ? (
+          <PublishedTab
+            articleValue={{ ...data.article }}
+            contestValue={{ ...data.contest }}
+            handleEditing={handleEditing}
+          />
+        ) : (
+          <Overview
+            article={data.article}
+            contest={data.contest}
+            professions={data.contest.profession}
+            handleEditing={handleEditing}
+          />
+        )}
       </TabPanel>
       <TabPanel value={value} index={1}>
         Item Two
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <PublishedTab
-          articleValue={{ ...data.article }}
-          contestValue={{ ...data.contest }}
-        />
       </TabPanel>
     </MainLayout>
   );

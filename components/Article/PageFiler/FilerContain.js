@@ -12,6 +12,7 @@ const styles = {
     margin: 0,
     overflow: "auto",
     maxWidth: "100%",
+    height: "4rem",
   },
 };
 

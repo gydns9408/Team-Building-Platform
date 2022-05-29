@@ -2,7 +2,6 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Tag from "./Tag";
-
 const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));

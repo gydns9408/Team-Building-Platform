@@ -10,6 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Link from "next/link";
 import GridContainer from "../../Grid/GridContainer";
 
+
 const styles = {
   card: {
     width: "auto",
@@ -19,7 +20,7 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-const ContestCard = (props) => {
+const PartnerCard = (props) => {
   const classes = useStyles();
 
   const { contestID, className } = props;
@@ -34,11 +35,11 @@ const ContestCard = (props) => {
 
     if (loading) return <div>Loading...</div>;
   return (
-    // <Link
-    //   href={`${process.env.HOSTNAME}/profile/${contest.id}`}
-    //   prefetch
-    //   passHref
-    // >
+    <Link
+      href={`${process.env.HOSTNAME}/profile/${contestID.user.name}`}
+       prefetch
+      passHref
+     >
         <Card className={classes.card + " " + className}>
           <GridContainer direction="row" spacing={2} xs={12} sm={12} md={12}>
             <CardActionArea>
@@ -55,15 +56,20 @@ const ContestCard = (props) => {
                     />
                   }
                   title={contestID.user.name}
+                  subheader={contestID.user.id}
               />
                 <Typography>자기소개</Typography>
-                <TagContainer tags={contestID.tech_stack} />
+                <Typography>기술스택</Typography>
+                <TagContainer tags={contestID.tech_stack}
+                type={"TechStack"}
+                form={"iconOnly"}
+                />
               </CardContent>
             </CardActionArea>
           </GridContainer>
         </Card>
-     //</Link>
+     </Link>
    );
 };
 
-export default ContestCard;
+export default PartnerCard;
