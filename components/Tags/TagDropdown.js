@@ -5,7 +5,16 @@ import MenuItem from "@mui/material/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
 import Fade from "@mui/material/Fade";
 
+const styles = {
+  menu: {
+    height: "20rem",
+  },
+};
+
+const useStyles = makeStyles(styles);
+
 const MenuPopupState = ({ names, onClick, data }) => {
+  const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [menu, setMenu] = useState({
     description: null,
@@ -44,6 +53,7 @@ const MenuPopupState = ({ names, onClick, data }) => {
       </Button>
       <Menu
         id="fade-menu"
+        className={classes.menu}
         MenuListProps={{
           "aria-labelledby": "fade-button",
         }}

@@ -13,6 +13,9 @@ const styles = {
     position: "absolute",
     right: 0,
   },
+  menu: {
+    height: "20rem",
+  },
 };
 
 const useStyles = makeStyles(styles);
@@ -41,6 +44,7 @@ const FilterItem = ({ items, label, handleMenuClick }) => {
         onClick={handleClick}
       ></Chip>
       <Menu
+        className={classes.menu}
         id="fade-menu"
         MenuListProps={{
           "aria-labelledby": "fade-button",
