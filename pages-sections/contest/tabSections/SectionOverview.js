@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 //components
 import GridContainer from "../../../components/Grid/GridContainer";
 import GridItem from "../../../components/Grid/GridItem";
+
 import Button from "../../../components/CustomButtons/Button";
 const styles = {
   title: {
@@ -20,13 +21,12 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
+
 const Overview = ({ article, contest, professions, handleEditing }) => {
   const [loading, setLoading] = React.useState(true);
   const classes = useStyles();
 
   React.useEffect(() => {
-    console.log(article);
-    console.log(contest);
     setLoading(false);
   }, []);
 

@@ -11,6 +11,7 @@ import GenerateTags from "../../../tags/SectionGenerateTags";
 
 import { makeStyles } from "@material-ui/core/styles";
 import TechStackSearcher from "../../../../components/Tags/TechStack/TechStackSearcher";
+
 const pageLabels = {
   tech_stack: "기술 스택 생성",
   submitButton: "제출",
