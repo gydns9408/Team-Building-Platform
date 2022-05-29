@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-const Editor = ({ onChange, editorLoaded, name, value }) => {
+const Editor = ({ onChangeHandle, editorLoaded, name, value }) => {
   const editorRef = useRef(null);
   const [loading, setLoading] = useState(true);
   const { CKEditor, ClassicEditor } = editorRef.current || {};
@@ -17,7 +17,7 @@ const Editor = ({ onChange, editorLoaded, name, value }) => {
   }, [editorRef]);
 
   if (loading) return <div>loading...</div>;
-  
+
   return (
     <CKEditor
       type=""
@@ -25,8 +25,7 @@ const Editor = ({ onChange, editorLoaded, name, value }) => {
       editor={ClassicEditor}
       data={value}
       onChange={(event, editor) => {
-        const data = editor.getData();
-        onChange(data);
+        onChangeHandle(editor.getData());
       }}
     />
   );

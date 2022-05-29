@@ -14,7 +14,7 @@ import SectionContest from "./published/SectionContest";
 import SectionTags from "./published/SectionTags";
 import moment from "moment";
 
-const pageCopys = {
+const pageLabels = {
   tech_stack: "기술 스택 생성",
   submitButton: "제출",
 };
@@ -130,7 +130,8 @@ const a11yProps = (index) => {
   };
 };
 
-const PublishedTab = ({ articleValue, contestValue }) => {
+
+const PublishedTab = ({ articleValue, contestValue, handleEditing }) => {
   const router = useRouter();
   const [article, articleDispatch] = useReducer(articleReducer, articleOtion);
   const [contest, contestDispatch] = useReducer(contestReducer, contestOption);
@@ -254,6 +255,9 @@ const PublishedTab = ({ articleValue, contestValue }) => {
     contestDispatch({ type: "contestPrize", result: data });
   };
   const handleTagAppender = (data) => {
+
+    console.log(data);
+
     contestDispatch({ type: "contestTag", result: data.target.value });
   };
   const handleTechStack = (data) => {
@@ -261,9 +265,10 @@ const PublishedTab = ({ articleValue, contestValue }) => {
   };
 
   const handlePublished = async () => {
-    console.log(article);
-    console.log(contest);
+
     await reqUpdate();
+    handleEditing();
+
   };
 
   if (loading) return <div>Loading...</div>;
@@ -313,7 +318,7 @@ const PublishedTab = ({ articleValue, contestValue }) => {
               tech_stacks={contest.tech_stack}
             />
           </TabPanel>
-          <Button onClick={handlePublished}>{pageCopys.submitButton}</Button>
+          <Button onClick={handlePublished}>{pageLabels.submitButton}</Button>
         </GridItem>
       </GridContainer>
     </Fragment>
