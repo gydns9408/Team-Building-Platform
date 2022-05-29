@@ -167,22 +167,22 @@ const PublishedTab = ({ articleValue, contestValue, handleEditing }) => {
           end_period: contest.end_period,
           start_period: contest.start_period,
           createAt: contest.createAt,
-          ...(contest.Tag[0] !== undefined && {
-            Tag: {
-              connectOrCreate: contest.Tag.map((t) => {
-                return {
-                  where: {
-                    name: t,
-                  },
-                  create: {
-                    name: t,
-                    description: "",
-                    tag_color: "",
-                  },
-                };
-              }),
-            },
-          }),
+          // ...(contest.Tag[0] !== undefined && {
+          //   Tag: {
+          //     connectOrCreate: contest.Tag.map((t) => {
+          //       return {
+          //         where: {
+          //           name: t,
+          //         },
+          //         create: {
+          //           name: t,
+          //           description: "",
+          //           tag_color: "",
+          //         },
+          //       };
+          //     }),
+          //   },
+          // }),
           ...(contest.tech_stack[0] !== undefined && {
             tech_stack: {
               connect: contest.tech_stack.map((stack) => {

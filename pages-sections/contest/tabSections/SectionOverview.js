@@ -46,12 +46,6 @@ const Overview = ({ article, contest, professions, handleEditing }) => {
         </GridItem>
       </GridContainer>
       <GridItem xs={12} sm={12} md={12}>
-        {article.id}
-        {article.published}
-        {article.viewCount}
-        {article.likeCount}
-        {article.createdAt}
-        {article.updatedAt}
         {article.content.id}
         {article.content.article_id}
         {article.content.title}
@@ -69,6 +63,12 @@ const Overview = ({ article, contest, professions, handleEditing }) => {
         {contest.tech_stack[0]}
          */}
       </GridItem>
+      <GridItem xs={12} sm={12} md={12}>
+        {article.viewCount}
+        {article.likeCount}
+        {article.createdAt}
+        {article.updatedAt}
+      </GridItem>
       <GridContainer direction="row" spacing={3} className={classes.body}>
         <GridItem xs={12} sm={12} md={12}>
           <Typography>{article.content.body}</Typography>
@@ -79,3 +79,5 @@ const Overview = ({ article, contest, professions, handleEditing }) => {
 };
 
 export default Overview;
+
+//      {article.published}
