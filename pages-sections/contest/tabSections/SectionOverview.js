@@ -4,8 +4,8 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { makeStyles } from "@material-ui/core/styles";
 //components
-import GridContainer from "../../components/Grid/GridContainer";
-import GridItem from "../../components/Grid/GridItem";
+import GridContainer from "../../../components/Grid/GridContainer";
+import GridItem from "../../../components/Grid/GridItem";
 
 const styles = {
   title: {
