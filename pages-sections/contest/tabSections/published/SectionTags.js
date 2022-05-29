@@ -17,13 +17,16 @@ const pageLabels = {
   submitButton: "제출",
 };
 
-const tagForm = { name: "", description: "" };
-
 const styles = {};
 
 const useStyles = makeStyles(styles);
 
-const Published = ({ handleTagAppender, handleTechStack, tech_stacks }) => {
+const Published = ({
+  handleTagAppender,
+  handleTechStack,
+  tech_stacks,
+  tag,
+}) => {
   console.log(tech_stacks);
   const classes = useStyles();
   const [loading, setLoading] = React.useState(true);
@@ -37,7 +40,7 @@ const Published = ({ handleTagAppender, handleTechStack, tech_stacks }) => {
   return (
     <GridContainer direction="column" spacing={2}>
       <GridItem>
-        <TagAppender names={[tagForm]} type="Tag" handle={handleTagAppender} />
+        <TagAppender tag={tag} type="Tag" handle={handleTagAppender} />
       </GridItem>
       <GridItem>
         <TagsContainer tags={tech_stacks} type="TechStack" form="iconOnly">

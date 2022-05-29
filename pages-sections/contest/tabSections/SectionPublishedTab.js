@@ -103,7 +103,7 @@ const contestReducer = (prevState, action) => {
     case "contestTag":
       return {
         ...prevState,
-        Tag: [...prevState.Tag, action.result],
+        Tag: [...prevState.Tag, { name: action.result }],
       };
     case "contestTechStack":
       return {
@@ -129,7 +129,6 @@ const a11yProps = (index) => {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 };
-
 
 const PublishedTab = ({ articleValue, contestValue, handleEditing }) => {
   const router = useRouter();
@@ -168,22 +167,22 @@ const PublishedTab = ({ articleValue, contestValue, handleEditing }) => {
           end_period: contest.end_period,
           start_period: contest.start_period,
           createAt: contest.createAt,
-          // ...(contest.Tag[0] !== undefined && {
-          //   Tag: {
-          //     connectOrCreate: contest.Tag.map((t) => {
-          //       return {
-          //         where: {
-          //           name: t,
-          //         },
-          //         create: {
-          //           name: t,
-          //           description: "",
-          //           tag_color: "",
-          //         },
-          //       };
-          //     }),
-          //   },
-          // }),
+          ...(contest.Tag[0] !== undefined && {
+            Tag: {
+              connectOrCreate: contest.Tag.map((t) => {
+                return {
+                  where: {
+                    name: t.name,
+                  },
+                  create: {
+                    name: t.name,
+                    description: "",
+                    tag_color: "",
+                  },
+                };
+              }),
+            },
+          }),
           ...(contest.tech_stack[0] !== undefined && {
             tech_stack: {
               connect: contest.tech_stack.map((stack) => {
@@ -255,9 +254,6 @@ const PublishedTab = ({ articleValue, contestValue, handleEditing }) => {
     contestDispatch({ type: "contestPrize", result: data });
   };
   const handleTagAppender = (data) => {
-
-    console.log(data);
-
     contestDispatch({ type: "contestTag", result: data.target.value });
   };
   const handleTechStack = (data) => {
@@ -265,10 +261,8 @@ const PublishedTab = ({ articleValue, contestValue, handleEditing }) => {
   };
 
   const handlePublished = async () => {
-
     await reqUpdate();
     handleEditing();
-
   };
 
   if (loading) return <div>Loading...</div>;
@@ -315,6 +309,7 @@ const PublishedTab = ({ articleValue, contestValue, handleEditing }) => {
             <SectionTags
               handleTagAppender={handleTagAppender}
               handleTechStack={handleTechStack}
+              tag={contest.Tag}
               tech_stacks={contest.tech_stack}
             />
           </TabPanel>

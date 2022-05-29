@@ -9,9 +9,10 @@ const componentLabels = {
   button: "add tag",
 };
 
-const TagAppender = ({ tag = [], type, handle }) => {
+const TagAppender = ({ tag = [], handle }) => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
+    console.log(tag);
     setLoading(false);
   }, []);
   useEffect(() => {
@@ -25,8 +26,10 @@ const TagAppender = ({ tag = [], type, handle }) => {
         <Autocomplete
           multiple
           id="tags-filled"
-          options={tag.map((option) => option.name)}
-          defaultValue={tag}
+          options={tag}
+          getOptionLabel={(option) => {
+            return option.name;
+          }}
           freeSolo
           renderTags={(value, getTagProps) =>
             value.map((option, index) => (
