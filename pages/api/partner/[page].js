@@ -1,7 +1,7 @@
 import { resolve } from "path";
 import prisma from "../../../utilities/prisma/client";
 
-const findCitizenPage = async (req, res) => {
+const findPartnerPage = async (req, res) => {
     const page = req.query.page;
     const take = req.query.take;
   
@@ -10,7 +10,8 @@ const findCitizenPage = async (req, res) => {
       take: parseInt(take),
       include:{
           user:true,
-          tech_stack:true
+          tech_stack:true,
+          profession:true
       }
     });
   
@@ -19,4 +20,4 @@ const findCitizenPage = async (req, res) => {
   };
 
 
-  export default findCitizenPage;
+  export default findPartnerPage;
