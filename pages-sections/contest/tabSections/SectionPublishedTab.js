@@ -130,6 +130,7 @@ const a11yProps = (index) => {
   };
 };
 
+
 const PublishedTab = ({ articleValue, contestValue, handleEditing }) => {
   const router = useRouter();
   const [article, articleDispatch] = useReducer(articleReducer, articleOtion);
@@ -254,7 +255,9 @@ const PublishedTab = ({ articleValue, contestValue, handleEditing }) => {
     contestDispatch({ type: "contestPrize", result: data });
   };
   const handleTagAppender = (data) => {
+
     console.log(data);
+
     contestDispatch({ type: "contestTag", result: data.target.value });
   };
   const handleTechStack = (data) => {
@@ -262,8 +265,10 @@ const PublishedTab = ({ articleValue, contestValue, handleEditing }) => {
   };
 
   const handlePublished = async () => {
+
     await reqUpdate();
     handleEditing();
+
   };
 
   if (loading) return <div>Loading...</div>;

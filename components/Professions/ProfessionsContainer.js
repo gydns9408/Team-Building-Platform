@@ -6,25 +6,35 @@ const imgType = { png: ".png" };
 var professionIconImageAddress = "/asset/icon/tech_stack/profession_icon_";
 
 const ProfessionName = (props) => {
-        return(
-            <h2>{this.props.name}</h2>
+    const photosize = 50
+        return(<>
+        <Image 
+          src={ 
+              props.id !== null
+              ? `${professionIconImageAddress}${props.id}${imgType.png}`
+              : `/asset/image/background/contest/default.svg` 
+            }
+          alt="이미지"
+          width={photosize}
+          height={photosize}
+          />
+          <a>{props.name}</a>
+          </>
             )
     
 }
 
 const ProfessionsContainer = (props) => {
 
-    const photosize = 50
+
 
     return (
     <>
 
     {props.tags.map((professionData, i) => {
-        return (<Image 
-          src={`${professionIconImageAddress}${professionData.id}${imgType.png}`}
-          alt="이미지"
-          width={photosize}
-          height={photosize}
+        return (<ProfessionName 
+          id = {professionData.id}
+          name = {professionData.name}
           key={i}/>
           );
                               })}

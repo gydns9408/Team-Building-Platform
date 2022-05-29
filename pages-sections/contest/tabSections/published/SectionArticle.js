@@ -7,6 +7,7 @@ import Editor from "../../../../components/Editors/CKEditorTextEditor";
 import TitleInput from "../../../../components/Input/Title";
 import { makeStyles } from "@material-ui/core/styles";
 
+
 const pageLabels = {
   tech_stack: "기술 스택 생성",
   submitButton: "제출",
