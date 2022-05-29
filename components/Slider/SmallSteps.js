@@ -51,7 +51,7 @@ const followersMarks = [
 ];
 
 const scaleValues = (valueArray) => {
-  return [scale(valueArray[0]), scale(valueArray[1])];
+  return `${scale(valueArray[0])}${scale(valueArray[1])}`;
 };
 const scale = (value) => {
   if (value === undefined) {
@@ -78,18 +78,15 @@ function numFormatter(num) {
   }
 }
 
-export default function NonLinearSlider() {
+export default function NonLinearSlider({ onChange }) {
   const [value, setValue] = React.useState([1, 25]);
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    setValue(newValue, onChange(scaleValues(value)));
   };
 
   return (
     <div>
-      <Typography id="non-linear-slider" gutterBottom>
-        Followers
-      </Typography>
       <Slider
         style={{ maxWidth: 500 }}
         value={value}
@@ -103,7 +100,7 @@ export default function NonLinearSlider() {
         valueLabelDisplay="auto"
         aria-labelledby="non-linear-slider"
       />
-      <Typography>Values: {JSON.stringify(scaleValues(value))}</Typography>
+      <Typography>Values: {scaleValues(value)}</Typography>
     </div>
   );
 }

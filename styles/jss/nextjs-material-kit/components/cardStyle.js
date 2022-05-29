@@ -24,6 +24,12 @@ const cardStyle = {
   cardCarousel: {
     overflow: "hidden",
   },
+  pagination: {
+    display: "inline-block",
+    paddingLeft: "0",
+    margin: "0 0 20px 0",
+    borderRadius: "4px",
+  },
 };
 
 export default cardStyle;

@@ -73,7 +73,7 @@ const Tag = (props) => {
   };
 
   if (loading) return <div>Loading...</div>;
-  return <ListItem key={getTagInfo.id}>{TagOptions(form)}</ListItem>;
+  return TagOptions(form);
 };
 
 export default Tag;

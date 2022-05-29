@@ -1,55 +1,83 @@
-import * as React from "react";
+import { useState, useEffect, Fragment } from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 import { makeStyles } from "@material-ui/core/styles";
-import Tag from "./Tag";
+import Fade from "@mui/material/Fade";
 
 const styles = {
   menu: {
-    position: "relative",
-    width: "4rem",
-    height: "4rem",
-    minHeight: "1px",
+    height: "20rem",
   },
 };
 
 const useStyles = makeStyles(styles);
 
-const MenuPopupState = ({ names, onClick }) => {
+const MenuPopupState = ({ names, onClick, data }) => {
   const classes = useStyles();
-  const [menu, setMenu] = React.useState("분야");
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [menu, setMenu] = useState({
+    description: null,
+    id: null,
+    image_url: null,
+    name: "분야",
+  });
+  const open = Boolean(anchorEl);
+
+  useEffect(() => {
+    console.log(menu);
+    setMenu(data);
+  }, []);
+  useEffect(() => {
+    console.log(menu);
+    setMenu(data);
+  }, [data]);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
-    <PopupState variant="popover" popupId="demo-popup-menu">
-      {(popupState) => (
-        <React.Fragment>
-          <Button
-            variant="contained"
-            className={classes.menu}
-            {...bindTrigger(popupState)}
-          >
-            {menu}
-          </Button>
-          <Menu {...bindMenu(popupState)}>
-            {names.map((d) => {
-              return (
-                <MenuItem
-                  key={d.id}
-                  onClick={(e) => {
-                    onClick(e);
-                    setMenu(d.name);
-                    popupState.close;
-                  }}
-                >
-                  {d.name}
-                </MenuItem>
-              );
-            })}
-          </Menu>
-        </React.Fragment>
-      )}
-    </PopupState>
+    <Fragment>
+      <Button
+        id="dropdown-button"
+        aria-controls={open ? "fade-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? "true" : undefined}
+        onClick={handleClick}
+      >
+        {menu !== undefined ? menu.name : "분야"}
+      </Button>
+      <Menu
+        id="fade-menu"
+        className={classes.menu}
+        MenuListProps={{
+          "aria-labelledby": "fade-button",
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Fade}
+      >
+        {names.map((d) => {
+          return (
+            <MenuItem
+              key={d.name}
+              onClick={(e) => {
+                onClick(d);
+                setMenu(d);
+                handleClose();
+              }}
+            >
+              {d.name}
+            </MenuItem>
+          );
+        })}
+      </Menu>
+    </Fragment>
   );
 };
 

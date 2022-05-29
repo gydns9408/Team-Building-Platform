@@ -42,6 +42,9 @@ const findArticleID = async (req, res) => {
 };
 
 const updateArticle = async (req, res) => {
+  const id = req.query.id;
+  const category = req.query.category;
+
   const { title, content, tag, ...rest } = req.body;
 
   const updateQuery = {
@@ -51,7 +54,7 @@ const updateArticle = async (req, res) => {
     ...rest,
   };
   const whereQuery = {
-    article_id: parseInt(id),
+    id: parseInt(id),
   };
   const result = await prisma?.[`${category}Article`].update({
     where: whereQuery,

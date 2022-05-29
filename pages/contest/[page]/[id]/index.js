@@ -3,17 +3,18 @@ import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { makeStyles } from "@material-ui/core/styles";
-import Image from "next/image";
+
 //components
 import GridContainer from "../../../../components/Grid/GridContainer";
 import GridItem from "../../../../components/Grid/GridItem";
 import MainLayout from "../../../../components/Layout/MainLayout";
 import TabPanel from "../../../../components/Tab/TabPanel";
-
+import Button from "../../../../components/CustomButtons/Button";
 //section
 import Overview from "../../../../pages-sections/contest/tabSections/SectionOverview";
-import Published from "../../../../pages-sections/contest/tabSections/SectionPublished";
 import HeaderImage from "../../../../pages-sections/contest/tabSections/SectionHeaderImage";
+import PublishedTab from "../../../../pages-sections/contest/tabSections/SectionPublishedTab";
+
 const styles = {
   title: {
     borderBottom: "0.5px",
@@ -55,9 +56,11 @@ const BasicTabs = ({ data }) => {
   React.useEffect(() => {
     setLoading(false);
   }, []);
+  const handleEditing = () => {
+    setEditing(!editing);
+  };
 
   if (loading) return <div>Loading...</div>;
-
   return (
     <MainLayout>
       <GridContainer direction="column" className={classes.contestHead}>
@@ -72,22 +75,27 @@ const BasicTabs = ({ data }) => {
           >
             <Tab label="개요" {...a11yProps(0)} />
             <Tab label="팀" {...a11yProps(1)} />
-            <Tab label="업데이트" {...a11yProps(1)} />
           </Tabs>
         </GridItem>
       </GridContainer>
       <TabPanel value={value} index={0}>
-        <Overview
-          title={data.article.content.title}
-          body={data.article.content.body}
-          professions={data.contest.profession}
-        />
+        {editing ? (
+          <PublishedTab
+            articleValue={{ ...data.article }}
+            contestValue={{ ...data.contest }}
+            handleEditing={handleEditing}
+          />
+        ) : (
+          <Overview
+            article={data.article}
+            contest={data.contest}
+            professions={data.contest.profession}
+            handleEditing={handleEditing}
+          />
+        )}
       </TabPanel>
       <TabPanel value={value} index={1}>
         Item Two
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <Published />
       </TabPanel>
     </MainLayout>
   );
@@ -105,6 +113,7 @@ export async function getServerSideProps(context) {
   ).then((response) => {
     return response.json();
   });
+  console.log(data);
   return { props: { data } };
 }
 
