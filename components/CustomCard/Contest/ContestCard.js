@@ -12,6 +12,11 @@ import Card from "../../Card/Card";
 import CardBody from "../../Card/CardBody";
 import CardFooter from "../../Card/CardFooter";
 import CardHeader from "../../Card/CardHeader";
+
+const pageLabels = {
+  techStackLabel: "기술 스택",
+};
+
 const styles = {
   card: {
     width: "auto",
@@ -82,18 +87,21 @@ const ContestCard = (props) => {
           <CardContent>
             <Typography>{contest.contest.team.length}명 </Typography>
             <Typography>{contest.article.content.title}</Typography>
-            <Typography>{contest.contest.start_period}</Typography>
-            <Typography>{contest.contest.end_period}</Typography>
-            <Typography>{contest.contest.prize}원</Typography>
+            <DateProgress
+              start_period={new Date(contest.contest.start_period)}
+              end_period={new Date(contest.contest.end_period)}
+            />
           </CardContent>
         </CardBody>
         <CardFooter className={classes.cardFooter}>
+          <Typography>{pageLabels.techStackLabel}</Typography>
           <TagContainer
             tags={contest.contest.tech_stack}
             type="TechStack"
             form="iconOnly"
           />
           <TagContainer tags={contest.contest.Tag} type="Tag" form="textOnly" />
+          <Typography>{contest.contest.prize}원</Typography>
         </CardFooter>
       </Card>
     </Fragment>

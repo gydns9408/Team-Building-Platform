@@ -9,6 +9,10 @@ import Card from "../../Card/Card";
 import CardBody from "../../Card/CardBody";
 import CardFooter from "../../Card/CardFooter";
 import CardHeader from "../../Card/CardHeader";
+import Modal from "../../Modal/Modal";
+import TeamOverview from "../../../pages-sections/team/teamSections/SectionOverview";
+const pageLabels = {};
+
 const styles = {
   card: {
     width: "auto",
@@ -25,6 +29,19 @@ const styles = {
   },
 };
 
+const contestRequest = async (contestID) => {
+  const data = await fetch(
+    `${process.env.HOSTNAME}/api/article/Team/Read/${contestID}`,
+    {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }
+  ).then(async (response) => {
+    return await response.json();
+  });
+  return data;
+};
+
 const useStyles = makeStyles(styles);
 
 const ContestCard = (props) => {
@@ -32,67 +49,59 @@ const ContestCard = (props) => {
 
   const { contestID, className } = props;
 
-  const [contest, setContest] = useState({});
-  const [loading, setLoading] = React.useState(true);
+  const [team, setTeam] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [modalToggle, setModalToggle] = useState(false);
 
-  const contestRequest = async (contestID) => {
-    const data = await fetch(
-      `${process.env.HOSTNAME}/api/article/Contest/page/${contestID}`,
-      {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      }
-    ).then(async (response) => {
-      return await response.json();
-    });
-    setContest(data);
+  const handleModalOpen = () => {
+    setModalToggle(true);
+  };
+  const handleModalClose = () => {
+    setModalToggle(false);
   };
 
   useEffect(() => {
-    contestRequest(contestID).then(() => {
-      setLoading(false);
-    });
+    contestRequest(contestID)
+      .then((data) => {
+        setTeam(data);
+      })
+      .then(() => {
+        setLoading(false);
+      });
   }, []);
   if (loading) return <div>Loading...</div>;
   return (
     <Fragment>
       <Card className={classes.card + " " + className}>
-        <Link
-          href={`${process.env.HOSTNAME}/contest/Read/${contest.id}`}
-          passHref
-        >
-          <CardHeader>
-            <CardActionArea>
-              <img
-                src={
-                  contest.constest_image_url !== null
-                    ? `${contest.constest_image_url}`
-                    : `/asset/image/background/contest/default.svg`
-                }
-                alt="green iguana"
-                className={classes.image}
-              />
-            </CardActionArea>
-          </CardHeader>
-        </Link>
+        <CardHeader>
+          <CardActionArea>
+            <img
+              src={
+                team.team_image_url !== null
+                  ? `${team.team_image_url}`
+                  : `/asset/image/background/contest/default.svg`
+              }
+              alt="green iguana"
+              className={classes.image}
+            />
+          </CardActionArea>
+        </CardHeader>
         <CardBody>
           <CardContent>
-            <Typography>{contest.contest.team.length}명 </Typography>
-            <Typography>{contest.article.content.title}</Typography>
-            <Typography>{contest.contest.start_period}</Typography>
-            <Typography>{contest.contest.end_period}</Typography>
-            <Typography>{contest.contest.prize}원</Typography>
+            <Typography>{team.article.content.title}</Typography>
           </CardContent>
         </CardBody>
         <CardFooter className={classes.cardFooter}>
-          <TagContainer
-            tags={contest.contest.tech_stack}
-            type="TechStack"
-            form="iconOnly"
-          />
-          <TagContainer tags={contest.contest.Tag} type="Tag" form="textOnly" />
+          <TagContainer tags={team.team.role} type="Role" form="iconOnly" />
         </CardFooter>
       </Card>
+      <Modal
+        title={team.article.content.title}
+        open={modalToggle}
+        handleModalClose={handleModalClose}
+      >
+        <TeamOverview />
+      </Modal>
     </Fragment>
   );
 };

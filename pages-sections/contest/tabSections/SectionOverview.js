@@ -27,7 +27,7 @@ import styles from "../../../styles/jss/nextjs-material-kit/pages/landingPageSec
 
 const useStyles = makeStyles(styles);
 
-const Overview = ({ article, contest, professions, handleEditing }) => {
+const Overview = ({ article, contest, professions, handleEditing}) => {
   const [loading, setLoading] = React.useState(true);
   const classes = useStyles();
   const imageClasses = classNames(
@@ -72,35 +72,6 @@ const Overview = ({ article, contest, professions, handleEditing }) => {
             {contest.end_period}
             {contest.start_period}
             {/* {contest.Tag[0]} */}
-            <Card plain>
-              <CardBody>
-                <p className={classes.description}>
-                  You can write here details about one of your team members. You
-                  can give more details about what they do. Feel free to add
-                  some <a href="#pablo">links</a> for people to be able to
-                  follow them outside the site.
-                </p>
-              </CardBody>
-              <CardFooter className={classes.justifyCenter}>
-                <Button
-                  justIcon
-                  color="transparent"
-                  className={classes.margin5}
-                >
-                  <i className={classes.socials + " fab fa-twitter"} />
-                </Button>
-                <Button
-                  justIcon
-                  color="transparent"
-                  className={classes.margin5}
-                >
-                  <i className={classes.socials + " fab fa-instagram"} />
-                </Button>
-                <Button justIcon color="transparent">
-                  <i className={classes.socials + " fab fa-facebook"} />
-                </Button>
-              </CardFooter>
-            </Card>
           </GridItem>
           <GridItem>
             <TagsContainer

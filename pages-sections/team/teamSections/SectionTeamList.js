@@ -1,4 +1,4 @@
-import Card from "../../../components/CustomCard/Contest/ContestCard";
+import TeamCard from "../../../components/CustomCard/Team/TeamCard";
 import React, { useEffect, useState } from "react";
 import GridContainer from "../../../components/Grid/GridContainer";
 import GridItem from "../../../components/Grid/GridItem";
@@ -34,20 +34,12 @@ const reqTeamList = async (contest) => {
   ).then(async (response) => {
     return await response.json();
   });
-  return data;
-  // const maxPage = await fetch(
-  //   `${process.env.HOSTNAME}/api/article/Contest?${
-  //     currentProfession !== undefined
-  //       ? `&currentProfession=${currentProfession}`
-  //       : ""
-  //   }`,
-  //   {
-  //     method: "GET",
-  //     headers: { "Content-Type": "application/json" },
-  //   }
-  // ).then(async (response) => {
-  //   return await response.json();
-  // });
+  const maxPage = await fetch(`${process.env.HOSTNAME}/api/article/Team`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  }).then(async (response) => {
+    return await response.json();
+  });
   // const profession = await fetch(
   //   `${process.env.HOSTNAME}/api/tags/profession`,
   //   {
@@ -58,6 +50,7 @@ const reqTeamList = async (contest) => {
   //   return await response.json();
   // });
   // return { props: { data, maxPage, profession } };
+  return { data, maxPage };
 };
 
 const SectionTeamList = ({ contest }) => {
@@ -65,17 +58,20 @@ const SectionTeamList = ({ contest }) => {
   const router = useRouter();
   const [currentProfession, setProfession] = useState(undefined);
   const [currentPage, setCurrentPage] = useState(1);
-  const [teamList, setTeamList] = useState([{}]);
+  const [teamList, setTeamList] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [maxPage, setMaxPage] = useState(1);
   useEffect(() => {
-    reqTeamList(contest).then((teams) => {
-      setTeamList(teams, setLoading(false));
-    });
+    reqTeamList(contest)
+      .then(async ({ data, maxPage }) => {
+        await Promise.all([setTeamList(data), setMaxPage(maxPage)]);
+      })
+      .then(() => {
+        setLoading(false);
+      });
   }, []);
-  useEffect(() => {
-    console.log(teamList);
-  }, [teamList]);
+  useEffect(() => {}, [teamList]);
+
   // useEffect(() => {
   //   if (currentProfession !== undefined) {
   //     router.push(
@@ -93,9 +89,9 @@ const SectionTeamList = ({ contest }) => {
   const handelPageChange = (page) => {
     setCurrentPage(page);
   };
-  const handleMenuClick = (profession) => {
-    setProfession(profession);
-  };
+  // const handleMenuClick = (profession) => {
+  //   setProfession(profession);
+  // };
   if (loading) return <div>Loading</div>;
   return (
     <GridContainer direction="column" spacing={4}>
@@ -109,71 +105,30 @@ const SectionTeamList = ({ contest }) => {
 
       <GridContainer direction="row">
         {teamList.map((d) => {
-          return (
-            <GridItem
-              key={d.id}
-              xs={4}
-              sm={4}
-              md={4}
-              className={classes.listItem}
-            >
-              {/* <Card contestID={d.id} /> */}
-            </GridItem>
-          );
+          if (d !== undefined) {
+            console.log(d);
+            return (
+              <GridItem
+                key={d.id}
+                xs={4}
+                sm={4}
+                md={4}
+                className={classes.listItem}
+              >
+                <TeamCard contestID={d.id} />
+              </GridItem>
+            );
+          }
         })}
       </GridContainer>
-      {/*<GridItem xs={12} sm={12} md={12}>
+      <GridItem xs={12} sm={12} md={12}>
         <Paginations
           currentPage={currentPage}
           MaxPage={maxPage}
           handel={handelPageChange}
         />
-      </GridItem> */}
+      </GridItem>
     </GridContainer>
   );
 };
 export default SectionTeamList;
-/*
-export async function getServerSideProps(context) {
-  const { page, currentProfession } = context.query;
-
-  const data = await fetch(
-    `${process.env.HOSTNAME}/api/article/Contest/${page}?take=${12}${
-      currentProfession !== undefined
-        ? `&currentProfession=${currentProfession}`
-        : ""
-    }`,
-    {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    }
-  ).then(async (response) => {
-    return await response.json();
-  });
-  const maxPage = await fetch(
-    `${process.env.HOSTNAME}/api/article/Contest?${
-      currentProfession !== undefined
-        ? `&currentProfession=${currentProfession}`
-        : ""
-    }`,
-    {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    }
-  ).then(async (response) => {
-    return await response.json();
-  });
-  const profession = await fetch(
-    `${process.env.HOSTNAME}/api/tags/profession`,
-    {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    }
-  ).then(async (response) => {
-    return await response.json();
-  });
-
-  return { props: { data, maxPage, profession } };
-}
-
-*/

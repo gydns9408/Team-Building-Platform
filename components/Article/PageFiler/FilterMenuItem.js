@@ -37,7 +37,7 @@ const FilterItem = ({ items, label, handleMenuClick }) => {
   });
   if (loading) return <div>Loading</div>;
   return (
-    <Fragment>
+    <div>
       <Chip
         deleteIcon={<KeyboardArrowDownIcon />}
         label={label}
@@ -68,7 +68,7 @@ const FilterItem = ({ items, label, handleMenuClick }) => {
           );
         })}
       </Menu>
-    </Fragment>
+    </div>
   );
 };
 export default FilterItem;

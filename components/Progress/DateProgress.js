@@ -1,39 +1,43 @@
 import moment from "moment";
+import { Fragment, useState, useEffect } from "react";
+import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import LinearProgress, {
+  linearProgressClasses,
+} from "@mui/material/LinearProgress";
 
-const ProgressBar = (props) => {
-  const { bgcolor, start_period, end_period } = props;
+const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+  height: 10,
+  borderRadius: 5,
+  [`&.${linearProgressClasses.colorPrimary}`]: {
+    backgroundColor:
+      theme.palette.grey[theme.palette.mode === "light" ? 200 : 800],
+  },
+  [`& .${linearProgressClasses.bar}`]: {
+    borderRadius: 5,
+    backgroundColor: theme.palette.mode === "light" ? "#1a90ff" : "#308fe8",
+  },
+}));
+export default function CustomizedProgressBars({ start_period, end_period }) {
+  const [timeTotal, setTimeTotal] = useState(100);
+  const [timeLeft, setTimeLeft] = useState(1);
 
-  const containerStyles = {
-    height: 20,
-    width: "100%",
-    backgroundColor: "#e0e0de",
-    borderRadius: 50,
-  };
+  useEffect(() => {
+    setTimeTotal(end_period.getTime() / 1000 - start_period.getTime() / 1000);
+    setTimeLeft(end_period.getTime() / 1000 - new Date().getTime() / 1000);
 
-  const fillerStyles = {
-    height: "100%",
-    width: `100%`,
-    backgroundColor: bgcolor,
-    borderRadius: "inherit",
-    textAlign: "left",
-  };
-
-  const labelStyles = {
-    fontSize: 4,
-    padding: 5,
-    color: "white",
-    fontWeight: "bold",
-  };
+    // console.log(end_period.getTime() / 1000 - new Date().getTime() / 1000);
+    // console.log(new Date().getTime());
+    // console.log(start_period.getTime());
+    // console.log(end_period.getTime());
+  }, []);
 
   return (
-    <div style={containerStyles}>
-      <div style={fillerStyles}>
-        <span style={labelStyles}>{`${moment(start_period).format(
-          "l"
-        )} ~ ${moment(end_period).format("l")}`}</span>
-      </div>
-    </div>
+    <Box sx={{ flexGrow: 1 }}>
+      <BorderLinearProgress
+        variant="determinate"
+        value={Math.abs((timeLeft / timeTotal) * 100)}
+      />
+    </Box>
   );
-};
-
-export default ProgressBar;
+}

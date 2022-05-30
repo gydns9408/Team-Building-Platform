@@ -74,6 +74,7 @@ const articleIncludeOption = (type) => {
         tech_stack: true,
         profession: true,
         role: true,
+        citizens: true,
       };
     default:
       throw new Error(console.log(type));
