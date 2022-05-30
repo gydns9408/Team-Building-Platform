@@ -10,10 +10,12 @@ import GridItem from "../../../../components/Grid/GridItem";
 import MainLayout from "../../../../components/Layout/MainLayout";
 import TabPanel from "../../../../components/Tab/TabPanel";
 import Button from "../../../../components/CustomButtons/Button";
-//section
-import Overview from "../../../../pages-sections/contest/tabSections/SectionOverview";
-import HeaderImage from "../../../../pages-sections/contest/tabSections/SectionHeaderImage";
-import PublishedTab from "../../../../pages-sections/contest/tabSections/SectionPublishedTab";
+//contest section
+import ContestOverview from "../../../../pages-sections/contest/tabSections/SectionOverview";
+import ContestHeaderImage from "../../../../pages-sections/contest/tabSections/SectionHeaderImage";
+import ContestPublishedTab from "../../../../pages-sections/contest/tabSections/SectionPublishedTab";
+//team section
+import TeamList from "../../../../pages-sections/team/teamSections/SectionTeamList";
 
 const styles = {
   title: {
@@ -65,7 +67,7 @@ const BasicTabs = ({ data }) => {
     <MainLayout>
       <GridContainer direction="column" className={classes.contestHead}>
         <GridItem>
-          <HeaderImage />
+          <ContestHeaderImage />
         </GridItem>
         <GridItem>
           <Tabs
@@ -80,13 +82,13 @@ const BasicTabs = ({ data }) => {
       </GridContainer>
       <TabPanel value={value} index={0}>
         {editing ? (
-          <PublishedTab
+          <ContestPublishedTab
             articleValue={{ ...data.article }}
             contestValue={{ ...data.contest }}
             handleEditing={handleEditing}
           />
         ) : (
-          <Overview
+          <ContestOverview
             article={data.article}
             contest={data.contest}
             professions={data.contest.profession}
@@ -95,7 +97,7 @@ const BasicTabs = ({ data }) => {
         )}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        <TeamList />
       </TabPanel>
     </MainLayout>
   );
@@ -118,3 +120,4 @@ export async function getServerSideProps(context) {
 }
 
 export default BasicTabs;
+

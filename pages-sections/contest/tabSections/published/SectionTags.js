@@ -5,9 +5,6 @@ import GridContainer from "../../../../components/Grid/GridContainer";
 import GridItem from "../../../../components/Grid/GridItem";
 import TagAppender from "../../../../components/Tags/TagAppender";
 import TagsContainer from "../../../../components/Tags/TagsContainer";
-import Modal from "../../../../components/Modal/Modal";
-
-import GenerateTags from "../../../tags/SectionGenerateTags";
 
 import { makeStyles } from "@material-ui/core/styles";
 import TechStackSearcher from "../../../../components/Tags/TechStack/TechStackSearcher";

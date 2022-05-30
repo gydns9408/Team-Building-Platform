@@ -15,7 +15,13 @@ const pageLabels = {
   professionFilter: "분야",
 };
 
-const useStyles = makeStyles(styles);
+const styled = {
+  listItem: {
+    padding: "5.625rem",
+  },
+};
+
+const useStyles = makeStyles(styled);
 
 export default function CompetitionSearchPage({ data, maxPage, profession }) {
   const classes = useStyles(useStyles);
@@ -59,10 +65,16 @@ export default function CompetitionSearchPage({ data, maxPage, profession }) {
             handleMenuClick={handleMenuClick}
           />
         </FilrerContainer>
-        <GridContainer direction="row" spacing={4}>
+        <GridContainer direction="row">
           {data.map((d) => {
             return (
-              <GridItem key={d.id} xs={4} sm={4} md={4}>
+              <GridItem
+                key={d.id}
+                xs={4}
+                sm={4}
+                md={4}
+                className={classes.listItem}
+              >
                 <Card contestID={d.id} />
               </GridItem>
             );
