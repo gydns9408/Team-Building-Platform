@@ -97,7 +97,7 @@ const BasicTabs = ({ data }) => {
         )}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <TeamList />
+        <TeamList contest={data.contest_id} />
       </TabPanel>
     </MainLayout>
   );
@@ -120,4 +120,3 @@ export async function getServerSideProps(context) {
 }
 
 export default BasicTabs;
-

@@ -23,21 +23,18 @@ const styled = {
 
 const useStyles = makeStyles(styled);
 
-const reqTeamList = () => {
+const reqTeamList = async (contest) => {
   // const { page, currentProfession } = context.query;
-  // const data = await fetch(
-  //   `${process.env.HOSTNAME}/api/article/Contest/${page}?take=${12}${
-  //     currentProfession !== undefined
-  //       ? `&currentProfession=${currentProfession}`
-  //       : ""
-  //   }`,
-  //   {
-  //     method: "GET",
-  //     headers: { "Content-Type": "application/json" },
-  //   }
-  // ).then(async (response) => {
-  //   return await response.json();
-  // });
+  const data = await fetch(
+    `${process.env.HOSTNAME}/api/article/Team/1?contest=${contest}`,
+    {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }
+  ).then(async (response) => {
+    return await response.json();
+  });
+  return data;
   // const maxPage = await fetch(
   //   `${process.env.HOSTNAME}/api/article/Contest?${
   //     currentProfession !== undefined
@@ -63,17 +60,22 @@ const reqTeamList = () => {
   // return { props: { data, maxPage, profession } };
 };
 
-const SectionTeamList = ({ data, maxPage, profession }) => {
+const SectionTeamList = ({ contest }) => {
   const classes = useStyles(useStyles);
   const router = useRouter();
   const [currentProfession, setProfession] = useState(undefined);
   const [currentPage, setCurrentPage] = useState(1);
+  const [teamList, setTeamList] = useState([{}]);
   const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   setCurrentPage(router.query.page);
-  //   setLoading(false);
-  // }, []);
+  useEffect(() => {
+    reqTeamList(contest).then((teams) => {
+      setTeamList(teams, setLoading(false));
+    });
+  }, []);
+  useEffect(() => {
+    console.log(teamList);
+  }, [teamList]);
   // useEffect(() => {
   //   if (currentProfession !== undefined) {
   //     router.push(
@@ -103,9 +105,10 @@ const SectionTeamList = ({ data, maxPage, profession }) => {
           label={pageLabels.professionFilter}
           handleMenuClick={handleMenuClick}
         />
-      </FilrerContainer>
+  </FilrerContainer>*/}
+
       <GridContainer direction="row">
-        {data.map((d) => {
+        {teamList.map((d) => {
           return (
             <GridItem
               key={d.id}
@@ -114,12 +117,12 @@ const SectionTeamList = ({ data, maxPage, profession }) => {
               md={4}
               className={classes.listItem}
             >
-              <Card contestID={d.id} />
+              {/* <Card contestID={d.id} /> */}
             </GridItem>
           );
         })}
       </GridContainer>
-      <GridItem xs={12} sm={12} md={12}>
+      {/*<GridItem xs={12} sm={12} md={12}>
         <Paginations
           currentPage={currentPage}
           MaxPage={maxPage}

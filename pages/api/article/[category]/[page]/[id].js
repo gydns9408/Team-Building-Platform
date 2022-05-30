@@ -69,6 +69,12 @@ const articleIncludeOption = (type) => {
   switch (type) {
     case "Contest":
       return { team: true, Tag: true, tech_stack: true, profession: true };
+    case "Team":
+      return {
+        tech_stack: true,
+        profession: true,
+        role: true,
+      };
     default:
       throw new Error(console.log(type));
   }

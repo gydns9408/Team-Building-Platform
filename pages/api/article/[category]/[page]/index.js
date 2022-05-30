@@ -11,7 +11,7 @@ const findContestPage = async (req, res) => {
     take: parseInt(take === undefined ? 1 : take),
     orderBy: {
       article: {
-        createdAt: "desc",
+        createdAt: "asc",
       },
     },
     ...(currentProfession !== null &&
@@ -26,7 +26,7 @@ const findContestPage = async (req, res) => {
       }),
     ...(contest !== undefined && {
       where: {
-        article_id: parseInt(contest),
+        contest_id: parseInt(contest),
       },
     }),
   });
