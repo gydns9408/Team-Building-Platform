@@ -7,7 +7,7 @@ const handle = async (req, res) => {
       await findArticleID(req, res);
       return resolve();
     case "POST":
-      await updateArticle(req, res);
+      await createArticle(req, res);
       return resolve();
     case "PUT":
       await updateArticle(req, res);
@@ -35,6 +35,21 @@ const findArticleID = async (req, res) => {
   const result = await prisma?.[`${category}Article`].findUnique({
     where: whereQuery,
     include: includeQuery,
+  });
+
+  await res.json(result);
+  return resolve();
+};
+
+const createArticle = async (req, res) => {
+  const { ...rest } = req.body;
+  const category = req.query.category;
+
+  const createQuery = {
+    ...rest,
+  };
+  const result = await prisma?.[`${category}Article`].create({
+    data: createQuery,
   });
 
   await res.json(result);

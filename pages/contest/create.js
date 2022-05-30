@@ -1,18 +1,20 @@
-import { useEffect, useState, useReducer, Fragment } from "react";
+import { useEffect, useState, useReducer } from "react";
 import { useRouter } from "next/router";
 //components
-import GridContainer from "../../../components/Grid/GridContainer";
-import GridItem from "../../../components/Grid/GridItem";
-import TabPanel from "../../../components/Tab/TabPanel";
-import Button from "../../../components/CustomButtons/Button";
+import GridContainer from "../../components/Grid/GridContainer";
+import GridItem from "../../components/Grid/GridItem";
+import TabPanel from "../../components/Tab/TabPanel";
+import Button from "../../components/CustomButtons/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
-import SectionArticle from "./published/SectionArticle";
-import SectionContest from "./published/SectionContest";
-import SectionTags from "./published/SectionTags";
+import SectionArticle from "../../pages-sections/contest/tabSections/published/SectionArticle";
+import SectionContest from "../../pages-sections/contest/tabSections/published/SectionContest";
+import SectionTags from "../../pages-sections/contest/tabSections/published/SectionTags";
 import moment from "moment";
+import MainLayout from "../../components/Layout/MainLayout";
+import { getSession, useSession, signIn, signOut } from "next-auth/react";
 
 const pageLabels = {
   tech_stack: "기술 스택 생성",
@@ -130,7 +132,8 @@ const a11yProps = (index) => {
   };
 };
 
-const PublishedTab = ({ articleValue, contestValue, handleEditing }) => {
+const CreateTab = ({}) => {
+  const { data: session, status } = useSession();
   const router = useRouter();
   const [article, articleDispatch] = useReducer(articleReducer, articleOtion);
   const [contest, contestDispatch] = useReducer(contestReducer, contestOption);
@@ -145,14 +148,14 @@ const PublishedTab = ({ articleValue, contestValue, handleEditing }) => {
   const reqUpdate = async () => {
     const body = await {
       article: {
-        update: {
+        create: {
           published: true,
           updatedAt: moment().toISOString(),
           viewCount: 0,
           likeCount: 0,
 
           content: {
-            update: {
+            create: {
               title: article.content.title,
               body: article.content.body,
             },
@@ -160,7 +163,7 @@ const PublishedTab = ({ articleValue, contestValue, handleEditing }) => {
         },
       },
       contest: {
-        update: {
+        create: {
           name: contest.name,
           prize: contest.prize,
           content: contest.content,
@@ -201,12 +204,15 @@ const PublishedTab = ({ articleValue, contestValue, handleEditing }) => {
           }),
         },
       },
+      citizens: {
+        connect: { user_id: session.user.id },
+      },
     };
     console.log(body);
     const data = await fetch(
-      `${process.env.HOSTNAME}/api/article/Contest/${router.query.page}/${router.query.id}`,
+      `${process.env.HOSTNAME}/api/article/Contest/Create/id`,
       {
-        method: "PUT",
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       }
@@ -216,22 +222,9 @@ const PublishedTab = ({ articleValue, contestValue, handleEditing }) => {
   };
 
   useEffect(() => {
-    Promise.all([
-      articleDispatch({ type: "init", result: articleValue }),
-      contestDispatch({ type: "init", result: contestValue }),
-    ]).then(() => {
-      console.log(contestValue);
-      setLoading(false);
-    });
+    setLoading(false);
   }, []);
-  useEffect(() => {
-    Promise.all([
-      articleDispatch({ type: "init", result: articleValue }),
-      contestDispatch({ type: "init", result: contestValue }),
-    ]).then(() => {
-      setLoading(false);
-    });
-  }, [articleValue, contestValue]);
+
   const handleArticleTitleChange = (data) => {
     articleDispatch({ type: "contentTitle", result: data.target.value });
   };
@@ -262,13 +255,13 @@ const PublishedTab = ({ articleValue, contestValue, handleEditing }) => {
 
   const handlePublished = async () => {
     await reqUpdate();
-    handleEditing();
+    // router.push(`/contest/`);
   };
 
   if (loading) return <div>Loading...</div>;
 
   return (
-    <Fragment>
+    <MainLayout>
       <GridContainer direction="row" className={classes.contestHead}>
         <GridItem xs={3} sm={3} md={3}>
           <Tabs
@@ -316,8 +309,8 @@ const PublishedTab = ({ articleValue, contestValue, handleEditing }) => {
           <Button onClick={handlePublished}>{pageLabels.submitButton}</Button>
         </GridItem>
       </GridContainer>
-    </Fragment>
+    </MainLayout>
   );
 };
 
-export default PublishedTab;
+export default CreateTab;

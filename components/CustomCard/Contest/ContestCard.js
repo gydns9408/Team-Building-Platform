@@ -25,6 +25,7 @@ const styles = {
   },
   image: {
     width: "100%",
+    height: "12.5rem",
     objectFit: "cover",
     objectPosition: "center",
   },
