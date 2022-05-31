@@ -8,7 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
 
 // core components
-import styles from "styles/jss/nextjs-material-kit/components/cardStyle.js";
+import styles from "../../styles/jss/nextjs-material-kit/components/cardStyle.js";
 
 const useStyles = makeStyles(styles);
 
@@ -22,7 +22,7 @@ export default function Card(props) {
     [className]: className !== undefined,
   });
   return (
-    <div className={classes} {...rest}>
+    <div className={cardClasses} {...rest}>
       {children}
     </div>
   );

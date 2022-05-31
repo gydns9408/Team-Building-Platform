@@ -33,7 +33,7 @@ const FilterType = ({
   switch (form) {
     case "list":
       return (
-        <Fragment>
+        <div>
           <Chip label={label}></Chip>
           <Menu
             id="fade-menu"
@@ -53,13 +53,13 @@ const FilterType = ({
               );
             })}
           </Menu>
-        </Fragment>
+        </div>
       );
     case "toggle":
       return (
-        <Fragment>
+        <div>
           <Chip label={label} onClick={handleToggleClick}></Chip>
-        </Fragment>
+        </div>
       );
     default:
       throw new Error(console.log(form));

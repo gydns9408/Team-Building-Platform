@@ -5,8 +5,7 @@ import {
   successColor,
   warningColor,
   dangerColor,
-} from "styles/jss/nextjs-material-kit.js";
-
+} from "../../../jss/nextjs-material-kit";
 const typographyStyle = {
   defaultFontStyle: {
     ...defaultFont,

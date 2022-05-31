@@ -46,7 +46,7 @@ Table users {
   id String [pk]
   email String [unique]
   emailVerified DateTime
-  name String [not null]
+  name String [unique, not null]
   password String
   image String
   address_1 String

@@ -4,6 +4,7 @@ const cardFooterStyle = {
     alignItems: "center",
     backgroundColor: "transparent",
     padding: "0.9375rem 1.875rem",
+    marginTop: "auto",
   },
 };
 

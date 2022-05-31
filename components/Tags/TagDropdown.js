@@ -41,7 +41,7 @@ const MenuPopupState = ({ names, onClick, data }) => {
   };
 
   return (
-    <Fragment>
+    <div>
       <Button
         id="dropdown-button"
         aria-controls={open ? "fade-menu" : undefined}
@@ -77,7 +77,7 @@ const MenuPopupState = ({ names, onClick, data }) => {
           );
         })}
       </Menu>
-    </Fragment>
+    </div>
   );
 };
 

@@ -10,6 +10,7 @@ const styles = {
   grid: {
     width: "auto",
     height: "100%",
+ 
   },
 };
 

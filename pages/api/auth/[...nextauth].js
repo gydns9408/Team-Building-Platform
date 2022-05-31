@@ -52,9 +52,9 @@ const options = {
     }),
   ],
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
+    async signIn({ user, account, profile, email, credentials, session }) {
       const body = { userId: user.id };
-
+      // session.user.id = token.id;
       const request = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -67,7 +67,14 @@ const options = {
       console.log(data);
       return true;
     },
+    session: async ({ session, user }) => {
+      if (session?.user) {
+        session.user.id = user.id;
+      }
+      return session;
+    },
   },
+
   adapter: PrismaAdapter(prisma),
   secret: process.env.SECRET,
 };

@@ -27,7 +27,7 @@ import styles from "../../../styles/jss/nextjs-material-kit/pages/landingPageSec
 
 const useStyles = makeStyles(styles);
 
-const Overview = ({ article, contest, professions, handleEditing}) => {
+const Overview = ({ article, contest, professions, handleEditing }) => {
   const [loading, setLoading] = React.useState(true);
   const classes = useStyles();
   const imageClasses = classNames(
