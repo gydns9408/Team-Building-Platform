@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Card from "../../../components/CustomCard/Profile/ProfileCard";
+import Card2 from "../../../components/CustomCard/Profile/ProfileCard2";
 import css from "styled-jsx/css";
 import React, { useEffect, useState, useReducer, Fragment } from "react";
 import styles from "../../../styles/jss/nextjs-material-kit/components/cardStyle";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@mui/material";
-
+import { getSession, useSession, signIn, signOut } from "next-auth/react";
 
 
 
@@ -78,8 +79,16 @@ const requestProfileUpdate = async() => {
   const body = await {
     citizens: {
       update: {
-        profession : citizens.profession,
-        // tech_stack : citizens.tech_stack,
+        // profession : citizens.profession,
+        ...(contest.profession[0] !== undefined && {
+          profession: {
+            connect: citizens.profession.map((stack) => {
+              return {
+                name: stack.name,
+              };
+            }),
+          },
+        }),
         ...(contest.tech_stack[0] !== undefined && {
           tech_stack: {
             connect: citizens.tech_stack.map((stack) => {
@@ -143,6 +152,7 @@ const requestProfileUpdate2 = async(id) => {
 
 
 
+
   const data = await fetch (
     `${process.env.HOSTNAME}/api/profile/${id}`,
     {
@@ -154,12 +164,27 @@ const requestProfileUpdate2 = async(id) => {
   })
   }
 
+  const requestProfileUpdateViewCount = async(id) => {
+
+    const data = await fetch (
+      `${process.env.HOSTNAME}/api/profile/${id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+      }
+    ).then((response) => {
+      return response.json();
+    })
+    }
+
 
 export default function CompetitionSearchPage({ data }) {
+  const {data: user} =useSession
   const classes = useStyles();
   const [citizens, citizensDispatch] = useReducer(citizensReducer, citizensOption);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const {data: session} =useSession()
 
   useEffect(() => {
     Promise.all([
@@ -173,13 +198,31 @@ export default function CompetitionSearchPage({ data }) {
   return (
     <Fragment>
     <Card contestID={data}/>
-    <Button onClick={()=> handlePublished(router.query.id)} >입력</Button>
+    <a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+    <Link
+      href={`${process.env.HOSTNAME}/profile/${router.query.id}`}
+       prefetch
+      passHref
+     >
+    <Button onClick={()=> 
+      handlePublished(data[0].user_id)
+      } 
+      variant="contained" 
+      component="span"
+      >좋아요</Button>
+    </Link>
+    
+    <Card2 contestID={data}/>
     </Fragment>
   );
 }
 
 const handlePublished = async (data) => {
   await requestProfileUpdate2(data);
+};
+
+const handlePublishedViewCount = async (data) => {
+  await requestProfileUpdateViewCount(data);
 };
 
 export async function getServerSideProps(context) {
@@ -195,5 +238,8 @@ export async function getServerSideProps(context) {
   ).then((response) => {
     return response.json();
   });
+
+  handlePublishedViewCount(data[0].user_id);
+
   return { props: { data } };
 }
