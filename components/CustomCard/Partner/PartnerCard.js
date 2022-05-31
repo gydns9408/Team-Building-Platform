@@ -58,8 +58,8 @@ const PartnerCard = (props) => {
                   title={contestID.user.name}
                   subheader={contestID.user.id}
               />
-                <Typography>자기소개</Typography>
-                <Typography>기술스택</Typography>
+                <Typography>{contestID.profile.content}</Typography>
+                <h3><li>기술스택</li></h3>
                 <TagContainer tags={contestID.tech_stack}
                 type={"TechStack"}
                 form={"iconOnly"}

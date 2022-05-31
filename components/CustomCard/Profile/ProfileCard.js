@@ -105,10 +105,6 @@ const ContestCard = (props) => {
           <TeamsContainer datas={contestID[0].team} />
           <h2>이 프로필의 조회수</h2>
           <Typography>{contestID[0].profile.view_count}</Typography>
-          <Button variant="contained" component="span">
-          좋아요
-          </Button>
-          <Typography>{contestID[0].profile.like_count}</Typography>
           </GridItem>
     </GridContainer>
   </MainLayout>

@@ -11,7 +11,8 @@ const findPartnerPage = async (req, res) => {
       include:{
           user:true,
           tech_stack:true,
-          profession:true
+          profession:true,
+          profile:true
       }
     });
   
