@@ -11,6 +11,10 @@ import Tab from "@mui/material/Tab";
 
 import SectionProfile from "./published/SectionProfile";
 import SectionTags from "./published/SectionTags";
+import SectionProfession from "./published/SectionProfession";
+import SectionCertificate from "./published/SectionCertificate";
+import SectionProgram from "./published/SectionProgram";
+import SectionResume from "./published/SectionResume";
 import moment from "moment";
 import { getSession, useSession, signIn, signOut } from "next-auth/react";
 
@@ -275,18 +279,22 @@ const PublishedTab = ({ citizensValue, handleEditing }) => {
               handleContentChange={handleContentChange}
             />
           </TabPanel>
-          {/* <TabPanel value={value} index={1}>
+          <TabPanel value={value} index={1}>
             <SectionProfession
             handleProfession={handleProfession}
             profession={citizens.profession}
             />
           </TabPanel> 
           <TabPanel value={value} index={2}>
-            <SectionUserInterestProfession
-            handleUserInterestProfessionChange={handleUserInterestProfessionChange}
-            profession={citizens.user_attention_profession.profession}
+            <SectionProfession
+            handleProfession={handleProfession}
+            profession={
+              citizens.user_attention_profession.length !== 0
+             ? citizens.user_attention_profession[0].profession
+             : [{id : null, name : null}]
+            }
             />
-          </TabPanel> */}
+          </TabPanel>
           <TabPanel value={value} index={3}>
             <SectionTags
               handleTechStack={handleTechStack}
@@ -298,7 +306,7 @@ const PublishedTab = ({ citizensValue, handleEditing }) => {
             handleResume={handleResume}
             resume={citizens.profile.resume}
             />
-          </TabPanel>
+          </TabPanel> */}
             <TabPanel value={value} index={5}>
             <SectionCertificate
             handleCertificate={handleCertificate}
@@ -310,7 +318,7 @@ const PublishedTab = ({ citizensValue, handleEditing }) => {
             handleProgram={handleProgram}
             program={citizens.program}
             />
-          </TabPanel> */}
+          </TabPanel>
           <Button onClick={()=> handlePublished(citizensValue.user_id)}>{pageLabels.submitButton}</Button>
         </GridItem>
       </GridContainer>
