@@ -18,6 +18,7 @@ import ContestParticipationContainer from "../../ContestParticipation/ContestPar
 import CertificateContainer from "../../Certificate/CertificateContainer";
 import ProgramContainer from "../../Program/ProgramContainer";
 import TeamsContainer from "../../TeamContainer/TeamsContainer";
+import ResumeContainer from "../../Resume/ResumeContainer";
 
 const styles = {
   card: {
@@ -89,21 +90,7 @@ const ContestCard = (props) => {
 
           <h2>이력서</h2>
           <Divider />
-          <Typography>{
-          contestID[0].profile.resume.length !== 0
-          ? contestID[0].profile.resume[0].resume_name
-          : null
-          }</Typography>
-          <Image 
-          src={
-            contestID[0].profile.resume.length !== 0
-          ? contestID[0].profile.resume[0].image_url
-          : `/asset/image/background/contest/default.svg`
-        }
-          alt="이미지"
-          width={photosize}
-          height={photosize}
-          />
+          <ResumeContainer tags={contestID[0].profile.resume}/>
           <h2>공모전 참가 이력</h2>
           <Divider />
           <ContestParticipationContainer datas={contestID[0].profile.contest}/>
