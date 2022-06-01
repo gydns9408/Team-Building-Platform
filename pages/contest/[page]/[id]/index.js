@@ -67,7 +67,10 @@ const BasicTabs = ({ data }) => {
     <MainLayout>
       <GridContainer direction="column" className={classes.contestHead}>
         <GridItem>
-          <ContestHeaderImage contestImage={data.constest_image_url} />
+          <ContestHeaderImage
+            editing={editing}
+            contestImage={data.constest_image_url}
+          />
         </GridItem>
         <GridItem>
           <Tabs
