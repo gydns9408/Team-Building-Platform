@@ -6,131 +6,25 @@ import css from "styled-jsx/css";
 import React, { useEffect, useState, useReducer, Fragment } from "react";
 import styles from "../../../styles/jss/nextjs-material-kit/components/cardStyle";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button } from "@mui/material";
+import { Button, Tabs, Tab } from "@mui/material";
 import { getSession, useSession, signIn, signOut } from "next-auth/react";
+
+// import ProfileOverview from "../../../../pages-sections/profile/profileSections/SectionOverview";
+// import ProfileHeaderImage from "../../../../pages-sections/profile/profileSections/SectionHeaderImage";
+import ProfilePublishedTab from "../../../pages-sections/profile/profileSections/SectionPublishedTab";
 
 
 
 
 const useStyles = makeStyles(styles);
 
-const citizensOption = {
-  id: 0,
-  user_id: "",
-  certificate : [],
-  program: [],
-  user_attention_profession : [],
-  user : [],
-  profile : [],
-  team: [],
-  tech_stack: [],
-  profession: [{}],
-};
-
-const citizensReducer = (prevState, action) => {
-  switch (action.type) {
-    case "init":
-      return { ...action.result };
-    case "citizensCertificate":
-      return {
-        ...prevState,
-        certificate : { ...action.result },
-      };
-    case "citizensProgram":
-      return {
-        ...prevState,
-        program : { ...action.result },
-      };
-    case "citizensUserAttentionProfession":
-      return {
-        ...prevState,
-        user_attention_profession : { ...action.result },
-      };
-    case "citizensUser":
-      return {
-        ...prevState,
-        user : { ...action.result },
-      };
-    case "citizensProfile":
-      return {
-        ...prevState,
-        profile : { ...action.result },
-      };
-    case "citizensTechStack":
-      return {
-        ...prevState,
-        tech_stack: [...prevState.tech_stack, action.result],
-      };
-    case "citizensProfession":
-      return {
-        ...prevState,
-        profession: { ...action.result },
-      };
-    default:
-      throw new Error(`Unhandled action type: ${action.type}`);
-  }
-};
 
 const requestProfileUpdate = async() => {
 
  
 
 
-  const body = await {
-    citizens: {
-      update: {
-        // profession : citizens.profession,
-        ...(contest.profession[0] !== undefined && {
-          profession: {
-            connect: citizens.profession.map((stack) => {
-              return {
-                name: stack.name,
-              };
-            }),
-          },
-        }),
-        ...(contest.tech_stack[0] !== undefined && {
-          tech_stack: {
-            connect: citizens.tech_stack.map((stack) => {
-              return {
-                name: stack.name,
-              };
-            }),
-          },
-        }),
-        certificate : citizens.certificate,
-        program : citizens.program,
-
-
-        user: {
-          update: {
-            email: citizens.user.email,
-          },
-        },
-
-        profile: {
-          update: {
-            content : citizens.profile.content,
-            view_count : citizens.profile.view_count,
-            like_count : citizens.profile.like_count,
-            resume : {
-              update: {
-                resume_name : citizens.profile.resume.resume_name,
-                image_url : citizens.profile.resume.image_url
-              },
-            }
-          },
-        },
-
-        user_attention_profession : {
-          update: {
-            profession : citizens.user_attention_profession.profession,
-          },
-        },
-
-      },
-    },
-  };
+  
   
 
 
@@ -181,21 +75,23 @@ const requestProfileUpdate2 = async(id) => {
 export default function CompetitionSearchPage({ data }) {
   const {data: user} =useSession
   const classes = useStyles();
-  const [citizens, citizensDispatch] = useReducer(citizensReducer, citizensOption);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const {data: session} =useSession()
+  const [editing, setEditing] = React.useState(false);
 
-  useEffect(() => {
-    Promise.all([
-      citizensDispatch({ type: "init", result: data }),
-    ]).then(() => {
-      console.log(data);
-      setLoading(false);
-    });
-  }, []);
+  const handleEditing = () => {
+    setEditing(!editing);
+  };
 
   return (
+    <>
+    {editing ? (
+      <ProfilePublishedTab
+      citizensValue={data[0]}
+      handleEditing={handleEditing}
+      />
+    ) : (
     <Fragment>
     <Card contestID={data}/>
     <a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
@@ -211,9 +107,19 @@ export default function CompetitionSearchPage({ data }) {
       component="span"
       >좋아요</Button>
     </Link>
-    
     <Card2 contestID={data}/>
+    <a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+    <Button onClick={()=> 
+      handleEditing()
+      } 
+      variant="outlined" 
+      component="span"
+      >프로필 수정</Button>
     </Fragment>
+    
+    )
+    }
+    </>
   );
 }
 
