@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea, Avatar, CardHeader, Button } from "@mui/material";
+import { CardActionArea, Avatar, CardHeader, Button, List, ListItem, ListItemText, Divider} from "@mui/material";
 import Tag from "../../Tags/Tag";
 import TagContainer from "../../Tags/TagsContainer";
 import { makeStyles } from "@material-ui/core/styles";
@@ -49,7 +49,9 @@ const ContestCard = (props) => {
     <MainLayout>
     <GridContainer direction="row" spacing={0}>
           <GridItem xs={12} sm={12} md={12}>
+
           <h2>프로필</h2>
+          <Divider />
           <Avatar
           alt="photo"
           src={
@@ -58,28 +60,35 @@ const ContestCard = (props) => {
             : `/asset/image/background/contest/default.svg`
           }
           />
+          
           <h2>개인정보</h2>
+          <Divider />
           <Typography>닉네임 : {contestID[0].user.name}</Typography>
           <Typography>이메일 : {contestID[0].user.email}</Typography>
           </GridItem>
           <GridItem xs={12} sm={12} md={12}>
           <h2>자기소개</h2>
+          <Divider />
           <Typography>{contestID[0].profile.content}</Typography>
           <h2>관련분야</h2>
+          <Divider />
           <ProfessionsContainer tags={contestID[0].profession} />
           <h2>관심있는 분야</h2>
+          <Divider />
           <ProfessionsContainer tags={
             contestID[0].user_attention_profession.length !== 0
             ? contestID[0].user_attention_profession[0].profession
             : [{id : null, name : null}]
             }/>
           <h2>기술스택</h2>
+          <Divider />
           <TagContainer tags={contestID[0].tech_stack}
           type={"TechStack"}
           form={"iconOnly"}
           />
 
           <h2>이력서</h2>
+          <Divider />
           <Typography>{
           contestID[0].profile.resume.length !== 0
           ? contestID[0].profile.resume[0].resume_name
@@ -96,19 +105,20 @@ const ContestCard = (props) => {
           height={photosize}
           />
           <h2>공모전 참가 이력</h2>
+          <Divider />
           <ContestParticipationContainer datas={contestID[0].profile.contest}/>
           <h2>자격증</h2>
+          <Divider />
           <CertificateContainer tags={contestID[0].certificate} />
           <h2>활용 가능한 프로그램</h2>
+          <Divider />
           <ProgramContainer tags={contestID[0].program} />
           <h2>소속중인 팀</h2>
+          <Divider />
           <TeamsContainer datas={contestID[0].team} />
           <h2>이 프로필의 조회수</h2>
+          <Divider />
           <Typography>{contestID[0].profile.view_count}</Typography>
-          <Button variant="contained" component="span">
-          좋아요
-          </Button>
-          <Typography>{contestID[0].profile.like_count}</Typography>
           </GridItem>
     </GridContainer>
   </MainLayout>
