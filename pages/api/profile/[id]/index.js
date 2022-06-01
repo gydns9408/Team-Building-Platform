@@ -68,11 +68,7 @@ const updateProfilePage = async (req, res) => {
     ...rest,
   };
   const whereQuery = {
-    user: {
-      is: {
-        name: id,
-      },
-    },
+    user_id: id,
   };
   const result = await prisma.Citizens.update({
     where: whereQuery,
