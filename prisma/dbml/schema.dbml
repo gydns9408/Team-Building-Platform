@@ -122,6 +122,7 @@ Table professtion {
   name String [unique, not null]
   description String
   image_url String
+  color String
   contest_profession Contest [not null]
   team_profession Team [not null]
   citizens Citizens [not null]

@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { getSession, useSession, signIn, signOut } from "next-auth/react";
 import Image from "next/image";
 import Avatar from "@mui/material/Avatar";
+import Head from "next/head";
 const Header = () => {
   const router = useRouter();
   const isActive = (pathname) => router.pathname === pathname;

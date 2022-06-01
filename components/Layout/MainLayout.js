@@ -3,12 +3,24 @@ import { Fragment } from "react";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
+import Head from "next/head";
 
 const Layout = (props) => {
   return (
     <Fragment>
+      <Head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap"
+          rel="stylesheet"
+        />
+      </Head>
       <Header />
-      <Box sx={{ mx: 9.125 }}>{props.children}</Box>
+      <Box sx={{ mx: 9.125 }}>
+        <CssBaseline />
+        {props.children}
+      </Box>
     </Fragment>
   );
 };

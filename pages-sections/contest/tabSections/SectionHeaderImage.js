@@ -6,6 +6,8 @@ import GridItem from "../../../components/Grid/GridItem";
 import Button from "../../../components/CustomButtons/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { useRouter } from "next/router";
+import IconButton from '@mui/material/IconButton';
+
 const styles = {
   title: {
     borderBottom: "0.5px",

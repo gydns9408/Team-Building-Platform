@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 
-const Editor = ({ onChangeHandle, editorLoaded, name, value }) => {
+const Editor = ({ onChangeHandle, editorLoaded, name, value, readOnly }) => {
   const editorRef = useRef(null);
   const [loading, setLoading] = useState(true);
   const { CKEditor, ClassicEditor } = editorRef.current || {};
-
+  const defaultReadOnly = false;
   useEffect(() => {
     editorRef.current = {
       CKEditor: require("@ckeditor/ckeditor5-react").CKEditor,
@@ -13,7 +13,9 @@ const Editor = ({ onChangeHandle, editorLoaded, name, value }) => {
   }, []);
 
   useEffect(() => {
-    if (editorRef.current !== null) setLoading(false);
+    if (editorRef.current !== null) {
+      setLoading(false);
+    }
   }, [editorRef]);
 
   if (loading) return <div>loading...</div>;
@@ -22,10 +24,20 @@ const Editor = ({ onChangeHandle, editorLoaded, name, value }) => {
     <CKEditor
       type=""
       name={name}
+      disabled={readOnly === undefined ? defaultReadOnly : readOnly}
       editor={ClassicEditor}
       data={value}
       onChange={(event, editor) => {
-        onChangeHandle(editor.getData());
+        if (onChangeHandle !== undefined) onChangeHandle(editor.getData());
+      }}
+      onReady={(editor) => {
+        const toolbarElement = editor.ui.view.toolbar.element;
+
+        if (readOnly === undefined ? defaultReadOnly : readOnly) {
+          toolbarElement.style.display = "none";
+        } else {
+          toolbarElement.style.display = "flex";
+        }
       }}
     />
   );

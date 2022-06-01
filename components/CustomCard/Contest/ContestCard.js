@@ -19,7 +19,7 @@ const pageLabels = {
 
 const styles = {
   card: {
-    width: "auto",
+    width: "100%",
     justifyContent: "center",
     height: "100%",
   },
@@ -30,7 +30,11 @@ const styles = {
     objectPosition: "center",
   },
   cardFooter: {
+    fontSize: "16pt",
+    color: "#98A8B9",
     alignItems: "flex-end",
+    borderTopColor: "rgba(0, 0, 0, 0.87)",
+    borderTop: "0.5px solid",
   },
 };
 
@@ -93,8 +97,6 @@ const ContestCard = (props) => {
               end_period={new Date(contest.contest.end_period)}
             />
           </CardContent>
-        </CardBody>
-        <CardFooter className={classes.cardFooter}>
           <Typography>{pageLabels.techStackLabel}</Typography>
           <TagContainer
             tags={contest.contest.tech_stack}
@@ -102,7 +104,9 @@ const ContestCard = (props) => {
             form="iconOnly"
           />
           <TagContainer tags={contest.contest.Tag} type="Tag" form="textOnly" />
-          <Typography>{contest.contest.prize}원</Typography>
+        </CardBody>
+        <CardFooter className={classes.cardFooter}>
+          <Typography variant="h5">{contest.contest.prize}$</Typography>
         </CardFooter>
       </Card>
     </Fragment>

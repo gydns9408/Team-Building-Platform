@@ -73,19 +73,24 @@ const ContestCard = (props) => {
   return (
     <Fragment>
       <Card className={classes.card + " " + className}>
-        <CardHeader>
-          <CardActionArea>
-            <img
-              src={
-                team.team_image_url !== null
-                  ? `${team.team_image_url}`
-                  : `/asset/image/background/contest/default.svg`
-              }
-              alt="green iguana"
-              className={classes.image}
-            />
-          </CardActionArea>
-        </CardHeader>
+        <Link
+          href={`${process.env.HOSTNAME}/team/Read/${team.article_id}`}
+          passHref
+        >
+          <CardHeader>
+            <CardActionArea>
+              <img
+                src={
+                  team.team_image_url !== null
+                    ? `${team.team_image_url}`
+                    : `/asset/image/background/contest/default.svg`
+                }
+                alt="green iguana"
+                className={classes.image}
+              />
+            </CardActionArea>
+          </CardHeader>
+        </Link>
         <CardBody>
           <CardContent>
             <Typography>{team.article.content.title}</Typography>

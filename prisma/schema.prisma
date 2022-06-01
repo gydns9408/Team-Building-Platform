@@ -159,10 +159,10 @@ model Resume {
 model Profession {
   id Int @id @default(autoincrement())
 
-  name        String  @unique
-  description String? @db.Text
-  image_url   String? @db.Char(100)
-
+  name                     String                   @unique
+  description              String?                  @db.Text
+  image_url                String?                  @db.Char(100)
+  color                    String?                  @db.Char(10)
   contest_profession       Contest[]
   team_profession          Team[]
   citizens                 Citizens[]

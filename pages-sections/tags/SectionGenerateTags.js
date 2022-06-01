@@ -111,7 +111,6 @@ const SectionGenerateTags = ({ handle }) => {
         .catch((error) => {
           console.error("There was an error!", error);
         });
-
       return data;
     }
   };

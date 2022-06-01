@@ -1,5 +1,6 @@
 const cardStyle = {
   card: {
+    padding: "1rem",
     border: "0",
     marginBottom: "30px",
     marginTop: "30px",
