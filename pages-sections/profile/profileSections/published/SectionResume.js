@@ -3,7 +3,7 @@ import * as React from "react";
 //components
 import GridContainer from "../../../../components/Grid/GridContainer";
 import GridItem from "../../../../components/Grid/GridItem";
-import TagsContainer from "../../../../components/Tags/TagsContainer";
+import TagsContainer_resume from "../../../../components/Tags/TagsContainer_resume";
 
 import { makeStyles } from "@material-ui/core/styles";
 import TechStackSearcher from "../../../../components/Tags/TechStack/TechStackSearcher";
@@ -33,14 +33,15 @@ const Published = ({
   for(; i < resume.length; i++){
   resume[i].name = resume[i].resume_name;
   }
+
   if (loading) return <div>Loading</div>;
 
   return (
     <GridContainer direction="column" spacing={2}>
       <GridItem>
-        <TagsContainer tags={resume} type="Resume" form="iconOnly">
+        <TagsContainer_resume tags={resume} type="Resume" form="chip">
           {/* <TechStackSearcher handle={handleTechStack} /> */}
-        </TagsContainer>
+        </TagsContainer_resume>
       </GridItem>
     </GridContainer>
   );

@@ -291,7 +291,7 @@ const PublishedTab = ({ citizensValue, handleEditing }) => {
             profession={
               citizens.user_attention_profession.length !== 0
              ? citizens.user_attention_profession[0].profession
-             : [{id : null, name : null}]
+             : []
             }
             />
           </TabPanel>
@@ -301,12 +301,12 @@ const PublishedTab = ({ citizensValue, handleEditing }) => {
               tech_stacks={citizens.tech_stack}
             />
           </TabPanel>
-            {/* <TabPanel value={value} index={4}>
+            <TabPanel value={value} index={4}>
             <SectionResume
             handleResume={handleResume}
             resume={citizens.profile.resume}
             />
-          </TabPanel> */}
+          </TabPanel>
             <TabPanel value={value} index={5}>
             <SectionCertificate
             handleCertificate={handleCertificate}
