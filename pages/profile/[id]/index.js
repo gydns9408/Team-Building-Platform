@@ -9,6 +9,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Button, Tabs, Tab } from "@mui/material";
 import { getSession, useSession, signIn, signOut } from "next-auth/react";
 
+import Header from "../../../components/header/Header";
+
 // import ProfileOverview from "../../../../pages-sections/profile/profileSections/SectionOverview";
 // import ProfileHeaderImage from "../../../../pages-sections/profile/profileSections/SectionHeaderImage";
 import ProfilePublishedTab from "../../../pages-sections/profile/profileSections/SectionPublishedTab";
@@ -93,8 +95,15 @@ export default function CompetitionSearchPage({ data }) {
       />
     ) : (
     <Fragment>
+      <Header/>
+    <Button onClick={()=> 
+      handleEditing()
+      } 
+      variant="outlined" 
+      component="span"
+      >프로필 수정</Button>
     <Card contestID={data}/>
-    <a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+    <a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
     <Link
       href={`${process.env.HOSTNAME}/profile/${router.query.id}`}
        prefetch
@@ -109,12 +118,7 @@ export default function CompetitionSearchPage({ data }) {
     </Link>
     <Card2 contestID={data}/>
     <a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-    <Button onClick={()=> 
-      handleEditing()
-      } 
-      variant="outlined" 
-      component="span"
-      >프로필 수정</Button>
+
     </Fragment>
     
     )

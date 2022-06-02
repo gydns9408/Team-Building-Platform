@@ -35,7 +35,7 @@ module.exports = {
 module.exports = {
   images: {
     domains: ["avatars.githubusercontent.com", "localhost"],
-  },
+  }
 };
 
 module.exports = { env: { HOSTNAME: process.env.HOSTNAME } };
