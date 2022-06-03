@@ -10,7 +10,7 @@ const Layout = (props) => {
       <Header />
       <Box sx={{ 
           mx: 9.125,
-          backgroundColor: 'primary.dark' 
+          // backgroundColor: 'primary.dark' 
           }}>
         <div className="layout">{props.children}</div>
       </Box>

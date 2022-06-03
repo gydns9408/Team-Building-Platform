@@ -11,7 +11,8 @@ const handle = async (req, res) => {
       await updateProfilePage(req, res);
       return resolve();
     case "PUT":
-      break;
+      await updateProfilePageViewCountIncrease(req, res);
+      return resolve();
     case "DELETE":
       await updateProfilePageLikeCountIncrease(req, res);
       return resolve();
@@ -67,11 +68,7 @@ const updateProfilePage = async (req, res) => {
     ...rest,
   };
   const whereQuery = {
-    user: {
-      is: {
-        name: id,
-      },
-    },
+    user_id: id,
   };
   const result = await prisma.Citizens.update({
     where: whereQuery,
@@ -88,6 +85,30 @@ const updateProfilePageLikeCountIncrease = async (req, res) => {
   const updateQuery = {
     profile: {
       update: {
+        like_count: {
+          increment: 1,
+        },
+      },
+    },
+  };
+  const whereQuery = {
+    user_id: id,
+  };
+  const result = await prisma.Citizens.update({
+    where: whereQuery,
+    data: updateQuery,
+  });
+  res.json(result);
+  return resolve();
+};
+
+const updateProfilePageViewCountIncrease = async (req, res) => {
+  const { ...rest } = req.body;
+  const { id } = req.query;
+
+  const updateQuery = {
+    profile: {
+      update: {
         view_count: {
           increment: 1,
         },
@@ -95,7 +116,7 @@ const updateProfilePageLikeCountIncrease = async (req, res) => {
     },
   };
   const whereQuery = {
-    user_id: "cl2w9kjp20009bovo90a8msng",
+    user_id: id,
   };
   const result = await prisma.Citizens.update({
     where: whereQuery,

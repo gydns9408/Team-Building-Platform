@@ -16,7 +16,7 @@ const Tag = (props) => {
 
   const TagRequest = async () => {
     const data = await fetch(
-      `${process.env.HOSTNAME}/api/tags/${type}/${name}`,
+      `${process.env.HOSTNAME}/api/tags_resume/${type}/${name}`,
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },
@@ -45,11 +45,11 @@ const Tag = (props) => {
                     ? getTagInfo.image_url
                     : `/asset/image/background/contest/default.svg`
                 }
-                width={16}
-                height={16}
+                width={50}
+                height={50}
               />
             }
-            label={getTagInfo.name !== null ? getTagInfo.name : ""}
+            label={getTagInfo.resume_name !== null ? getTagInfo.resume_name : ""}
           />
         );
       case "iconOnly":
@@ -67,7 +67,7 @@ const Tag = (props) => {
           </IconButton>
         );
       case "textOnly":
-        return <Chip label={getTagInfo.name !== null ? getTagInfo.name : ""} />;
+        return <Chip label={getTagInfo.resume_name !== null ? getTagInfo.resume_name : ""} />;
       default:
         throw new Error(console.log(form));
     }

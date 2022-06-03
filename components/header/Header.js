@@ -8,7 +8,6 @@ import Head from "next/head";
 const Header = () => {
   const router = useRouter();
   const isActive = (pathname) => router.pathname === pathname;
-
   const { data: session, status } = useSession();
 
   let left = (

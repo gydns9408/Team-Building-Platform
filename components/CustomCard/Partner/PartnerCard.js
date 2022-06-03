@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea, Avatar, CardHeader } from "@mui/material";
+import { CardActionArea, Avatar, CardHeader, Divider } from "@mui/material";
 import Tag from "../../Tags/Tag";
 import TagContainer from "../../Tags/TagsContainer";
 import { makeStyles } from "@material-ui/core/styles";
@@ -56,10 +56,14 @@ const PartnerCard = (props) => {
                     />
                   }
                   title={contestID.user.name}
-                  subheader={contestID.user.id}
+                  titleTypographyProps={{ fontSize: 20, color:"#00adb5" }}
               />
-                <Typography>자기소개</Typography>
-                <Typography>기술스택</Typography>
+              <Divider />
+              <Typography>&nbsp;</Typography>
+              <Typography>{contestID.profile.content}</Typography>
+              <Typography>&nbsp;</Typography>
+              <Divider />
+                <h3><li>기술스택</li></h3>
                 <TagContainer tags={contestID.tech_stack}
                 type={"TechStack"}
                 form={"iconOnly"}
@@ -73,3 +77,5 @@ const PartnerCard = (props) => {
 };
 
 export default PartnerCard;
+
+//배효운

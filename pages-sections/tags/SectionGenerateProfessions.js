@@ -8,7 +8,7 @@ import Editor from "../../components/Editors/CKEditorTextEditor";
 import { makeStyles } from "@material-ui/core/styles";
 
 const assetPath = {
-  tech_stack: "/asset/icon/tech_stack",
+  tech_stack: "/asset/icon/profession",
 };
 
 const styles = {
@@ -43,7 +43,7 @@ const techStackReducer = (prevState, action) => {
   }
 };
 
-const SectionGenerateTags = ({ handle }) => {
+const SectionGenerateProfessions = ({ handle }) => {
   const [techStack, dispatch] = useReducer(techStackReducer, techStackOption);
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -90,7 +90,7 @@ const SectionGenerateTags = ({ handle }) => {
 
       await uploadToServer();
       const data = await fetch(
-        `${process.env.HOSTNAME}/api/tags/TechStack/${techStack.name}`,
+        `${process.env.HOSTNAME}/api/tags/Profession/${techStack.name}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -113,6 +113,7 @@ const SectionGenerateTags = ({ handle }) => {
         .catch((error) => {
           console.error("There was an error!", error);
         });
+
       return data;
     }
   };
@@ -160,4 +161,4 @@ const SectionGenerateTags = ({ handle }) => {
   );
 };
 
-export default SectionGenerateTags;
+export default SectionGenerateProfessions;
