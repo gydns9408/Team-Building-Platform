@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import GridContainer from "../Grid/GridContainer";
 import GridItem from "../Grid/GridItem";
 import { Button, Comment, Form, Header } from "semantic-ui-react";
+import Parser from "html-react-parser";
 const commentItem = ({ avatar, author, createAt, body }) => {
   return (
     <Comment>
@@ -11,7 +12,7 @@ const commentItem = ({ avatar, author, createAt, body }) => {
         <Comment.Metadata>
           <div>{createAt}</div>
         </Comment.Metadata>
-        <Comment.Text>{body}</Comment.Text>
+        <Comment.Text>{Parser(body)}</Comment.Text>
       </Comment.Content>
     </Comment>
   );

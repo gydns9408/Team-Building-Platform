@@ -83,26 +83,26 @@ export default function CompetitionSearchPage({ data, maxPage, profession }) {
   return (
     <MainLayout>
       <GridContainer direction="column">
-        <GridItem xs={12} sm={12} md={12}></GridItem>
-        <Card className={classes.createCard}>
-          <CardFooter>
-            <Button
-              className={classes.createButton}
-              onClick={handlecontestCreate}
-            >
-              {pageLabels.contestCreateButtonLabel}
-            </Button>
-          </CardFooter>
-        </Card>
         <GridItem xs={12} sm={12} md={12}>
-          <FilrerContainer>
-            <FilterMenuItem
-              items={profession}
-              label={pageLabels.professionFilter}
-              handleMenuClick={handleMenuClick}
-            />
-          </FilrerContainer>
+          <Card className={classes.createCard}>
+            <CardFooter>
+              <Button
+                className={classes.createButton}
+                onClick={handlecontestCreate}
+              >
+                {pageLabels.contestCreateButtonLabel}
+              </Button>
+            </CardFooter>
+          </Card>
         </GridItem>
+        <GridItem xs={12} sm={12} md={12}>
+          <FilterMenuItem
+            items={profession}
+            label={pageLabels.professionFilter}
+            handleMenuClick={handleMenuClick}
+          />
+        </GridItem>
+
         <GridContainer direction="row">
           {data.map((d) => {
             return (

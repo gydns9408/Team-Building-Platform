@@ -18,8 +18,7 @@ const FilterItem = ({ item, form, label }) => {
 
   useEffect(() => {
     setLoading(false);
-  });
-  if (loading) return <div>Loading</div>;
+  }, []);
   return <Chip label={label}></Chip>;
 };
 
@@ -46,11 +45,7 @@ const FilterType = ({
             TransitionComponent={Fade}
           >
             {items.map((item) => {
-              return (
-                <Fragment>
-                  <MenuItem onClick={handleMenuClick}>{item.name}</MenuItem>;
-                </Fragment>
-              );
+              return <MenuItem onClick={handleMenuClick}>{item.name}</MenuItem>;
             })}
           </Menu>
         </div>

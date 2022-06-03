@@ -4,15 +4,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Chip from "@mui/material/Chip";
-import IconButton from "@mui/material/IconButton";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Fade from "@mui/material/Fade";
-
+import { Box } from "@mui/system";
 const styles = {
-  arrowIcon: {
-    position: "absolute",
-    right: 0,
-  },
   menu: {
     height: "20rem",
   },
@@ -33,11 +28,11 @@ const FilterItem = ({ items, label, handleMenuClick }) => {
     setAnchorEl(null);
   };
   useEffect(() => {
-    setLoading(false);
-  });
+    if (items !== undefined) setLoading(false);
+  }, [items]);
   if (loading) return <div>Loading</div>;
   return (
-    <div>
+    <Box component="ul">
       <Chip
         deleteIcon={<KeyboardArrowDownIcon />}
         label={label}
@@ -56,19 +51,18 @@ const FilterItem = ({ items, label, handleMenuClick }) => {
       >
         {items.map((item) => {
           return (
-            <Fragment>
-              <MenuItem
-                onClick={() => {
-                  handleMenuClick(item.name);
-                }}
-              >
-                {item.name}
-              </MenuItem>
-            </Fragment>
+            <MenuItem
+              key={item.name}
+              onClick={() => {
+                handleMenuClick(item.name);
+              }}
+            >
+              {item.name}
+            </MenuItem>
           );
         })}
       </Menu>
-    </div>
+    </Box>
   );
 };
 export default FilterItem;

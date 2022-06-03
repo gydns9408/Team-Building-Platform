@@ -3,7 +3,8 @@ import { styled } from "@mui/material/styles";
 import Chip from "@mui/material/Chip";
 import Image from "next/image";
 import IconButton from "@mui/material/IconButton";
-import Role from "./Role/Role";
+import Modal from "../../components/Modal/Modal";
+
 import { Box } from "@material-ui/core";
 const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
@@ -30,7 +31,6 @@ const Tag = (props) => {
   };
 
   React.useEffect(() => {
-    
     TagRequest().then(() => setLoading(false));
   }, []);
 
