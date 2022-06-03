@@ -9,6 +9,10 @@ const Layout = (props) => {
   return (
     <Fragment>
       <Head>
+        <link
+          href="https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css"
+          rel="stylesheet"
+        ></link>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link

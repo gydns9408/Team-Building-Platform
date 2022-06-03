@@ -24,7 +24,13 @@ export default function ChipsArray({ tags, type, form, children }) {
         ? tags.map((data) => {
             return (
               <ListItem key={data.id}>
-                <Tag name={data.name} type={type} form={form} />
+                <Tag
+                  name={data.name}
+                  type={type}
+                  form={form}
+                  team={data.team}
+                  role={data.id}
+                />
               </ListItem>
             );
           })

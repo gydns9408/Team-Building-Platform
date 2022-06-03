@@ -15,71 +15,42 @@ import Header from "../../../components/header/Header";
 // import ProfileHeaderImage from "../../../../pages-sections/profile/profileSections/SectionHeaderImage";
 import ProfilePublishedTab from "../../../pages-sections/profile/profileSections/SectionPublishedTab";
 
-
-
-
 const useStyles = makeStyles(styles);
 
-
-const requestProfileUpdate = async() => {
-
- 
-
-
-  
-  
-
-
-  
-
-  const data = await fetch (
-  `${process.env.HOSTNAME}/api/profile/${id}`,
-  {
+const requestProfileUpdate = async () => {
+  const data = await fetch(`${process.env.HOSTNAME}/api/profile/${id}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body : JSON.stringify(body)
-  }
-).then((response) => {
-  return response.json();
-})
-}
-
-const requestProfileUpdate2 = async(id) => {
-
-
-
-
-  const data = await fetch (
-    `${process.env.HOSTNAME}/api/profile/${id}`,
-    {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-    }
-  ).then((response) => {
+    body: JSON.stringify(body),
+  }).then((response) => {
     return response.json();
-  })
-  }
+  });
+};
 
-  const requestProfileUpdateViewCount = async(id) => {
+const requestProfileUpdate2 = async (id) => {
+  const data = await fetch(`${process.env.HOSTNAME}/api/profile/${id}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+  }).then((response) => {
+    return response.json();
+  });
+};
 
-    const data = await fetch (
-      `${process.env.HOSTNAME}/api/profile/${id}`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-      }
-    ).then((response) => {
-      return response.json();
-    })
-    }
-
+const requestProfileUpdateViewCount = async (id) => {
+  const data = await fetch(`${process.env.HOSTNAME}/api/profile/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+  }).then((response) => {
+    return response.json();
+  });
+};
 
 export default function CompetitionSearchPage({ data }) {
-  const {data: user} =useSession
+  const { data: user } = useSession;
   const classes = useStyles();
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const {data: session} =useSession()
+  const { data: session } = useSession();
   const [editing, setEditing] = React.useState(false);
 
   const handleEditing = () => {
@@ -88,41 +59,44 @@ export default function CompetitionSearchPage({ data }) {
 
   return (
     <>
-    {editing ? (
-      <ProfilePublishedTab
-      citizensValue={data[0]}
-      handleEditing={handleEditing}
-      />
-    ) : (
-    <Fragment>
-      <Header/>
-    <Button onClick={()=> 
-      handleEditing()
-      } 
-      variant="outlined" 
-      component="span"
-      >프로필 수정</Button>
-    <Card contestID={data}/>
-    <a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-    <Link
-      href={`${process.env.HOSTNAME}/profile/${router.query.id}`}
-       prefetch
-      passHref
-     >
-    <Button onClick={()=> 
-      handlePublished(data[0].user_id)
-      } 
-      variant="contained" 
-      component="span"
-      >좋아요</Button>
-    </Link>
-    <Card2 contestID={data}/>
-    <a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-
-    </Fragment>
-    
-    )
-    }
+      {editing ? (
+        <ProfilePublishedTab
+          citizensValue={data[0]}
+          handleEditing={handleEditing}
+        />
+      ) : (
+        <Fragment>
+          <Header />
+          <Button
+            onClick={() => handleEditing()}
+            variant="outlined"
+            component="span"
+          >
+            프로필 수정
+          </Button>
+          <Card contestID={data} />
+          <a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </a>
+          <Link
+            href={`${process.env.HOSTNAME}/profile/${router.query.id}`}
+            prefetch
+            passHref
+          >
+            <Button
+              onClick={() => handlePublished(data[0].user_id)}
+              variant="contained"
+              component="span"
+            >
+              좋아요
+            </Button>
+          </Link>
+          <Card2 contestID={data} />
+          <a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </a>
+        </Fragment>
+      )}
     </>
   );
 }
@@ -136,16 +110,12 @@ const handlePublishedViewCount = async (data) => {
 };
 
 export async function getServerSideProps(context) {
+  const { id } = context.query;
 
-  const {id} = context.query;
-
-  const data = await fetch(
-    `${process.env.HOSTNAME}/api/profile/${id}`,
-    {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    }
-  ).then((response) => {
+  const data = await fetch(`${process.env.HOSTNAME}/api/profile/${id}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  }).then((response) => {
     return response.json();
   });
 

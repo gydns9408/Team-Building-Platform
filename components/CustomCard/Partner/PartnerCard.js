@@ -9,7 +9,7 @@ import TagContainer from "../../Tags/TagsContainer";
 import { makeStyles } from "@material-ui/core/styles";
 import Link from "next/link";
 import GridContainer from "../../Grid/GridContainer";
-
+import Editor from "../../Editors/CKEditorTextEditor";
 
 const styles = {
   card: {
@@ -31,13 +31,15 @@ const PartnerCard = (props) => {
     setLoading(false);
   }, []);
 
-  useEffect(()=>{console.log(props)},[])
+  useEffect(() => {
+    console.log(props);
+  }, []);
 
-    if (loading) return <div>Loading...</div>;
+  if (loading) return <div>Loading...</div>;
   return (
     <Link
       href={`${process.env.HOSTNAME}/profile/${contestID.user.name}`}
-       prefetch
+      prefetch
       passHref
      >
         <Card className={classes.card + " " + className}>
@@ -67,13 +69,13 @@ const PartnerCard = (props) => {
                 <TagContainer tags={contestID.tech_stack}
                 type={"TechStack"}
                 form={"iconOnly"}
-                />
-              </CardContent>
-            </CardActionArea>
-          </GridContainer>
-        </Card>
-     </Link>
-   );
+              />
+            </CardContent>
+          </CardActionArea>
+        </GridContainer>
+      </Card>
+    </Link>
+  );
 };
 
 export default PartnerCard;

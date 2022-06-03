@@ -16,6 +16,8 @@ import ContestHeaderImage from "../../../../pages-sections/contest/tabSections/S
 import ContestPublishedTab from "../../../../pages-sections/contest/tabSections/SectionPublishedTab";
 //team section
 import TeamList from "../../../../pages-sections/team/teamSections/SectionTeamList";
+//svg
+
 
 const styles = {
   title: {
@@ -67,7 +69,10 @@ const BasicTabs = ({ data }) => {
     <MainLayout>
       <GridContainer direction="column" className={classes.contestHead}>
         <GridItem>
-          <ContestHeaderImage contestImage={data.constest_image_url} />
+          <ContestHeaderImage
+            editing={editing}
+            contestImage={data.constest_image_url}
+          />
         </GridItem>
         <GridItem>
           <Tabs

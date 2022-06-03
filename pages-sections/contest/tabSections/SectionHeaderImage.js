@@ -6,7 +6,7 @@ import GridItem from "../../../components/Grid/GridItem";
 import Button from "../../../components/CustomButtons/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { useRouter } from "next/router";
-import IconButton from '@mui/material/IconButton';
+import IconButton from "@mui/material/IconButton";
 
 const styles = {
   title: {
@@ -39,7 +39,7 @@ const imagePath = {
   path: "/asset/image/background/contest/",
 };
 
-const HeaderImage = ({ contestImage }) => {
+const HeaderImage = ({ contestImage, editing }) => {
   const router = useRouter();
   const [image, setImage] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
@@ -49,12 +49,14 @@ const HeaderImage = ({ contestImage }) => {
 
   const onImgChange = async (event) => {
     if (event.target.files && event.target.files[0]) {
-      const image = event.target.files[0];
+      const image = await event.target.files[0];
       setImage(image);
       setCreateObjectURL(URL.createObjectURL(image));
       setImageName(image.name);
+      return image;
     }
   };
+
   const uploadToServer = async () => {
     const body = new FormData();
     body.append("file", image);
@@ -120,14 +122,25 @@ const HeaderImage = ({ contestImage }) => {
     <GridContainer>
       <GridItem className={classes.contestHead}>
         <img src={createObjectURL} className={classes.image}></img>
-        <Button
-          variant="contained"
-          component="label"
-          className={classes.headerButton}
-        >
-          <input type="file" hidden onChange={onImgChange} />
-        </Button>
-        <Button onClick={handelStackSubmit}></Button>
+        {editing ? (
+          <Button
+            variant="contained"
+            component="label"
+            className={classes.headerButton}
+          >
+            <input
+              type="file"
+              hidden
+              onChange={(event) => {
+                onImgChange(event).then(() => {
+                  handelStackSubmit();
+                });
+              }}
+            />
+          </Button>
+        ) : (
+          ""
+        )}
       </GridItem>
     </GridContainer>
   );
