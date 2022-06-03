@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 
-const Editor = ({ onChangeHandle, editorLoaded, name, value, readOnly }) => {
+const Editor = ({ onChangeHandle, name, value, readOnly }) => {
   const editorRef = useRef(null);
   const [loading, setLoading] = useState(true);
   const { CKEditor, ClassicEditor } = editorRef.current || {};
@@ -21,25 +21,32 @@ const Editor = ({ onChangeHandle, editorLoaded, name, value, readOnly }) => {
   if (loading) return <div>loading...</div>;
 
   return (
-    <CKEditor
-      type=""
-      name={name}
-      disabled={readOnly === undefined ? defaultReadOnly : readOnly}
-      editor={ClassicEditor}
-      data={value}
-      onChange={(event, editor) => {
-        if (onChangeHandle !== undefined) onChangeHandle(editor.getData());
-      }}
-      onReady={(editor) => {
-        const toolbarElement = editor.ui.view.toolbar.element;
+    <Fragment>
+      <CKEditor
+        type=""
+        name={name}
+        disabled={readOnly === undefined ? defaultReadOnly : readOnly}
+        editor={ClassicEditor}
+        data={value}
+        onChange={(event, editor) => {
+          if (onChangeHandle !== undefined) onChangeHandle(editor.getData());
+        }}
+        onReady={(editor) => {
+          const toolbarElement = editor.ui.view.toolbar.element;
 
-        if (readOnly === undefined ? defaultReadOnly : readOnly) {
-          toolbarElement.style.display = "none";
-        } else {
-          toolbarElement.style.display = "flex";
-        }
-      }}
-    />
+          if (readOnly === undefined ? defaultReadOnly : readOnly) {
+            toolbarElement.style.display = "none";
+            document.querySelector(
+              ".ck.ck-editor__main>.ck-editor__editable:not(.ck-focused)"
+            ).style.borderColor = "#ffffff";
+          } else {
+            toolbarElement.style.display = "flex";
+          }
+        }}
+        style={`
+        border-color:#ffffff`}
+      />
+    </Fragment>
   );
 };
 

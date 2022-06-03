@@ -84,6 +84,8 @@ Table citizens {
   team_article TeamArticle [not null]
   Role Role [not null]
   Thread Thread [not null]
+  Comment Comment [not null]
+  commentId Int
 }
 
 Table profile {
@@ -270,6 +272,7 @@ Table content {
 Table comment {
   id Int [pk, increment]
   article_id Int [not null]
+  citizens Citizens [not null]
   body String [not null]
   likeCount Int [not null]
   article Article [not null]
@@ -406,6 +409,11 @@ Table CitizensToTeam {
 
 Table CitizensToRole {
   roleId Int [ref: > Role.id]
+  citizensId Int [ref: > Citizens.id]
+}
+
+Table CitizensToComment {
+  commentId Int [ref: > Comment.id]
   citizensId Int [ref: > Citizens.id]
 }
 

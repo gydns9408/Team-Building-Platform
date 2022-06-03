@@ -1,6 +1,4 @@
 import { useState, useEffect, useReducer } from "react";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
 import { makeStyles } from "@material-ui/core/styles";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 import IconButton from "@mui/material/IconButton";
@@ -24,8 +22,11 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import GradeIcon from "@mui/icons-material/Grade";
 import Editor from "../../../components/Editors/CKEditorTextEditor";
 
+import Treasure from "../../../svg/contest/Treasure.svg";
+
 import moment from "moment";
 import Fade from "@mui/material/Fade";
+import SectionComments from "../../comment/SectionComments";
 const pageLabels = {
   edittingButton: "수정",
   deleteButton: "삭제",
@@ -52,6 +53,7 @@ const styles = {
     height: "2rem",
     width: "2rem",
     alignItems: "center",
+    flex: "auto",
   },
   iconContain: {
     marginRight: "0.5rem",
@@ -61,6 +63,9 @@ const styles = {
     width: "2rem",
     marginLeft: "100%",
     left: "100%",
+  },
+  editor: {
+    border: "none",
   },
   menu: {
     height: "20rem",
@@ -100,6 +105,11 @@ const Overview = ({ article, contest, professions, handleEditing }) => {
             <GridItem className={classes.titleContain} xs={10} sm={10} md={10}>
               <p className={classes.title}>{article.content.title}</p>
               <p>{moment(article.createdAt).format("YYYY.MM.DD")}</p>
+              <TagsContainer
+                tags={contest.Tag}
+                type={"Tag"}
+                form={"textOnly"}
+              />
             </GridItem>
             <GridItem xs={1} sm={1} md={1}>
               <IconButton className={classes.iconMenuIcon}>
@@ -160,39 +170,47 @@ const Overview = ({ article, contest, professions, handleEditing }) => {
       <GridItem xs={12} sm={12} md={12}>
         <GridContainer direction="row" spacing={3}>
           <GridItem xs={9} sm={9} md={9}>
-            <Editor
-              name={article.content.title}
-              value={article.content.body}
-              readOnly={true}
-            ></Editor>
+            <Card>
+              <Editor
+                name={article.content.title}
+                value={article.content.body}
+                readOnly={true}
+              ></Editor>
+            </Card>
           </GridItem>
           <GridItem xs={3} sm={3} md={3}>
-            <GridContainer direction="column" spacing={3}>
-              <GridItem>{contest.name}</GridItem>
-              <GridItem>{contest.prize}</GridItem>
-              <GridItem>
-                <Editor
-                  name={contest.name}
-                  value={contest.content}
-                  readOnly={true}
-                ></Editor>
-              </GridItem>
+            <Card>
+              <GridContainer direction="column" spacing={3}>
+                <GridItem>{contest.name}</GridItem>
+                <GridItem>
+                  <Treasure className={classes.icon} />
+                  {contest.prize}
+                </GridItem>
+                <GridItem>
+                  <Editor
+                    name={contest.name}
+                    value={contest.content}
+                    readOnly={true}
+                  ></Editor>
+                </GridItem>
 
-              {`${moment(contest.start_period).format("YYYY.MM.DD")}~ ${moment(
-                contest.end_period
-              ).format("YYYY.MM.DD")}`}
-              {/* {contest.Tag[0]} */}
-
-              <GridItem>
-                <TagsContainer
-                  tags={contest.tech_stack}
-                  type="TechStack"
-                  form="iconOnly"
-                ></TagsContainer>
-              </GridItem>
-            </GridContainer>
+                {`${moment(contest.start_period).format(
+                  "YYYY.MM.DD"
+                )}~ ${moment(contest.end_period).format("YYYY.MM.DD")}`}
+                <GridItem>
+                  <TagsContainer
+                    tags={contest.tech_stack}
+                    type="TechStack"
+                    form="iconOnly"
+                  ></TagsContainer>
+                </GridItem>
+              </GridContainer>
+            </Card>
           </GridItem>
         </GridContainer>
+      </GridItem>
+      <GridItem>
+        <SectionComments />
       </GridItem>
     </GridContainer>
   );

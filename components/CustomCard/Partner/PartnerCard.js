@@ -9,7 +9,7 @@ import TagContainer from "../../Tags/TagsContainer";
 import { makeStyles } from "@material-ui/core/styles";
 import Link from "next/link";
 import GridContainer from "../../Grid/GridContainer";
-
+import Editor from "../../Editors/CKEditorTextEditor";
 
 const styles = {
   card: {
@@ -31,45 +31,54 @@ const PartnerCard = (props) => {
     setLoading(false);
   }, []);
 
-  useEffect(()=>{console.log(props)},[])
+  useEffect(() => {
+    console.log(props);
+  }, []);
 
-    if (loading) return <div>Loading...</div>;
+  if (loading) return <div>Loading...</div>;
   return (
     <Link
       href={`${process.env.HOSTNAME}/profile/${contestID.user.name}`}
-       prefetch
+      prefetch
       passHref
-     >
-        <Card className={classes.card + " " + className}>
-          <GridContainer direction="row" spacing={2} xs={12} sm={12} md={12}>
-            <CardActionArea>
-              <CardContent>
-                <CardHeader
-                  avatar={
-                    <Avatar
-                      alt="photo"
-                      src={
-                        contestID.user.image !== null
-                          ? `${contestID.user.image}`
-                          : `/asset/image/background/contest/default.svg`
-                      }
-                    />
-                  }
-                  title={contestID.user.name}
-                  subheader={contestID.user.id}
+    >
+      <Card className={classes.card + " " + className}>
+        <GridContainer direction="row" spacing={2} xs={12} sm={12} md={12}>
+          <CardActionArea>
+            <CardContent>
+              <CardHeader
+                avatar={
+                  <Avatar
+                    alt="photo"
+                    src={
+                      contestID.user.image !== null
+                        ? `${contestID.user.image}`
+                        : `/asset/image/background/contest/default.svg`
+                    }
+                  />
+                }
+                title={contestID.user.name}
+                subheader={contestID.user.id}
               />
-                <Typography>{contestID.profile.content}</Typography>
-                <h3><li>기술스택</li></h3>
-                <TagContainer tags={contestID.tech_stack}
+              <Editor
+                value={contestID.profile.content}
+                name={contestID.user.name}
+                readOnly={true}
+              ></Editor>
+              <p>
+                <li>기술스택</li>
+              </p>
+              <TagContainer
+                tags={contestID.tech_stack}
                 type={"TechStack"}
                 form={"iconOnly"}
-                />
-              </CardContent>
-            </CardActionArea>
-          </GridContainer>
-        </Card>
-     </Link>
-   );
+              />
+            </CardContent>
+          </CardActionArea>
+        </GridContainer>
+      </Card>
+    </Link>
+  );
 };
 
 export default PartnerCard;

@@ -71,21 +71,6 @@ const SectionTeamList = ({ contest }) => {
       });
   }, []);
   useEffect(() => {}, [teamList]);
-
-  // useEffect(() => {
-  //   if (currentProfession !== undefined) {
-  //     router.push(
-  //       `/contest/${currentPage}?currentProfession=${currentProfession}`
-  //     );
-  //   } else {
-  //     router.push(`/contest/${currentPage}`);
-  //   }
-  // }, [currentPage]);
-  // useEffect(() => {
-  //   if (currentProfession !== undefined) {
-  //     router.push(`/contest/1?currentProfession=${currentProfession}`);
-  //   }
-  // }, [currentProfession]);
   const handelPageChange = (page) => {
     setCurrentPage(page);
   };
@@ -109,13 +94,13 @@ const SectionTeamList = ({ contest }) => {
             console.log(d);
             return (
               <GridItem
-                key={d.id}
+                key={d.article_id}
                 xs={4}
                 sm={4}
                 md={4}
                 className={classes.listItem}
               >
-                <TeamCard contestID={d.id} />
+                <TeamCard contestID={d.article_id} />
               </GridItem>
             );
           }

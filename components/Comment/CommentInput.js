@@ -1,0 +1,65 @@
+import Editor from "../Editors/CKEditorTextEditor";
+import { useRouter } from "next/router";
+import Button from "../CustomButtons/Button";
+import { useState, useEffect, useReducer, Fragment } from "react";
+import { getSession, useSession, signIn, signOut } from "next-auth/react";
+
+const reqCommentPost = async (articleID, comment, userId) => {
+  console.log(articleID, comment);
+  const body = {
+    comment: {
+      create: {
+        body: comment,
+        likeCount: 0,
+        citizens: {
+          connect: {
+            user_id: userId,
+          },
+        },
+      },
+    },
+  };
+  const data = await fetch(
+    `${process.env.HOSTNAME}/api/comment/${articleID}/`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    }
+  ).then(async (response) => {
+    return await response.json();
+  });
+  return data;
+};
+
+const CommentInput = () => {
+  const router = useRouter();
+  const { data: session, status } = useSession();
+  const [comment, setComment] = useState("");
+
+  const onChangeHandle = (data) => {
+    setComment(data);
+  };
+  useEffect(() => {
+    console.log(comment);
+  }, [comment]);
+  return (
+    <div>
+      <Editor
+        name={"commentInput"}
+        readOnly={false}
+        value={""}
+        onChangeHandle={onChangeHandle}
+      ></Editor>
+      <Button
+        onClick={async () => {
+          await reqCommentPost(router.query.id, comment, session.user.id);
+        }}
+      >
+        버튼
+      </Button>
+    </div>
+  );
+};
+
+export default CommentInput;

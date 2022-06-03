@@ -16,6 +16,12 @@ import CardHeader from "../../../../components/Card/CardHeader";
 
 import styles from "../../../../styles/jss/nextjs-material-kit/pages/landingPageSections/teamStyle.js";
 import MainLayout from "../../../../components/Layout/MainLayout";
+import Editor from "../../../../components/Editors/CKEditorTextEditor";
+import Role from "../../../../components/Tags/Role/Role";
+import Tag from "../../../../components/Tags/Tag";
+import CommentItem from "../../../../components/Comment/CommentItem";
+import moment from "moment";
+import SectionComments from "../../../../pages-sections/comment/SectionComments";
 
 // const styles = {
 //   title: {
@@ -47,14 +53,22 @@ const Overview = ({ data }) => {
           <GridItem xs={1} sm={1} md={1}></GridItem>
           <GridItem xs={11} sm={11} md={11}>
             <Typography variant="h6">{data.article.content.title}</Typography>
-            <Typography>{data.article.createdAt}</Typography>
+            <Typography>
+              {moment(data.article.createdAt).format("YYYY.MM.DD")}
+            </Typography>
             <Typography>{data.article.viewCount}</Typography>
             <Typography>{data.article.likeCount}</Typography>
           </GridItem>
         </GridContainer>
         <GridContainer direction="row" spacing={3}>
-          <GridItem xs={9} sm={9} md={9}>
-            <Typography>{data.article.content.body}</Typography>
+          <GridItem>
+            <Card>
+              <Editor
+                name={data.article.content.title}
+                value={data.article.content.body}
+                readOnly={true}
+              ></Editor>
+            </Card>
           </GridItem>
           <GridContainer direction="column" spacing={3} xs={3} sm={3} md={3}>
             <GridItem>
@@ -63,9 +77,17 @@ const Overview = ({ data }) => {
                 type="TechStack"
                 form="iconOnly"
               ></TagsContainer>
+              {data.team.role.map((role) => {
+                return (
+                  <Tag name={role.name} type="Role" form="role">
+                    <Role team={data.team.id} role={role.id} />
+                  </Tag>
+                );
+              })}
             </GridItem>
           </GridContainer>
         </GridContainer>
+        <SectionComments></SectionComments>
       </GridContainer>
     </MainLayout>
   );

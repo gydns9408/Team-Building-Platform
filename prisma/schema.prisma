@@ -109,6 +109,8 @@ model Citizens {
   team_article     TeamArticle[]
   Role             Role[]
   Thread           Thread[]
+  Comment          Comment[]
+  commentId        Int?
   @@map("citizens")
 }
 
@@ -356,8 +358,9 @@ model Comment {
   id         Int @id @default(autoincrement())
   article_id Int
 
-  body      String @db.Text
-  likeCount Int    @db.Int
+  citizens  Citizens[]
+  body      String     @db.Text
+  likeCount Int        @db.Int
 
   article   Article  @relation(fields: [article_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   createdAt DateTime @default(now()) @map("created_at")

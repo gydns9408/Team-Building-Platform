@@ -13,6 +13,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useRouter } from "next/router";
 import FilrerContainer from "../../../components/Article/PageFiler/FilerContain";
 import FilterMenuItem from "../../../components/Article/PageFiler/FilterMenuItem";
+
 // import FilterToggleItem from "../../../components/Article/PageFiler/FilterToggleItem";
 
 import Button from "../../../components/CustomButtons/Button";
@@ -106,13 +107,13 @@ export default function CompetitionSearchPage({ data, maxPage, profession }) {
           {data.map((d) => {
             return (
               <GridItem
-                key={d.id}
+                key={d.article_id}
                 xs={4}
                 sm={4}
                 md={4}
                 className={classes.listItem}
               >
-                <ContestCard contestID={d.id} />
+                <ContestCard contestID={d.article_id} />
               </GridItem>
             );
           })}

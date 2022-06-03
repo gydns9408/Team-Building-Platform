@@ -88,7 +88,7 @@ const articleIncludeOption = (type) => {
       return {
         tech_stack: true,
         profession: true,
-        role: true,
+        role: { include: { team: true, citizens: true } },
         citizens: true,
       };
     default:
