@@ -63,7 +63,6 @@ const ContestCard = (props) => {
   useEffect(() => {
     contestRequest(contestID)
       .then((data) => {
-        console.log(data);
         setTeam(data);
       })
       .then(() => {
