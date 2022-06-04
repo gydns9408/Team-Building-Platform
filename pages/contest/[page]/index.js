@@ -102,7 +102,6 @@ export default function CompetitionSearchPage({ data, maxPage, profession }) {
             handleMenuClick={handleMenuClick}
           />
         </GridItem>
-
         <GridContainer direction="row">
           {data.map((d) => {
             return (
@@ -118,7 +117,7 @@ export default function CompetitionSearchPage({ data, maxPage, profession }) {
             );
           })}
         </GridContainer>
-        <GridItem xs={12} sm={12} md={12}>
+        <GridItem xs={12} sm={12} md={12} justifyContent={"center"}>
           <Paginations
             currentPage={currentPage}
             MaxPage={maxPage}

@@ -23,14 +23,9 @@ import CommentItem from "../../../../components/Comment/CommentItem";
 import moment from "moment";
 import SectionComments from "../../../../pages-sections/comment/SectionComments";
 
-// const styles = {
-//   title: {
-//     alignItems: "center",
-//   },
-//   body: {
-//     margin: "2rem",
-//   },
-// };
+const pageLabels = {
+  roleLabel: "모집 분야",
+};
 
 const useStyles = makeStyles(styles);
 
@@ -48,46 +43,64 @@ const Overview = ({ data }) => {
 
   return (
     <MainLayout>
-      <GridContainer direction="column" spacing={3}>
-        <GridContainer direction="row" spacing={3}>
-          <GridItem xs={1} sm={1} md={1}></GridItem>
-          <GridItem xs={11} sm={11} md={11}>
-            <Typography variant="h6">{data.article.content.title}</Typography>
-            <Typography>
-              {moment(data.article.createdAt).format("YYYY.MM.DD")}
-            </Typography>
-            <Typography>{data.article.viewCount}</Typography>
-            <Typography>{data.article.likeCount}</Typography>
-          </GridItem>
-        </GridContainer>
-        <GridContainer direction="row" spacing={3}>
-          <GridItem>
-            <Card>
-              <Editor
-                name={data.article.content.title}
-                value={data.article.content.body}
-                readOnly={true}
-              ></Editor>
-            </Card>
-          </GridItem>
-          <GridContainer direction="column" spacing={3} xs={3} sm={3} md={3}>
-            <GridItem>
-              <TagsContainer
-                tags={data.team.tech_stack}
-                type="TechStack"
-                form="iconOnly"
-              ></TagsContainer>
-              {data.team.role.map((role) => {
-                return (
-                  <Tag name={role.name} type="Role" form="role">
-                    <Role team={data.team.id} role={role.id} />
-                  </Tag>
-                );
-              })}
+      <GridContainer direction="column">
+        <GridItem>
+          <GridContainer direction="row">
+            <GridItem xs={12} sm={12} md={12}>
+              <Typography variant="h6">{data.article.content.title}</Typography>
+              <Typography>
+                {moment(data.article.createdAt).format("YYYY.MM.DD")}
+              </Typography>
+              <Typography>{data.article.viewCount}</Typography>
+              <Typography>{data.article.likeCount}</Typography>
             </GridItem>
           </GridContainer>
-        </GridContainer>
-        <SectionComments></SectionComments>
+        </GridItem>
+        <GridItem>
+          <Card>
+            <Editor
+              name={data.article.content.title}
+              value={data.article.content.body}
+              readOnly={true}
+            ></Editor>
+          </Card>
+        </GridItem>
+        <GridItem>{pageLabels.roleLabel}</GridItem>
+        <Card>
+          {data.team.role.map((role) => {
+            console.log(role);
+            return (
+              <GridItem xs={12} sm={12} md={12}>
+                <Tag
+                  name={role.name}
+                  type={"Role"}
+                  form={"role"}
+                  team={role.team}
+                  role={role.id}
+                >
+                  <p>{role.description}</p>
+                </Tag>
+                <Role
+                  // className={classes.avatarIcon}
+                  team={data.team.id}
+                  role={role.id}
+                />
+              </GridItem>
+            );
+          })}
+        </Card>
+        {/* <GridContainer direction="column" spacing={3} xs={3} sm={3} md={3}>
+          <GridItem>
+            <TagsContainer
+              tags={data.team.tech_stack}
+              type="TechStack"
+              form="iconOnly"
+            ></TagsContainer>
+          </GridItem>
+        </GridContainer> */}
+        <GridItem>
+          <SectionComments />
+        </GridItem>
       </GridContainer>
     </MainLayout>
   );

@@ -5,7 +5,6 @@ import { useState, useEffect, useReducer, Fragment } from "react";
 import { getSession, useSession, signIn, signOut } from "next-auth/react";
 
 const reqCommentPost = async (articleID, comment, userId) => {
-  console.log(articleID, comment);
   const body = {
     comment: {
       create: {
@@ -40,9 +39,7 @@ const CommentInput = () => {
   const onChangeHandle = (data) => {
     setComment(data);
   };
-  useEffect(() => {
-    console.log(comment);
-  }, [comment]);
+  useEffect(() => {}, [comment]);
   return (
     <div>
       <Editor
@@ -53,7 +50,11 @@ const CommentInput = () => {
       ></Editor>
       <Button
         onClick={async () => {
-          await reqCommentPost(router.query.id, comment, session.user.id);
+          await reqCommentPost(router.query.id, comment, session.user.id).then(
+            () => {
+              router.reload(window.location.pathname);
+            }
+          );
         }}
       >
         버튼

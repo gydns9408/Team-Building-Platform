@@ -30,9 +30,17 @@ export default function MainPage() {
     <MainLayout>
       <GridContainer direction="row" spacing={2}>
         <Grid xs={6} sm={6} md={6}>
-          <Typography variant="h2">{headCopy}</Typography>
-          <Typography variant="subtitle1">{subCopy}</Typography>
-          <Typography variant="body1">{content}</Typography>
+          <GridContainer direction="column" spacing={2}>
+            <Grid>
+              <Typography variant="h2">{headCopy}</Typography>
+            </Grid>
+            <Grid>
+              <Typography variant="subtitle1">{subCopy}</Typography>
+            </Grid>
+            <Grid>
+              <Typography variant="body1">{content}</Typography>
+            </Grid>
+          </GridContainer>
         </Grid>
         <Grid xs={6} sm={6} md={6}>
           <MainSVG />

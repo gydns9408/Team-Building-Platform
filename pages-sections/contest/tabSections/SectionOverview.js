@@ -53,7 +53,7 @@ const styles = {
     height: "2rem",
     width: "2rem",
     alignItems: "center",
-    flex: "auto",
+    marginLeft: "0.2rem",
   },
   iconContain: {
     marginRight: "0.5rem",
@@ -62,7 +62,7 @@ const styles = {
     height: "2rem",
     width: "2rem",
     marginLeft: "100%",
-    left: "100%",
+    // left: "100%",
   },
   editor: {
     border: "none",
@@ -98,75 +98,76 @@ const Overview = ({ article, contest, professions, handleEditing }) => {
 
   return (
     <GridContainer direction="column" spacing={3}>
-      <GridContainer direction="row">
-        <GridItem xs={12} sm={12} md={12}>
-          <GridContainer direction="row">
+      <GridItem xs={12} sm={12} md={12}>
+        <GridContainer direction="row">
+          <GridItem xs={1} sm={1} md={1}>
             <ProfessionsLabel data={professions} />
-            <GridItem className={classes.titleContain} xs={10} sm={10} md={10}>
-              <p className={classes.title}>{article.content.title}</p>
-              <p>{moment(article.createdAt).format("YYYY.MM.DD")}</p>
-              <TagsContainer
-                tags={contest.Tag}
-                type={"Tag"}
-                form={"textOnly"}
-              />
-            </GridItem>
-            <GridItem xs={1} sm={1} md={1}>
-              <IconButton className={classes.iconMenuIcon}>
-                <MoreVertOutlinedIcon
-                  aria-controls={open ? "fade-menu" : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? "true" : undefined}
-                  onClick={handleClick}
+          </GridItem>
+          <GridItem className={classes.titleContain} xs={9} sm={9} md={9}>
+            <GridContainer direction="column">
+              <GridItem>
+                <p className={classes.title}>{article.content.title}</p>
+              </GridItem>
+              <GridItem>
+                <p>{moment(article.createdAt).format("YYYY.MM.DD")}</p>
+              </GridItem>
+              <GridItem>
+                <TagsContainer
+                  tags={contest.Tag}
+                  type={"Tag"}
+                  form={"textOnly"}
                 />
-              </IconButton>
-              <Menu
-                className={classes.menu}
-                MenuListProps={{
-                  "aria-labelledby": "fade-button",
+              </GridItem>
+            </GridContainer>
+          </GridItem>
+          <GridItem xs={1} sm={1} md={1}>
+            <IconButton className={classes.iconMenuIcon}>
+              <MoreVertOutlinedIcon
+                aria-controls={open ? "fade-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={handleClick}
+              />
+            </IconButton>
+            <Menu
+              className={classes.menu}
+              MenuListProps={{
+                "aria-labelledby": "fade-button",
+              }}
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              TransitionComponent={Fade}
+            >
+              <MenuItem
+                onClick={() => {
+                  handleEditing();
+                  handleClose();
                 }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                TransitionComponent={Fade}
               >
-                <MenuItem
-                  onClick={() => {
-                    handleEditing();
-                    handleClose();
-                  }}
-                >
-                  {pageLabels.edittingButton}
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    handleClose();
-                  }}
-                >
-                  {pageLabels.deleteButton}
-                </MenuItem>
-              </Menu>
-            </GridItem>
-          </GridContainer>
-        </GridItem>
-        <GridItem>
-          <GridContainer
-            direction="row-reverse"
-            justifyContent="flex-start"
-            alignItems="center"
-          >
-            <GridContainer alignItems="center" className={classes.iconContain}>
-              <VisibilityIcon className={classes.icon} />
-              <p>{article.viewCount}</p>
-            </GridContainer>
-            <GridContainer alignItems="center" className={classes.iconContain}>
-              <GradeIcon className={classes.icon} />
-              <p>{article.likeCount}</p>
-            </GridContainer>
-          </GridContainer>
-        </GridItem>
-      </GridContainer>
-
+                {pageLabels.edittingButton}
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                }}
+              >
+                {pageLabels.deleteButton}
+              </MenuItem>
+            </Menu>
+          </GridItem>
+        </GridContainer>
+      </GridItem>
+      <GridItem>
+        <GridContainer direction="row-reverse" justifyContent="flex-start">
+          <GridItem xs={1} sm={1} md={1}>
+            <VisibilityIcon className={classes.icon} />
+            <p>{article.viewCount}</p>
+            <GradeIcon className={classes.icon} />
+            <p>{article.likeCount}</p>
+          </GridItem>
+        </GridContainer>
+      </GridItem>
       <GridItem xs={12} sm={12} md={12}>
         <GridContainer direction="row" spacing={3}>
           <GridItem xs={9} sm={9} md={9}>

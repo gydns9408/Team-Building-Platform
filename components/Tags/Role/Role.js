@@ -12,7 +12,7 @@ const reqCitizen = async (team, role) => {
   return data;
 };
 
-const Role = ({ team, role }) => {
+const Role = ({ team, role, className }) => {
   const [loading, setLoading] = useState(true);
   const [userInfo, setUserInfo] = useState([]);
   useEffect(() => {
@@ -36,7 +36,11 @@ const Role = ({ team, role }) => {
             href={`${process.env.HOSTNAME}/profile/${user.user.name}`}
             passHref
           >
-            <Avatar src={user.user.image}></Avatar>
+            <Avatar
+              className={className}
+              src={user.user.image}
+              sx={{ width: 8, height: 8 }}
+            ></Avatar>
           </Link>
         );
       })}

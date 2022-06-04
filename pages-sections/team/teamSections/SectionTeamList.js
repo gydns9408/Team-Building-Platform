@@ -17,7 +17,7 @@ const pageLabels = {
 
 const styled = {
   listItem: {
-    padding: "5.625rem",
+    padding: "4rem",
   },
 };
 
@@ -106,7 +106,7 @@ const SectionTeamList = ({ contest }) => {
           }
         })}
       </GridContainer>
-      <GridItem xs={12} sm={12} md={12}>
+      <GridItem xs={12} sm={12} md={12} justifyContent={"center"}>
         <Paginations
           currentPage={currentPage}
           MaxPage={maxPage}

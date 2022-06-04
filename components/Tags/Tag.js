@@ -7,6 +7,8 @@ import Modal from "../../components/Modal/Modal";
 import SectionTagsView from "../../pages-sections/tags/SectionTagsView";
 import { Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import GridContainer from "../Grid/GridContainer";
+import GridItem from "../Grid/GridItem";
 
 const TagRequest = async (type, name) => {
   const data = await fetch(`${process.env.HOSTNAME}/api/tags/${type}/${name}`, {
@@ -25,7 +27,19 @@ const styles = {
     width: "5rem",
   },
   iconLabel: {
-    fontSize: "1rem",
+    fontSize: "0.8rem",
+    color: "#98A8B9",
+    fontFamily: "SCDream1",
+    alignItems: "center",
+    display: "inline-flex",
+    marginLeft: "0.5rem",
+  },
+  roleContain: {
+    marginBottom: "1rem",
+    marginTop: "1rem",
+  },
+  roleChildren: {
+    padding: "0.5rem",
   },
 };
 
@@ -152,16 +166,23 @@ const Tag = ({ name, type, form, children }) => {
       case "role":
         return (
           <Box>
-            <Image
-              src={
-                getTagInfo.image_url !== null
-                  ? getTagInfo.image_url
-                  : `/asset/image/background/contest/default.svg`
-              }
-              width={32}
-              height={32}
-            />
-            {children}
+            <GridContainer direction="column">
+              <GridItem>
+                <GridContainer direction="row" className={classes.roleContain}>
+                  <Image
+                    src={
+                      getTagInfo.image_url !== null
+                        ? getTagInfo.image_url
+                        : `/asset/image/background/contest/default.svg`
+                    }
+                    width={32}
+                    height={32}
+                  />
+                  <p className={classes.iconLabel}>{getTagInfo.name}</p>
+                </GridContainer>
+              </GridItem>
+              <GridItem className={classes.roleChildren}>{children}</GridItem>
+            </GridContainer>
           </Box>
         );
       default:

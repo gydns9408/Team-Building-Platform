@@ -29,7 +29,7 @@ const styles = {
   card: {
     width: "100%",
     justifyContent: "center",
-    height: "100%",
+    height: "auto",
   },
   image: {
     width: "100%",
@@ -82,7 +82,6 @@ const styles = {
   footerContainer: {
     width: "100%",
     alignItems: "center",
-    // padding: "inherit",
   },
 };
 

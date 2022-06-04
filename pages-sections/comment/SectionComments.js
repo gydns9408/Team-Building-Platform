@@ -23,7 +23,6 @@ const SectionComments = () => {
   const { data: section, state } = useSession();
 
   useState(() => {
-    console.log(router.query);
     reqComments(router.query.id).then((data) => {
       setComments(data[0].comment, setLoading(false));
     });

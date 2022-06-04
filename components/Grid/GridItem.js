@@ -10,6 +10,7 @@ const styles = {
     position: "relative",
     width: "100%",
     minHeight: "1px",
+    display: "flex",
   },
 };
 
