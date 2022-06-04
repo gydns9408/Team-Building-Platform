@@ -61,7 +61,7 @@ const styles = {
     fontSize: "1.5rem",
   },
   body: {
-    height: "10rem",
+    height: "6rem",
     overflowY: "scroll",
     overflowX: "hidden",
     fontSize: "0.95rem",

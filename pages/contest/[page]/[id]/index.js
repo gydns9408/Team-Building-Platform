@@ -19,6 +19,7 @@ import TeamList from "../../../../pages-sections/team/teamSections/SectionTeamLi
 //svg
 
 
+
 const styles = {
   title: {
     borderBottom: "0.5px",

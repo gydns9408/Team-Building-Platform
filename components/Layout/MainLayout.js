@@ -5,7 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import Head from "next/head";
 
-const Layout = (props) => {
+const Layout = ({ children }) => {
   return (
     <Fragment>
       <Head>
@@ -23,7 +23,7 @@ const Layout = (props) => {
       <Header />
       <Box sx={{ mx: 9.125 }}>
         <CssBaseline />
-        {props.children}
+        {children}
       </Box>
     </Fragment>
   );

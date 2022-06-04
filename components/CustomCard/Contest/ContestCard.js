@@ -64,10 +64,10 @@ const styles = {
     fontSize: "1.5rem",
   },
   body: {
-    height: "10rem",
+    height: "6rem",
     overflowY: "scroll",
     overflowX: "hidden",
-    fontSize: "0.95rem",
+    fontSize: "1rem",
     color: "#98A8B9",
   },
   prize: { display: "flex", placeContent: "flex-end" },

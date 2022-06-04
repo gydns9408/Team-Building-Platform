@@ -187,8 +187,12 @@ const Header = () => {
     right = (
       <div className="right">
         <Link href="/profile" passHref>
-          <Avatar src={session.user.image}></Avatar>
+          <div>
+            <Avatar src={session.user.image}></Avatar>
+            {/* <p>{session.user.name}</p> */}
+          </div>
         </Link>
+
         <style jsx>{`
           a {
             text-decoration: none;

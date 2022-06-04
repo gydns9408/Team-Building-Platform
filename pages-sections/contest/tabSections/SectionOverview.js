@@ -23,13 +23,20 @@ import GradeIcon from "@mui/icons-material/Grade";
 import Editor from "../../../components/Editors/CKEditorTextEditor";
 
 import Treasure from "../../../svg/contest/Treasure.svg";
-
 import moment from "moment";
+import Parser from "html-react-parser";
 import Fade from "@mui/material/Fade";
 import SectionComments from "../../comment/SectionComments";
+import { Box } from "@mui/system";
+
 const pageLabels = {
   edittingButton: "수정",
   deleteButton: "삭제",
+  contestOverview: "대회 개요",
+  contestPrize: "상금",
+  contestPeriod: "대회 기간",
+  contestTechStack: "기술 스택",
+  prize: "원",
 };
 
 const styles = {
@@ -48,12 +55,15 @@ const styles = {
   },
   body: {
     margin: "2rem",
+    color: "#263747",
+    fontFamily: "SCDream3",
+    fontSize: "1rem",
   },
   icon: {
     height: "2rem",
     width: "2rem",
     alignItems: "center",
-    marginLeft: "0.2rem",
+    marginRight: "1rem",
   },
   iconContain: {
     marginRight: "0.5rem",
@@ -62,13 +72,33 @@ const styles = {
     height: "2rem",
     width: "2rem",
     marginLeft: "100%",
-    // left: "100%",
   },
   editor: {
     border: "none",
   },
   menu: {
     height: "20rem",
+  },
+  card: {
+    padding: "2.5rem",
+    margin: "0",
+  },
+  overviewItem: {
+    alignItems: "start",
+    justifyContent: "center",
+    paddingRight: "1rem",
+  },
+  overviewBody: {
+    fontSize: "1rem",
+  },
+  borderRight: {
+    borderRight: "0.0625rem solid #D7E2EB",
+  },
+  subTitle: {
+    marginTop: "1rem",
+    marginBottom: "1.5rem",
+    fontFamily: "SCDream4",
+    fontWeight: "bold",
   },
 };
 
@@ -156,59 +186,103 @@ const Overview = ({ article, contest, professions, handleEditing }) => {
               </MenuItem>
             </Menu>
           </GridItem>
-        </GridContainer>
-      </GridItem>
-      <GridItem>
-        <GridContainer direction="row-reverse" justifyContent="flex-start">
-          <GridItem xs={1} sm={1} md={1}>
-            <VisibilityIcon className={classes.icon} />
-            <p>{article.viewCount}</p>
-            <GradeIcon className={classes.icon} />
-            <p>{article.likeCount}</p>
+          <GridItem>
+            <GridContainer direction="row-reverse" justifyContent="flex-start">
+              <GridItem xs={1} sm={1} md={1}>
+                <VisibilityIcon className={classes.icon} />
+                <p>{article.viewCount}</p>
+                <GradeIcon className={classes.icon} />
+                <p>{article.likeCount}</p>
+              </GridItem>
+            </GridContainer>
           </GridItem>
-        </GridContainer>
-      </GridItem>
-      <GridItem xs={12} sm={12} md={12}>
-        <GridContainer direction="row" spacing={3}>
-          <GridItem xs={9} sm={9} md={9}>
-            <Card>
-              <Editor
-                name={article.content.title}
-                value={article.content.body}
-                readOnly={true}
-              ></Editor>
-            </Card>
-          </GridItem>
-          <GridItem xs={3} sm={3} md={3}>
-            <Card>
-              <GridContainer direction="column" spacing={3}>
-                <GridItem>{contest.name}</GridItem>
-                <GridItem>
-                  <Treasure className={classes.icon} />
-                  {contest.prize}
+          <GridItem xs={12} sm={12} md={12}>
+            <Card className={classes.card}>
+              <GridContainer direction="row" spacing={3}>
+                <GridItem
+                  xs={3}
+                  sm={3}
+                  md={3}
+                  className={classes.overviewItem + " " + classes.borderRight}
+                >
+                  <GridContainer direction="column">
+                    <GridItem className={classes.subTitle}>
+                      {pageLabels.contestOverview}
+                    </GridItem>
+                    <GridItem>
+                      <p className={classes.overviewBody}>{contest.name}</p>
+                    </GridItem>
+                    <GridItem className={classes.overviewBody}>
+                      <p className={classes.overviewBody}>
+                        <div>{Parser(contest.content)}</div>
+                      </p>
+                    </GridItem>
+                  </GridContainer>
                 </GridItem>
-                <GridItem>
-                  <Editor
-                    name={contest.name}
-                    value={contest.content}
-                    readOnly={true}
-                  ></Editor>
+                <GridItem
+                  xs={3}
+                  sm={3}
+                  md={3}
+                  className={classes.overviewItem + " " + classes.borderRight}
+                >
+                  <GridContainer direction="column">
+                    <GridItem className={classes.subTitle}>
+                      {pageLabels.contestPeriod}
+                    </GridItem>
+                    <GridItem className={classes.overviewBody}>
+                      <p className={classes.overviewBody}>
+                        {`${moment(contest.start_period).format(
+                          "YYYY.MM.DD"
+                        )}~ ${moment(contest.end_period).format("YYYY.MM.DD")}`}
+                      </p>
+                    </GridItem>
+                  </GridContainer>
                 </GridItem>
+                <GridItem
+                  xs={3}
+                  sm={3}
+                  md={3}
+                  className={classes.overviewItem + " " + classes.borderRight}
+                >
+                  <GridContainer direction="column">
+                    <GridItem className={classes.subTitle}>
+                      <p className={classes.overviewBody}>
+                        {pageLabels.contestPrize}
+                      </p>
+                    </GridItem>
 
-                {`${moment(contest.start_period).format(
-                  "YYYY.MM.DD"
-                )}~ ${moment(contest.end_period).format("YYYY.MM.DD")}`}
-                <GridItem>
-                  <TagsContainer
-                    tags={contest.tech_stack}
-                    type="TechStack"
-                    form="iconOnly"
-                  ></TagsContainer>
+                    <GridItem>
+                      <Treasure className={classes.icon} />
+                      <p className={classes.overviewBody}>
+                        {contest.prize}
+                        {pageLabels.prize}
+                      </p>
+                    </GridItem>
+                  </GridContainer>
+                </GridItem>
+                <GridItem xs={3} sm={3} md={3} className={classes.overviewItem}>
+                  <GridContainer direction="column">
+                    <GridItem className={classes.subTitle}>
+                      {pageLabels.contestTechStack}
+                    </GridItem>
+                    <GridItem className={classes.overviewBody}>
+                      <TagsContainer
+                        tags={contest.tech_stack}
+                        type="TechStack"
+                        form="iconOnly"
+                      ></TagsContainer>
+                    </GridItem>
+                  </GridContainer>
                 </GridItem>
               </GridContainer>
             </Card>
           </GridItem>
         </GridContainer>
+      </GridItem>
+      <GridItem xs={12} sm={12} md={12}>
+        <Card className={classes.card}>
+          <div className={classes.body}>{Parser(article.content.body)}</div>
+        </Card>
       </GridItem>
       <GridItem>
         <SectionComments />
@@ -218,5 +292,3 @@ const Overview = ({ article, contest, professions, handleEditing }) => {
 };
 
 export default Overview;
-
-//      {article.published}
