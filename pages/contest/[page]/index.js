@@ -25,9 +25,9 @@ const pageLabels = {
 
 const styled = {
   listItem: {
-    paddingLeft: "5.625rem",
-    paddingRight: "5.625rem",
-    paddingBottom: "5.625rem",
+    paddingLeft: "4rem",
+    paddingRight: "4rem",
+    paddingBottom: "4rem",
   },
   createCard: {
     height: "20rem",

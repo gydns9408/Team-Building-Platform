@@ -3,18 +3,26 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
-import Tag from "../../Tags/Tag";
 import TagContainer from "../../Tags/TagsContainer";
 import { makeStyles } from "@material-ui/core/styles";
+import { Box } from "@mui/system";
+import { CssBaseline } from "@mui/material";
 import Link from "next/link";
 import DateProgress from "../../Progress/DateProgress";
 import Card from "../../Card/Card";
 import CardBody from "../../Card/CardBody";
 import CardFooter from "../../Card/CardFooter";
 import CardHeader from "../../Card/CardHeader";
-
+import ProfessionsLabel from "../../Tags/Professions/ProfessionsLabel";
+import GridContainer from "../../Grid/GridContainer";
+import GridItem from "../../Grid/GridItem";
+import Treasure from "../../../svg/contest/treasure.svg";
+import Parser from "html-react-parser";
+import moment from "moment";
 const pageLabels = {
+  contestBodyLabel: "개요",
   techStackLabel: "기술 스택",
+  prize: "원",
 };
 
 const styles = {
@@ -29,12 +37,52 @@ const styles = {
     objectFit: "cover",
     objectPosition: "center",
   },
+  icon: {
+    height: "3rem",
+  },
+  tags: {
+    marginBottom: "0.5rem",
+  },
+  cardHeader: {
+    marginTop: "2rem",
+  },
+  cardBody: {
+    pagging: "2rem",
+    marginTop: "0.5rem",
+    marginBottom: "0.5rem",
+    fontSize: "1.25rem",
+    fontFamily: "SCDream3",
+  },
+  subTitle: {
+    marginTop: "1rem",
+    marginBottom: "1rem",
+    fontFamily: "SCDream4",
+    fontWeight: "bold",
+  },
+  title: {
+    fontFamily: "SCDream6",
+    fontSize: "1.5rem",
+  },
+  body: {
+    height: "10rem",
+    overflowY: "scroll",
+    overflowX: "hidden",
+    fontSize: "0.95rem",
+    color: "#98A8B9",
+  },
+  prize: { display: "flex", placeContent: "flex-end" },
   cardFooter: {
-    fontSize: "16pt",
+    marginTop: "auto",
+    fontSize: "1rem",
     color: "#98A8B9",
     alignItems: "flex-end",
-    borderTopColor: "rgba(0, 0, 0, 0.87)",
-    borderTop: "0.5px solid",
+    borderTop: "0.0625rem solid #D7E2EB",
+    height: "5rem",
+  },
+  footerContainer: {
+    width: "100%",
+    alignItems: "center",
+    // padding: "inherit",
   },
 };
 
@@ -58,6 +106,7 @@ const ContestCard = (props) => {
     ).then(async (response) => {
       return await response.json();
     });
+    console.log(data);
     setContest(data);
   };
 
@@ -69,6 +118,7 @@ const ContestCard = (props) => {
   if (loading) return <div>Loading...</div>;
   return (
     <Fragment>
+      <CssBaseline />
       <Card className={classes.card + " " + className}>
         <Link
           href={`${process.env.HOSTNAME}/contest/Read/${contest.id}`}
@@ -86,27 +136,59 @@ const ContestCard = (props) => {
                 className={classes.image}
               />
             </CardActionArea>
+            <GridContainer direction="row" className={classes.cardHeader}>
+              <GridItem xs={3} sm={3} md={3}>
+                <ProfessionsLabel data={contest.contest.profession} />
+              </GridItem>
+              <GridItem xs={8} sm={8} md={8}>
+                <Box>
+                  <p className={classes.title}>
+                    {contest.article.content.title}
+                  </p>
+                  <p>
+                    {moment(contest.contest.start_period).format("YYYY.MM.DD")}~
+                    {moment(contest.contest.end_period).format("YYYY.MM.DD")}
+                  </p>
+                </Box>
+              </GridItem>
+              <TagContainer
+                className={classes.tags}
+                tags={contest.contest.Tag}
+                type="Tag"
+                form="textOnly"
+              />
+            </GridContainer>
           </CardHeader>
         </Link>
-        <CardBody>
-          <CardContent>
-            <Typography>{contest.contest.team.length}명 </Typography>
-            <Typography>{contest.article.content.title}</Typography>
-            <DateProgress
-              start_period={new Date(contest.contest.start_period)}
-              end_period={new Date(contest.contest.end_period)}
+        <CardBody className={classes.cardBody}>
+          <CardContent className={classes.cardBody}>
+            <Box className={classes.subTitle}>
+              <p>{pageLabels.contestBodyLabel}</p>
+            </Box>
+            {/* <Typography>{contest.contest.team.length}명 </Typography> */}
+            <Box className={classes.body}>
+              <p>{Parser(contest.article.content.body)}</p>
+            </Box>
+            <Box className={classes.subTitle}>
+              <p>{pageLabels.techStackLabel}</p>
+            </Box>
+            <TagContainer
+              tags={contest.contest.tech_stack}
+              type="TechStack"
+              form="icon"
             />
           </CardContent>
-          <Typography>{pageLabels.techStackLabel}</Typography>
-          <TagContainer
-            tags={contest.contest.tech_stack}
-            type="TechStack"
-            form="iconOnly"
-          />
-          <TagContainer tags={contest.contest.Tag} type="Tag" form="textOnly" />
         </CardBody>
+
         <CardFooter className={classes.cardFooter}>
-          <Typography variant="h5">{contest.contest.prize}$</Typography>
+          <GridContainer direction="row" className={classes.footerContainer}>
+            <GridItem xs={4} sm={4} md={4}>
+              <Treasure className={classes.icon} />
+            </GridItem>
+            <GridItem xs={8} sm={8} md={8} className={classes.prize}>
+              <p>{`${contest.contest.prize}${pageLabels.prize}`}</p>
+            </GridItem>
+          </GridContainer>
         </CardFooter>
       </Card>
     </Fragment>

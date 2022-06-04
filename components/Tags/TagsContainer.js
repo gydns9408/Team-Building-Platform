@@ -6,16 +6,16 @@ const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
-export default function ChipsArray({ tags, type, form, children }) {
+export default function ChipsArray({ tags, type, form, children, className }) {
   return (
     <Box
+      className={className}
       sx={{
         display: "flex",
         justifyContent: "left",
         flexWrap: "wrap",
         listStyle: "none",
         p: 0.5,
-        m: 0,
         flexDirection: "row",
       }}
       component="ul"

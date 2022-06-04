@@ -5,11 +5,9 @@ import Image from "next/image";
 import IconButton from "@mui/material/IconButton";
 import Modal from "../../components/Modal/Modal";
 import SectionTagsView from "../../pages-sections/tags/SectionTagsView";
-
 import { Box } from "@material-ui/core";
-const ListItem = styled("li")(({ theme }) => ({
-  margin: theme.spacing(0.5),
-}));
+import { makeStyles } from "@material-ui/core/styles";
+
 const TagRequest = async (type, name) => {
   const data = await fetch(`${process.env.HOSTNAME}/api/tags/${type}/${name}`, {
     method: "GET",
@@ -20,8 +18,21 @@ const TagRequest = async (type, name) => {
   return data;
 };
 
-const Tag = (props) => {
-  const { name, type, form, children } = props;
+const styles = {
+  iconButtonLabel: {
+    display: "flex",
+    flexDirection: "column",
+    width: "5rem",
+  },
+  iconLabel: {
+    fontSize: "1rem",
+  },
+};
+
+const useStyles = makeStyles(styles);
+
+const Tag = ({ name, type, form, children }) => {
+  const classes = useStyles();
 
   const [getTagInfo, setTagInfo] = useState({});
   const [loading, setLoading] = useState(true);
@@ -59,6 +70,45 @@ const Tag = (props) => {
             }
             label={getTagInfo.name !== null ? getTagInfo.name : ""}
           />
+        );
+      case "icon":
+        return (
+          <Box>
+            <IconButton className={classes.iconButtonLabel}>
+              <Image
+                src={
+                  getTagInfo.image_url !== null
+                    ? getTagInfo.image_url
+                    : `/asset/image/background/contest/default.svg`
+                }
+                width={24}
+                height={24}
+                onClick={handleModalOpen}
+              />
+              <p className={classes.iconLabel}>
+                {getTagInfo.name !== null ? getTagInfo.name : ""}
+              </p>
+            </IconButton>
+            <Modal
+              title={getTagInfo.name !== null ? getTagInfo.name : ""}
+              open={modalToggle}
+              handleModalClose={handleModalClose}
+            >
+              <SectionTagsView
+                body={
+                  getTagInfo.description !== null &&
+                  getTagInfo.description !== undefined
+                    ? getTagInfo.description
+                    : ""
+                }
+                image_url={
+                  getTagInfo.image_url !== null
+                    ? getTagInfo.image_url
+                    : `/asset/image/background/contest/default.svg`
+                }
+              />
+            </Modal>
+          </Box>
         );
       case "iconOnly":
         return (

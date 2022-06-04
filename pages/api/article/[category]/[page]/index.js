@@ -58,7 +58,6 @@ const articleIncludeOption = (type) => {
             content: {
               select: {
                 title: true,
-                body: true,
               },
             },
           },

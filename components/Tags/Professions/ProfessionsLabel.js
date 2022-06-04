@@ -3,17 +3,18 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Box } from "@mui/system";
 import GridItem from "../../Grid/GridItem";
 import GridContainer from "../../Grid/GridContainer";
-
+import { Tooltip } from "@mui/material";
 const styles = {
   icon: {
-    height: "3rem",
-    width: "3rem",
+    // height: "auto",
+    // width: "3rem",
   },
-  span: {
+  root: {
     height: "5rem",
     width: "5rem",
     padding: "1rem",
     borderRadius: "0.5rem",
+    display: "flex",
   },
 };
 
@@ -32,7 +33,6 @@ const ProfessionsLabel = ({ data }) => {
   ]);
 
   useEffect(() => {
-    console.log(data);
     setProfessions(data);
   }, []);
   useEffect(() => {
@@ -40,14 +40,17 @@ const ProfessionsLabel = ({ data }) => {
   }, [data]);
 
   return (
-    <span className={classes.span}>
-      <img src={data[0].image_url} className={classes.icon}></img>
-      <style jsx>{`
-        span {
-          background-color: ${data[0].color};
-        }
-      `}</style>
-    </span>
+    <Tooltip title={data[0].name}>
+      <div className={classes.root}>
+        <img src={data[0].image_url} className={classes.icon}></img>
+
+        <style jsx>{`
+          div {
+            background-color: ${data[0].color};
+          }
+        `}</style>
+      </div>
+    </Tooltip>
   );
 };
 
