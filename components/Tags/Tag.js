@@ -28,8 +28,8 @@ const styles = {
   },
   iconLabel: {
     fontSize: "0.8rem",
-    color: "#98A8B9",
-    fontFamily: "SCDream1",
+
+    fontFamily: "SCDream3",
     alignItems: "center",
     display: "inline-flex",
     marginLeft: "0.5rem",

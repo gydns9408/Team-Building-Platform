@@ -13,14 +13,15 @@ const pageLabels = {
   submitButton: "제출",
 };
 
-const styles = {};
+const styles = {
+  tabGridIteam: {
+    display: "inline-block",
+  },
+};
 
 const useStyles = makeStyles(styles);
 
-const Published = ({
-    handleCertificate,
-    certificate,
-}) => {
+const Published = ({ handleCertificate, certificate }) => {
   console.log(certificate);
   const classes = useStyles();
   const [loading, setLoading] = React.useState(true);
@@ -33,7 +34,7 @@ const Published = ({
 
   return (
     <GridContainer direction="column" spacing={2}>
-      <GridItem>
+      <GridItem className={classes.tabGridIteam}>
         <TagsContainer tags={certificate} type="Certification" form="chip">
           {/* <TechStackSearcher handle={handleTechStack} /> */}
         </TagsContainer>

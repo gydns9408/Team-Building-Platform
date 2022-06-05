@@ -3,7 +3,8 @@ import { useRouter } from "next/router";
 import Button from "../CustomButtons/Button";
 import { useState, useEffect, useReducer, Fragment } from "react";
 import { getSession, useSession, signIn, signOut } from "next-auth/react";
-
+import classNames from "classnames";
+import { makeStyles } from "@material-ui/core/styles";
 const reqCommentPost = async (articleID, comment, userId) => {
   const body = {
     comment: {
@@ -30,8 +31,12 @@ const reqCommentPost = async (articleID, comment, userId) => {
   });
   return data;
 };
+const styles = {};
 
-const CommentInput = () => {
+const useStyles = makeStyles(styles);
+
+const CommentInput = ({ className }) => {
+  const classes = useStyles();
   const router = useRouter();
   const { data: session, status } = useSession();
   const [comment, setComment] = useState("");
@@ -41,7 +46,7 @@ const CommentInput = () => {
   };
   useEffect(() => {}, [comment]);
   return (
-    <div>
+    <div className={className}>
       <Editor
         name={"commentInput"}
         readOnly={false}

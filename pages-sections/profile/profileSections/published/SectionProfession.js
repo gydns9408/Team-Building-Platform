@@ -13,7 +13,11 @@ const pageLabels = {
   submitButton: "제출",
 };
 
-const styles = {};
+const styles = {
+  tabGridIteam: {
+    display: "inline-block",
+  },
+};
 
 const useStyles = makeStyles(styles);
 
@@ -33,7 +37,7 @@ const Published = ({
 
   return (
     <GridContainer direction="column" spacing={2}>
-      <GridItem>
+      <GridItem className={classes.tabGridIteam}>
         <TagsContainer tags={profession} type="Profession" form="chip">
           {/* <ProfessionSearcher handle={handleProfession} /> */}
         </TagsContainer>

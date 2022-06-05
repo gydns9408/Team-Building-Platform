@@ -13,7 +13,11 @@ const pageLabels = {
   submitButton: "제출",
 };
 
-const styles = {};
+const styles = {
+  tabGridIteam: {
+    display: "inline-block",
+  },
+};
 
 const useStyles = makeStyles(styles);
 
@@ -33,10 +37,10 @@ const Published = ({
 
   return (
     <GridContainer direction="column" spacing={2}>
-      <GridItem>
+      <GridItem className={classes.tabGridIteam}>
         <TitleInput onChange={handleEmailChange} data={email} />
       </GridItem>
-      <GridItem>
+      <GridItem className={classes.tabGridIteam}>
         <Editor
           onChangeHandle={handleContentChange}
           editorLoaded={true}

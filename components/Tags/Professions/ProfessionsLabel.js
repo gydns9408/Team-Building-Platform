@@ -5,16 +5,17 @@ import GridItem from "../../Grid/GridItem";
 import GridContainer from "../../Grid/GridContainer";
 import { Tooltip } from "@mui/material";
 const styles = {
-  icon: {
-    // height: "auto",
-    // width: "3rem",
-  },
   root: {
     height: "5rem",
     width: "5rem",
     padding: "1rem",
     borderRadius: "0.5rem",
     display: "flex",
+  },
+  label: {
+    marginTop: "0.5rem",
+    fontSize: "0.725rem",
+    textAlign: "center",
   },
 };
 
@@ -41,15 +42,18 @@ const ProfessionsLabel = ({ data }) => {
 
   return (
     <Tooltip title={data[0].name}>
-      <div className={classes.root}>
-        <img src={data[0].image_url} className={classes.icon}></img>
+      <Box>
+        <div className={classes.root}>
+          <img src={data[0].image_url} className={classes.icon}></img>
 
-        <style jsx>{`
-          div {
-            background-color: ${data[0].color};
-          }
-        `}</style>
-      </div>
+          <style jsx>{`
+            div {
+              background-color: ${data[0].color};
+            }
+          `}</style>
+        </div>
+        <p className={classes.label}>{data[0].name}</p>
+      </Box>
     </Tooltip>
   );
 };

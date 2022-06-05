@@ -13,14 +13,15 @@ const pageLabels = {
   submitButton: "제출",
 };
 
-const styles = {};
+const styles = {
+  tabGridIteam: {
+    display: "inline-block",
+  },
+};
 
 const useStyles = makeStyles(styles);
 
-const Published = ({
-    handleUserInterestProfessionChange,
-    profession,
-}) => {
+const Published = ({ handleUserInterestProfessionChange, profession }) => {
   console.log(profession);
   const classes = useStyles();
   const [loading, setLoading] = React.useState(true);
@@ -33,7 +34,7 @@ const Published = ({
 
   return (
     <GridContainer direction="column" spacing={2}>
-      <GridItem>
+      <GridItem className={classes.tabGridIteam}>
         <TagsContainer tags={profession} type="Profession" form="iconOnly">
           {/* <TechStackSearcher handle={handleTechStack} /> */}
         </TagsContainer>

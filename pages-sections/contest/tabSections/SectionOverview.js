@@ -54,7 +54,6 @@ const styles = {
     marginLeft: "100%",
   },
   body: {
-    margin: "2rem",
     color: "#263747",
     fontFamily: "SCDream3",
     fontSize: "1rem",
@@ -95,10 +94,14 @@ const styles = {
     borderRight: "0.0625rem solid #D7E2EB",
   },
   subTitle: {
+    fontSize: "1.25rem",
     marginTop: "1rem",
     marginBottom: "1.5rem",
     fontFamily: "SCDream4",
     fontWeight: "bold",
+  },
+  comment: {
+    width: "100%",
   },
 };
 
@@ -246,11 +249,8 @@ const Overview = ({ article, contest, professions, handleEditing }) => {
                 >
                   <GridContainer direction="column">
                     <GridItem className={classes.subTitle}>
-                      <p className={classes.overviewBody}>
-                        {pageLabels.contestPrize}
-                      </p>
+                      <p>{pageLabels.contestPrize}</p>
                     </GridItem>
-
                     <GridItem>
                       <Treasure className={classes.icon} />
                       <p className={classes.overviewBody}>
@@ -285,7 +285,7 @@ const Overview = ({ article, contest, professions, handleEditing }) => {
         </Card>
       </GridItem>
       <GridItem>
-        <SectionComments />
+        <SectionComments className={classes.comment} />
       </GridItem>
     </GridContainer>
   );

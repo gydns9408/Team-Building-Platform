@@ -4,6 +4,8 @@ import CommentItem from "../../components/Comment/CommentItem";
 import { useEffect, useState } from "react";
 import { getSession, useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
+import classNames from "classnames";
+import { makeStyles } from "@material-ui/core/styles";
 
 const reqComments = async (id) => {
   const data = await fetch(`${process.env.HOSTNAME}/api/comment/${id}`, {
@@ -16,7 +18,11 @@ const reqComments = async (id) => {
   return data;
 };
 
-const SectionComments = () => {
+const styles = {};
+
+const useStyles = makeStyles(styles);
+
+const SectionComments = ({ className }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [comments, setComments] = useState([]);
@@ -30,7 +36,7 @@ const SectionComments = () => {
 
   if (loading) return <div>loading</div>;
   return (
-    <div>
+    <div className={className}>
       <CommentInput />
       <CommentContainer>
         {comments.map((data) => {

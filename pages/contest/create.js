@@ -15,6 +15,7 @@ import SectionTags from "../../pages-sections/contest/tabSections/published/Sect
 import moment from "moment";
 import MainLayout from "../../components/Layout/MainLayout";
 import { getSession, useSession, signIn, signOut } from "next-auth/react";
+import gridStyle from "../../styles/jss/nextjs-material-kit/tabGridStyle";
 
 const pageLabels = {
   tech_stack: "기술 스택 생성",
@@ -123,7 +124,7 @@ const contestReducer = (prevState, action) => {
 };
 const styles = {};
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles(gridStyle);
 
 const a11yProps = (index) => {
   return {
@@ -263,7 +264,7 @@ const CreateTab = ({}) => {
   return (
     <MainLayout>
       <GridContainer direction="row" className={classes.contestHead}>
-        <GridItem xs={3} sm={3} md={3}>
+        <GridItem xs={3} sm={3} md={3} className={classes.tabGridItem}>
           <Tabs
             orientation="vertical"
             value={value}
@@ -275,7 +276,7 @@ const CreateTab = ({}) => {
             <Tab label="태그" {...a11yProps(2)} />
           </Tabs>
         </GridItem>
-        <GridItem xs={9} sm={9} md={9}>
+        <GridItem xs={9} sm={9} md={9} className={classes.tabGridItem}>
           <TabPanel value={value} index={0}>
             <SectionArticle
               title={article.content.title}

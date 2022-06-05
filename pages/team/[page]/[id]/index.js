@@ -1,13 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import classNames from "classnames";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { makeStyles } from "@material-ui/core/styles";
 //components
 import GridContainer from "../../../../components/Grid/GridContainer";
 import GridItem from "../../../../components/Grid/GridItem";
-import Button from "../../../../components/CustomButtons/Button";
-import TagsContainer from "../../../../components/Tags/TagsContainer";
 
 import Card from "../../../../components/Card/Card";
 import CardBody from "../../../../components/Card/CardBody";
@@ -21,6 +18,7 @@ import Tag from "../../../../components/Tags/Tag";
 import moment from "moment";
 import SectionComments from "../../../../pages-sections/comment/SectionComments";
 import SectionHeaderImage from "../../../../pages-sections/contest/tabSections/SectionHeaderImage";
+import Parser from "html-react-parser";
 
 const styles = {
   title: {
@@ -37,10 +35,10 @@ const styles = {
     marginLeft: "100%",
   },
   body: {
-    margin: "2rem",
     color: "#263747",
     fontFamily: "SCDream3",
     fontSize: "1rem",
+    minHeight: "20rem",
   },
   icon: {
     height: "2rem",
@@ -64,12 +62,17 @@ const styles = {
   },
   card: {
     padding: "2.5rem",
-    margin: "0",
+    marginTop: "1.5rem",
+    marginBottom: "1.5rem",
+  },
+  overview: {
+    height: "100%",
+    padding: "2rem",
   },
   overviewItem: {
     alignItems: "start",
     justifyContent: "center",
-    paddingRight: "1rem",
+    marginBottom: "1.5rem",
   },
   overviewBody: {
     fontSize: "1rem",
@@ -83,10 +86,21 @@ const styles = {
     fontFamily: "SCDream4",
     fontWeight: "bold",
   },
+  avatarIcon: {
+    width: "2rem",
+    height: "2rem",
+  },
+  comment: {
+    width: "100%",
+  },
+  cardFooter: {
+    marginTop: "auto",
+  },
 };
 
 const pageLabels = {
   roleLabel: "모집 분야",
+  participantsLabel: "참여자",
 };
 
 const useStyles = makeStyles(styles);
@@ -123,38 +137,68 @@ const Overview = ({ data }) => {
           </GridContainer>
         </GridItem>
         <GridItem>
-          <Card>
-            <Editor
-              name={data.article.content.title}
-              value={data.article.content.body}
-              readOnly={true}
-            ></Editor>
+          <Card className={classes.card}>
+            <Box className={classes.body}>
+              {Parser(data.article.content.body)}
+            </Box>
           </Card>
         </GridItem>
-        <GridItem>{pageLabels.roleLabel}</GridItem>
-        <Card>
-          {data.team.role.map((role) => {
-            console.log(role);
-            return (
-              <GridItem xs={12} sm={12} md={12}>
-                <Tag
-                  name={role.name}
-                  type={"Role"}
-                  form={"role"}
-                  team={role.team}
-                  role={role.id}
-                >
-                  <p>{role.description}</p>
-                </Tag>
-                <Role
-                  // className={classes.avatarIcon}
-                  team={data.team.id}
-                  role={role.id}
-                />
-              </GridItem>
-            );
-          })}
-        </Card>
+        <GridItem className={classes.subTitle}>{pageLabels.roleLabel}</GridItem>
+        <GridItem xs={12} sm={12} md={12}>
+          <Card>
+            <GridContainer direction="row">
+              {data.team.role.map((role) => {
+                return (
+                  <GridItem
+                    xs={3}
+                    sm={3}
+                    md={3}
+                    className={classes.overviewItem + " " + classes.borderRight}
+                  >
+                    <GridContainer
+                      direction="column"
+                      className={classes.overview}
+                    >
+                      <GridItem
+                        xs={8}
+                        sm={8}
+                        md={8}
+                        classNames={classes.overviewBody}
+                      >
+                        <Tag
+                          name={role.name}
+                          type={"Role"}
+                          form={"role"}
+                          team={role.team}
+                          role={role.id}
+                        >
+                          <p>{role.description}</p>
+                        </Tag>
+                      </GridItem>
+                      <GridItem
+                        className={classes.subTitle + " " + classes.cardFooter}
+                      >
+                        <span>{pageLabels.participantsLabel}</span>
+                      </GridItem>
+                      <GridItem>
+                        <GridContainer direction="row">
+                          <GridItem xs={12} sm={12} md={12}>
+                            <Role
+                              className={classes.avatarIcon}
+                              team={data.team.id}
+                              role={role.id}
+                            />
+                          </GridItem>
+                        </GridContainer>
+                      </GridItem>
+                    </GridContainer>
+                  </GridItem>
+                );
+              })}
+            </GridContainer>
+          </Card>
+        </GridItem>
+
         {/* <GridContainer direction="column" spacing={3} xs={3} sm={3} md={3}>
           <GridItem>
             <TagsContainer
@@ -164,8 +208,8 @@ const Overview = ({ data }) => {
             ></TagsContainer>
           </GridItem>
         </GridContainer> */}
-        <GridItem>
-          <SectionComments />
+        <GridItem xs={12} sm={12} md={12}>
+          <SectionComments className={classes.comment} />
         </GridItem>
       </GridContainer>
     </MainLayout>

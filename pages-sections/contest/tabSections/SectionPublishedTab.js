@@ -119,7 +119,11 @@ const contestReducer = (prevState, action) => {
       throw new Error(`Unhandled action type: ${action.type}`);
   }
 };
-const styles = {};
+const styles = {
+  tabGridIteam: {
+    display: "inline-block",
+  },
+};
 
 const useStyles = makeStyles(styles);
 
@@ -270,7 +274,7 @@ const PublishedTab = ({ articleValue, contestValue, handleEditing }) => {
   return (
     <Fragment>
       <GridContainer direction="row" className={classes.contestHead}>
-        <GridItem xs={3} sm={3} md={3}>
+        <GridItem xs={3} sm={3} md={3} className={classes.tabGridIteam}>
           <Tabs
             orientation="vertical"
             value={value}
@@ -282,7 +286,7 @@ const PublishedTab = ({ articleValue, contestValue, handleEditing }) => {
             <Tab label="태그" {...a11yProps(2)} />
           </Tabs>
         </GridItem>
-        <GridItem xs={9} sm={9} md={9}>
+        <GridItem xs={9} sm={9} md={9} className={classes.tabGridIteam}>
           <TabPanel value={value} index={0}>
             <SectionArticle
               title={article.content.title}
