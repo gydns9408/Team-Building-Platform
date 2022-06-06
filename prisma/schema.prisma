@@ -266,9 +266,9 @@ model Program {
 model Team {
   id Int @id @default(autoincrement())
 
-  status    Boolean  @default(false)
-  createdAt DateTime @default(now()) @map("created_at")
-
+  status       Boolean         @default(false)
+  name         String          @db.Char(100)
+  createdAt    DateTime        @default(now()) @map("created_at")
   citizens     Citizens[]
   program      Program[]
   certificate  Certification[]

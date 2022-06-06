@@ -9,12 +9,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Button, Tabs, Tab } from "@mui/material";
 import { getSession, useSession, signIn, signOut } from "next-auth/react";
 
-import Header from "../../../components/header/Header";
-
 // import ProfileOverview from "../../../../pages-sections/profile/profileSections/SectionOverview";
 // import ProfileHeaderImage from "../../../../pages-sections/profile/profileSections/SectionHeaderImage";
 import ProfilePublishedTab from "../../../pages-sections/profile/profileSections/SectionPublishedTab";
-
+import MainLayout from "../../../components/Layout/MainLayout";
 const useStyles = makeStyles(styles);
 
 const requestProfileUpdate = async () => {
@@ -58,7 +56,7 @@ export default function CompetitionSearchPage({ data }) {
   };
 
   return (
-    <>
+    <MainLayout>
       {editing ? (
         <ProfilePublishedTab
           citizensValue={data[0]}
@@ -66,7 +64,6 @@ export default function CompetitionSearchPage({ data }) {
         />
       ) : (
         <Fragment>
-          <Header />
           <Button
             onClick={() => handleEditing()}
             variant="outlined"
@@ -75,9 +72,7 @@ export default function CompetitionSearchPage({ data }) {
             프로필 수정
           </Button>
           <Card contestID={data} />
-          <a>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          </a>
+
           <Link
             href={`${process.env.HOSTNAME}/profile/${router.query.id}`}
             prefetch
@@ -92,12 +87,9 @@ export default function CompetitionSearchPage({ data }) {
             </Button>
           </Link>
           <Card2 contestID={data} />
-          <a>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          </a>
         </Fragment>
       )}
-    </>
+    </MainLayout>
   );
 }
 

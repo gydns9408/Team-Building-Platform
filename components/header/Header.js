@@ -1,15 +1,55 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { getSession, useSession, signIn, signOut } from "next-auth/react";
-import Image from "next/image";
 import Avatar from "@mui/material/Avatar";
-import Head from "next/head";
-const Header = () => {
-  const router = useRouter();
-  const isActive = (pathname) => router.pathname === pathname;
-  const { data: session, status } = useSession();
+import GroupIcon from "../../svg/header/group.svg";
+import { Box, IconButton, Menu, MenuItem } from "@material-ui/core";
+import classNames from "classnames";
+import { makeStyles } from "@material-ui/core/styles";
+import Fade from "@mui/material/Fade";
+const styles = {
+  iconSize: {
+    width: "3rem",
+    height: "3rem",
+    padding: "0.5rem",
+  },
+  svg: {
+    flex: "auto",
+  },
+  item: {
+    marginLeft: "0.25rem",
+    marginRight: "0.25rem",
+  },
+  menu: {
+    marginBottom: "auto",
+  },
+};
+const pageLabels = {
+  menuProfileLink: "프로필",
+  meunLogout: "로그아웃",
+};
+const useStyles = makeStyles(styles);
 
+const Header = () => {
+  const { data: session, status } = useSession();
+  const classes = useStyles();
+  const router = useRouter();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const isActive = (pathname) => router.pathname === pathname;
+
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleGroupIcon = () => {
+    router.push("/group");
+  };
   let left = (
     <div className="left">
       <Link href="/" passHref>
@@ -186,14 +226,42 @@ const Header = () => {
     );
     right = (
       <div className="right">
-        <Link href="/profile" passHref>
-          <div>
-            <Avatar src={session.user.image}></Avatar>
-            {/* <p>{session.user.name}</p> */}
-          </div>
-        </Link>
+        <IconButton
+          className={classes.iconSize + " " + classes.item}
+          onClick={handleGroupIcon}
+        >
+          <GroupIcon className={classes.svg} />
+        </IconButton>
+
+        <Avatar
+          className={classes.item}
+          src={session.user.image}
+          onClick={handleClick}
+        ></Avatar>
+        <Menu
+          id="header-profile-menu"
+          className={classes.menu}
+          MenuListProps={{
+            "aria-labelledby": "fade-button",
+          }}
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          TransitionComponent={Fade}
+        >
+          <MenuItem key={"menuProfileLink"} onClick={handleClose}>
+            <Link href="/profile">{pageLabels.menuProfileLink}</Link>
+          </MenuItem>
+          <MenuItem key={"meunLogout"} onClick={signOut}>
+            {pageLabels.meunLogout}
+          </MenuItem>
+        </Menu>
 
         <style jsx>{`
+          div {
+            flex-direction: row;
+            display: flex;
+          }
           a {
             text-decoration: none;
             color: var(--geist-foreground);
@@ -202,7 +270,7 @@ const Header = () => {
 
           p {
             display: inline-block;
-            font-size: 13px;
+            font-size: 1rem;
             padding-right: 1rem;
           }
 
@@ -234,9 +302,12 @@ const Header = () => {
       {right}
       <style jsx>{`
         nav {
+          height: 4rem;
           display: flex;
-          padding: 2rem;
+          padding: 0.5rem;
           align-items: center;
+          border-bottom: solid 0.5px #ececec;
+          color: #928f96;
         }
       `}</style>
     </nav>

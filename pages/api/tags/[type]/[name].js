@@ -4,17 +4,13 @@ import prisma from "../../../../utilities/prisma/client";
 const handle = async (req, res) => {
   switch (req.method) {
     case "GET":
-      findOneTag(req, res);
-      return resolve();
+      return findOneTag(req, res);
     case "POST":
-      createTag(req, res);
-      return resolve();
+      return createTag(req, res);
     case "PUT":
-      updateTag(req, res);
-      return resolve();
+      return updateTag(req, res);
     case "DELETE":
-      deleteTag(req, res);
-      return resolve();
+      return deleteTag(req, res);
     default:
       throw new Error(console.log(req.method));
   }
@@ -28,7 +24,8 @@ const findOneTag = async (req, res) => {
   const result = await prisma?.[type].findUnique({
     where: teckStackFindQuery,
   });
-  res.json(result);
+  await res.json(result);
+  resolve();
 };
 
 const createTag = async (req, res) => {
@@ -42,7 +39,8 @@ const createTag = async (req, res) => {
   };
   const result = await prisma?.[type].create({ data: techStackCreateQuery });
 
-  res.json(result);
+  await res.json(result);
+  resolve();
 };
 
 const updateTag = async (req, res) => {
@@ -59,7 +57,8 @@ const updateTag = async (req, res) => {
     data: techStackUpdateQuery,
   });
 
-  res.json(result);
+  await res.json(result);
+  resolve();
 };
 
 const deleteTag = async (req, res) => {
@@ -70,28 +69,8 @@ const deleteTag = async (req, res) => {
       id: id,
     },
   });
-  res.json(result);
+  await res.json(result);
+  resolve();
 };
 
 export default handle;
-
-/*
-const typeOption = async (type, name) => {
-  switch (type) {
-    case "Role":
-      return { role_name: name };
-    case "Tag":
-      return { tag_name: name };
-    case "TechStack":
-      return { tech_stack_name: name };
-    case "Program":
-      return { program_name: name };
-    case "Profession":
-      return { profession_name: name };
-    case "Certification":
-      return { certificate_name: name };
-    default:
-      throw new Error(console.log(type));
-  }
-};
-*/

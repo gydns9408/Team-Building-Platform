@@ -154,6 +154,7 @@ const Overview = ({ data }) => {
                     sm={3}
                     md={3}
                     className={classes.overviewItem + " " + classes.borderRight}
+                    key={role.id}
                   >
                     <GridContainer
                       direction="column"
