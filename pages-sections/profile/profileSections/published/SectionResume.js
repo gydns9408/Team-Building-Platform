@@ -25,7 +25,6 @@ const Published = ({
     handleResume,
     resume,
 }) => {
-  console.log(resume);
   const classes = useStyles();
   const [loading, setLoading] = React.useState(true);
 

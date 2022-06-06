@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
+import Button from "../../CustomButtons/Button";
 import TagContainer from "../../Tags/TagsContainer";
 import Tag from "../../Tags/Tag";
 import Role from "../../Tags/Role/Role";
@@ -9,7 +10,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Link from "next/link";
 import Card from "../../Card/Card";
 import CardBody from "../../Card/CardBody";
-import CardFooter from "../../Card/CardFooter";
 import CardHeader from "../../Card/CardHeader";
 import Modal from "../../Modal/Modal";
 import TeamOverview from "../../../pages-sections/team/teamSections/SectionOverview";
@@ -162,7 +162,7 @@ const ContestCard = (props) => {
               <GridContainer derection={"row"}>
                 {team.team.role.map((data) => {
                   return (
-                    <GridItem xs={6} sm={6} md={6}>
+                    <GridItem xs={6} sm={6} md={6} key={data.id}>
                       <Tag
                         name={data.name}
                         type={"Role"}

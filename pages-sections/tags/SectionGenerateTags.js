@@ -85,7 +85,6 @@ const SectionGenerateTags = ({ handle }) => {
   const handelStackSubmit = async () => {
     if (techStack.name.length !== 0 && techStack.image_url.length !== 0) {
       const body = { ...techStack };
-      console.log(body)
 
 
       await uploadToServer();
@@ -150,7 +149,6 @@ const SectionGenerateTags = ({ handle }) => {
         <Button
           onClick={async () => {
             await handelStackSubmit().then(() => {
-              console.log(techStack);
               handle(techStack);
             });
           }}

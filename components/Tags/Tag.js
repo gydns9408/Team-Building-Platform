@@ -167,7 +167,7 @@ const Tag = ({ name, type, form, children }) => {
         return (
           <Box>
             <GridContainer direction="column">
-              <GridItem>
+              <GridItem xs={7} sm={7} md={7}>
                 <GridContainer direction="row" className={classes.roleContain}>
                   <Image
                     src={

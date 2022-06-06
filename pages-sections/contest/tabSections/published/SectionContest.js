@@ -49,7 +49,6 @@ const Published = ({
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    console.log(profession);
     reqTags("Profession")
       .then((data) => {
         setProfessionsList(data);

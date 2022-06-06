@@ -5,21 +5,19 @@ import { makeStyles } from "@material-ui/core/styles";
 //components
 import GridContainer from "../../../../components/Grid/GridContainer";
 import GridItem from "../../../../components/Grid/GridItem";
-
 import Card from "../../../../components/Card/Card";
-import CardBody from "../../../../components/Card/CardBody";
-import CardFooter from "../../../../components/Card/CardFooter";
-import CardHeader from "../../../../components/Card/CardHeader";
-
+import Button from "../../../../components/CustomButtons/Button";
 import MainLayout from "../../../../components/Layout/MainLayout";
-import Editor from "../../../../components/Editors/CKEditorTextEditor";
 import Role from "../../../../components/Tags/Role/Role";
 import Tag from "../../../../components/Tags/Tag";
 import moment from "moment";
 import SectionComments from "../../../../pages-sections/comment/SectionComments";
 import SectionHeaderImage from "../../../../pages-sections/contest/tabSections/SectionHeaderImage";
 import Parser from "html-react-parser";
+import palettes from "../../../../styles/nextjs-material-kit/palettes";
 
+import createInvite from "../../../../components/StreamChat/CreateInvite";
+import { getSession, useSession, signIn, signOut } from "next-auth/react";
 const styles = {
   title: {
     alignItems: "center",
@@ -72,7 +70,6 @@ const styles = {
   overviewItem: {
     alignItems: "start",
     justifyContent: "center",
-    marginBottom: "1.5rem",
   },
   overviewBody: {
     fontSize: "1rem",
@@ -96,16 +93,31 @@ const styles = {
   cardFooter: {
     marginTop: "auto",
   },
+  joinButton: {
+    marginTop: "1.25rem",
+    width: "8rem",
+    height: "2.5rem",
+    backgroundColor: palettes.hotPink,
+    "&:hover": {
+      background: palettes.darkPink,
+    },
+    marginLeft: "auto",
+    marginRight: "1rem",
+  },
 };
 
 const pageLabels = {
   roleLabel: "모집 분야",
   participantsLabel: "참여자",
+  joinButton: "신청",
 };
 
 const useStyles = makeStyles(styles);
 
+const reqUpdateMembers = () => {};
+
 const Overview = ({ data }) => {
+  const { data: session, status } = useSession();
   const classes = useStyles();
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
@@ -161,9 +173,9 @@ const Overview = ({ data }) => {
                       className={classes.overview}
                     >
                       <GridItem
-                        xs={8}
-                        sm={8}
-                        md={8}
+                        xs={7}
+                        sm={7}
+                        md={7}
                         classNames={classes.overviewBody}
                       >
                         <Tag
@@ -192,6 +204,19 @@ const Overview = ({ data }) => {
                           </GridItem>
                         </GridContainer>
                       </GridItem>
+                      <Button
+                        className={classes.joinButton}
+                        onClikc={() => {
+                          // createInvite(
+                          //   citizens.user_id,
+                          //   citizens.user_id,
+                          //   data.id,
+                          //   session.user.id
+                          // );
+                        }}
+                      >
+                        {pageLabels.joinButton}
+                      </Button>
                     </GridContainer>
                   </GridItem>
                 );
@@ -199,16 +224,6 @@ const Overview = ({ data }) => {
             </GridContainer>
           </Card>
         </GridItem>
-
-        {/* <GridContainer direction="column" spacing={3} xs={3} sm={3} md={3}>
-          <GridItem>
-            <TagsContainer
-              tags={data.team.tech_stack}
-              type="TechStack"
-              form="iconOnly"
-            ></TagsContainer>
-          </GridItem>
-        </GridContainer> */}
         <GridItem xs={12} sm={12} md={12}>
           <SectionComments className={classes.comment} />
         </GridItem>
@@ -230,6 +245,5 @@ export async function getServerSideProps(context) {
   ).then((response) => {
     return response.json();
   });
-  console.log(data);
   return { props: { data } };
 }

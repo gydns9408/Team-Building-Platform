@@ -14,7 +14,12 @@ export default function chatT() {
     <MainLayout>
       <Button
         onClick={() => {
-          createChannel(9, "teamTester9", "haru9", "haru9");
+          createChannel(
+            1,
+            "2022 문화도시 홍성 유튜브 공모전 팀",
+            "Haru",
+            "Haru"
+          );
         }}
       >
         채널

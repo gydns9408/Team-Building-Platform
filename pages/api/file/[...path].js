@@ -28,7 +28,6 @@ app.use(upload.array("file"), function async(req, res) {
 
   fs.rename(oldPath, newPath, function (err) {
     if (err) throw err;
-    console.log("Successfully renamed - AKA moved!");
     res.json();
     return resolve;
   });

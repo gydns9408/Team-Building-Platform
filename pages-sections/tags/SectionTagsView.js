@@ -3,7 +3,6 @@ import { Box } from "@mui/system";
 import Parser from "html-react-parser";
 const SectionTagsView = ({ body, image_url, type }) => {
   useEffect(() => {
-    console.log(body);
   }, []);
   return (
     <Box>

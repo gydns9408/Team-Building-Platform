@@ -121,7 +121,6 @@ export async function getServerSideProps(context) {
   ).then((response) => {
     return response.json();
   });
-  console.log(data);
   return { props: { data } };
 }
 

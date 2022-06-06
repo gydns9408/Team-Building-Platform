@@ -24,7 +24,6 @@ const Published = ({
   tech_stacks,
   tag,
 }) => {
-  console.log(tech_stacks);
   const classes = useStyles();
   const [loading, setLoading] = React.useState(true);
 

@@ -22,7 +22,6 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 const Published = ({ handleTechStack, tech_stacks }) => {
-  console.log(tech_stacks);
   const classes = useStyles();
   const [loading, setLoading] = React.useState(true);
 

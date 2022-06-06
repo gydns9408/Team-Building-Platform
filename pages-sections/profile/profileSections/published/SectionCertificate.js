@@ -22,7 +22,6 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 const Published = ({ handleCertificate, certificate }) => {
-  console.log(certificate);
   const classes = useStyles();
   const [loading, setLoading] = React.useState(true);
 

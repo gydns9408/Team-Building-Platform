@@ -25,7 +25,6 @@ const Published = ({
     handleProfession,
     profession,
 }) => {
-  console.log(profession);
   const classes = useStyles();
   const [loading, setLoading] = React.useState(true);
 

@@ -24,7 +24,6 @@ const Tag = (props) => {
     ).then(async (response) => {
       return await response.json();
     });
-    console.log(data);
     setTagInfo(data);
   };
 

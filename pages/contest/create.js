@@ -209,7 +209,6 @@ const CreateTab = ({}) => {
         connect: { user_id: session.user.id },
       },
     };
-    console.log(body);
     const data = await fetch(
       `${process.env.HOSTNAME}/api/article/Contest/Create/id`,
       {

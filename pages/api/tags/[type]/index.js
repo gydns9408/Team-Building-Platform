@@ -18,7 +18,6 @@ const handle = async (req, res) => {
 
 const findTags = async (req, res) => {
   const { type } = req.query;
-  console.log(type);
   const result = await prisma?.[type].findMany({});
   res.json(result);
   resolve();

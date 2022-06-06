@@ -16,10 +16,8 @@ const Role = ({ team, role, className }) => {
   const [loading, setLoading] = useState(true);
   const [userInfo, setUserInfo] = useState([]);
   useEffect(() => {
-    console.log({ team, role });
     reqCitizen(team, role)
       .then((data) => {
-        console.log(data);
         setUserInfo(data);
       })
       .then(() => {
@@ -35,6 +33,7 @@ const Role = ({ team, role, className }) => {
           <Link
             href={`${process.env.HOSTNAME}/profile/${user.user.name}`}
             passHref
+            key={user.name}
           >
             <Avatar
               className={className}

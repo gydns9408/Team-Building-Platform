@@ -193,7 +193,6 @@ const PublishedTab = ({ citizensValue, handleEditing }) => {
         },
       }),
     };
-    console.log(body);
     const data = await fetch(`${process.env.HOSTNAME}/api/profile/${id}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -207,7 +206,6 @@ const PublishedTab = ({ citizensValue, handleEditing }) => {
     Promise.all([
       citizensDispatch({ type: "init", result: citizensValue }),
     ]).then(() => {
-      console.log(citizensValue);
       setLoading(false);
     });
   }, []);

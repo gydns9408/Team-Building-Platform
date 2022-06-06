@@ -31,6 +31,7 @@ const findArticleID = async (req, res) => {
     [category.toLowerCase()]: {
       include: { ...articleIncludeOption(category) },
     },
+    citizens: true,
   };
   const result = await prisma?.[`${category}Article`].findUnique({
     where: whereQuery,

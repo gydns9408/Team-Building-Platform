@@ -45,7 +45,11 @@ const FilterType = ({
             TransitionComponent={Fade}
           >
             {items.map((item) => {
-              return <MenuItem onClick={handleMenuClick}>{item.name}</MenuItem>;
+              return (
+                <MenuItem key={item.name} onClick={handleMenuClick}>
+                  {item.name}
+                </MenuItem>
+              );
             })}
           </Menu>
         </div>

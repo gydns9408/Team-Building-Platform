@@ -39,7 +39,7 @@ const ChatList = () => {
   };
 
   useEffect(() => {
-    const newClient = new StreamChat("r5sx846qqdpt");
+    const newClient = new StreamChat(process.env.STREAM_CHAT_KEY);
 
     const handleConnectionChange = ({ online = false }) => {
       if (!online) return console.log("connection lost");

@@ -8,21 +8,20 @@ const reqChannels = async (newClient, filters) => {
     watch: true, // this is the default
     state: true,
   });
-  console.log(channels);
+
   return channels[0];
 };
 const options = { state: true, presence: true, limit: 10 };
 const sort = { last_message_at: -1 };
 
 const createInvite = async (onerID, onerName, teamID, userID) => {
-
   const filters = {
     type: "team",
     id: `${teamID}`,
     members: { $in: [onerID] },
   };
 
-  const newClient = await new StreamChat("r5sx846qqdpt");
+  const newClient = await new StreamChat(process.env.STREAM_CHAT_KEY);
   const handleConnectionChange = ({ online = false }) => {
     if (!online) return console.log("connection lost");
   };

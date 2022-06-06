@@ -206,7 +206,6 @@ const PublishedTab = ({ articleValue, contestValue, handleEditing }) => {
         },
       },
     };
-    console.log(body);
     const data = await fetch(
       `${process.env.HOSTNAME}/api/article/Contest/${router.query.page}/${router.query.id}`,
       {
@@ -224,7 +223,6 @@ const PublishedTab = ({ articleValue, contestValue, handleEditing }) => {
       articleDispatch({ type: "init", result: articleValue }),
       contestDispatch({ type: "init", result: contestValue }),
     ]).then(() => {
-      console.log(contestValue);
       setLoading(false);
     });
   }, []);

@@ -30,7 +30,6 @@ const reqGroupList = async (userID, page) => {
   ).then(async (response) => {
     return await response.json();
   });
-  console.log(data);
   return data;
 };
 
@@ -38,7 +37,7 @@ const style = {};
 
 const useStyles = makeStyles(style);
 
-const groupList = () => {
+const GroupList = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [groupList, setGroupList] = useState([]);
@@ -47,7 +46,6 @@ const groupList = () => {
 
   useEffect(() => {
     reqGroupList(session.user.id, router.query.page).then((data) => {
-      console.log(data);
       setGroupList(data, setLoading(false));
     });
   }, []);
@@ -82,7 +80,7 @@ const groupList = () => {
   // );
 };
 
-export default groupList;
+export default GroupList;
 
 export async function getServerSideProps(context) {
   //   const maxPage = await fetch(

@@ -91,7 +91,6 @@ const SectionTeamList = ({ contest }) => {
       <GridContainer direction="row">
         {teamList.map((d) => {
           if (d !== undefined) {
-            console.log(d);
             return (
               <GridItem
                 key={d.article_id}

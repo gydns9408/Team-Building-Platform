@@ -25,7 +25,6 @@ const Published = ({
     handleProgram,
     program,
 }) => {
-  console.log(program);
   const classes = useStyles();
   const [loading, setLoading] = React.useState(true);
 

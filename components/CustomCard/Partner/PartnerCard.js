@@ -31,10 +31,6 @@ const PartnerCard = (props) => {
     setLoading(false);
   }, []);
 
-  useEffect(() => {
-    console.log(props);
-  }, []);
-
   if (loading) return <div>Loading...</div>;
   return (
     <Link
