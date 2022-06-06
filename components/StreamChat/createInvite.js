@@ -3,13 +3,12 @@ import { StreamChat } from "stream-chat";
 import "@stream-io/stream-chat-css/dist/css/index.css";
 
 const reqChannels = async (newClient, filters) => {
-  console.log(filters);
   const channels = await newClient.queryChannels(filters, sort, {
     watch: true, // this is the default
     state: true,
   });
-
-  return channels[0];
+  console.log(channels);
+  return channels;
 };
 const options = { state: true, presence: true, limit: 10 };
 const sort = { last_message_at: -1 };
@@ -18,7 +17,7 @@ const createInvite = async (onerID, onerName, teamID, userID) => {
   const filters = {
     type: "team",
     id: `${teamID}`,
-    members: { $in: [onerID] },
+    members: { $in: [`${onerID}`] },
   };
 
   const newClient = await new StreamChat(process.env.STREAM_CHAT_KEY);
@@ -36,7 +35,8 @@ const createInvite = async (onerID, onerName, teamID, userID) => {
   );
 
   await reqChannels(newClient, filters).then(async (channel) => {
-    await channel.addMembers([userID]);
+    console.log(channel);
+    await channel[0].addMembers(`${[userID]}`);
   });
 
   newClient.off("connection.changed", handleConnectionChange);

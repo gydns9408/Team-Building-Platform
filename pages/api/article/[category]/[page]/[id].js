@@ -70,7 +70,7 @@ const updateArticle = async (req, res) => {
     ...rest,
   };
   const whereQuery = {
-    id: parseInt(id),
+    article_id: parseInt(id),
   };
   const result = await prisma?.[`${category}Article`].update({
     where: whereQuery,
@@ -79,6 +79,7 @@ const updateArticle = async (req, res) => {
   res.json(result);
   return resolve();
 };
+
 export default handle;
 
 const articleIncludeOption = (type) => {

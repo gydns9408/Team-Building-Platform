@@ -18,6 +18,7 @@ import palettes from "../../../../styles/nextjs-material-kit/palettes";
 
 import createInvite from "../../../../components/StreamChat/CreateInvite";
 import { getSession, useSession, signIn, signOut } from "next-auth/react";
+import { useRouter } from "next/router";
 const styles = {
   title: {
     alignItems: "center",
@@ -114,13 +115,55 @@ const pageLabels = {
 
 const useStyles = makeStyles(styles);
 
-const reqUpdateMembers = () => {};
+const reqUpdateMembers = async (userID, roleID, id) => {
+  const teamBody = {
+    team: {
+      update: {
+        citizens: {
+          connect: {
+            user_id: userID,
+          },
+        },
+      },
+    },
+  };
+  const roleBody = {
+    Role: {
+      connect: {
+        id: roleID,
+      },
+    },
+  };
+  const teamData = await fetch(
+    `${process.env.HOSTNAME}/api/article/Team/PUT/${id}`,
+    {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(teamBody),
+    }
+  ).then((response) => {
+    return response.json();
+  });
+  const citizensData = await fetch(
+    `${process.env.HOSTNAME}/api/profile/${userID}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(roleBody),
+    }
+  ).then((response) => {
+    return response.json();
+  });
+
+  return citizensData;
+};
 
 const Overview = ({ data }) => {
   const { data: session, status } = useSession();
   const classes = useStyles();
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
+  const router = useRouter();
 
   const imageClasses = classNames(
     classes.imgRaised,
@@ -206,13 +249,19 @@ const Overview = ({ data }) => {
                       </GridItem>
                       <Button
                         className={classes.joinButton}
-                        onClikc={() => {
-                          // createInvite(
-                          //   citizens.user_id,
-                          //   citizens.user_id,
-                          //   data.id,
-                          //   session.user.id
-                          // );
+                        onClick={(e) => {
+                          console.log(e);
+                          reqUpdateMembers(
+                            session.user.id,
+                            role.id,
+                            router.query.id
+                          );
+                          createInvite(
+                            data.citizens.user_id,
+                            data.citizens.user_id,
+                            data.id,
+                            session.user.id
+                          );
                         }}
                       >
                         {pageLabels.joinButton}
