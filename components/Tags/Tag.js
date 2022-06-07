@@ -66,6 +66,20 @@ const Tag = (props) => {
             />
           </IconButton>
         );
+        case "iconOnly_big":
+          return (
+            <IconButton aria-label="delete" size="large">
+              <Image
+                src={
+                  getTagInfo.image_url !== null
+                    ? getTagInfo.image_url
+                    : `/asset/image/background/contest/default.svg`
+                }
+                width={50}
+                height={50}
+              />
+            </IconButton>
+          );
       case "textOnly":
         return <Chip label={getTagInfo.name !== null ? getTagInfo.name : ""} />;
       default:

@@ -4,8 +4,9 @@ import * as React from "react";
 import GridContainer from "../../../../components/Grid/GridContainer";
 import GridItem from "../../../../components/Grid/GridItem";
 import Editor from "../../../../components/Editors/CKEditorTextEditor";
-import TitleInput from "../../../../components/Input/Title";
+import TitleInput from "../../../../components/Input/Email";
 import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@mui/material/Typography";
 
 
 const pageLabels = {
@@ -35,6 +36,9 @@ const Published = ({
     <GridContainer direction="column" spacing={2}>
       <GridItem>
         <TitleInput onChange={handleEmailChange} data={email} />
+      </GridItem>
+      <GridItem>
+      <Typography><li>자기소개</li></Typography>
       </GridItem>
       <GridItem>
         <Editor

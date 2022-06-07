@@ -1,13 +1,25 @@
 import React from "react";
 import Image from "next/image";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+
+import GridContainer from "../Grid/GridContainer";
+import GridItem2 from "../Grid/GridItem2";
 
 const imgType = { png: ".png" };
 
 var professionIconImageAddress = "/asset/icon/tech_stack/profession_icon_";
 
+
+
 const ProfessionName = (props) => {
+
     const photosize = 50
         return(<>
+        <GridContainer direction="column" spacing={1}>
+        <GridItem2>
+        <div align="center">
+        <IconButton aria-label="delete" size="large">
         <Image 
           src={ 
               props.id !== null
@@ -18,7 +30,17 @@ const ProfessionName = (props) => {
           width={photosize}
           height={photosize}
           />
-          <a>{props.name}</a>
+          </IconButton>
+          </div>
+          </GridItem2>
+          <GridItem2>
+          
+          <div 
+          align="center"
+          >{props.name}</div>
+          </GridItem2>
+          </GridContainer>
+          &nbsp;
           </>
             )
     
@@ -30,7 +52,19 @@ const ProfessionsContainer = (props) => {
 
     return (
     <>
-
+        <Box
+      sx={{
+        display: "flex",
+        justifyContent: "left",
+        flexWrap: "wrap",
+        listStyle: "none",
+        p: 0.5,
+        m: 0,
+        flexDirection: "row",
+      }}
+      component="ul"
+      bgcolor="primary.light"
+    >
     {props.tags.map((professionData, i) => {
         return (<ProfessionName 
           id = {professionData.id}
@@ -38,7 +72,7 @@ const ProfessionsContainer = (props) => {
           key={i}/>
           );
                               })}
-
+</Box>
     </>
     )
 }
