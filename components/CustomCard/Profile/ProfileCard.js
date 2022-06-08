@@ -3,6 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 import { CardActionArea, Avatar, CardHeader, Button, List, ListItem, ListItemText, Divider } from "@mui/material";
 import Tag from "../../Tags/Tag";
 import TagContainer from "../../Tags/TagsContainer";
@@ -93,12 +94,22 @@ const ContestCard = (props) => {
 
             <Divider />
             <Typography>&nbsp;</Typography>
-
-            <Typography color="#8C8C8C">{
+            <Box
+            sx={{
+            backgroundColor :  "#FFFFFF",
+            borderColor : "#D0D7DE",
+            borderStyle : "solid",
+            borderWidth : "1px",
+            borderRadius : "6px"
+            }}
+            >
+            
+            <Typography>{
             contestID[0].profile.content !== null
            ? Parser(contestID[0].profile.content)
            : null
           }</Typography>
+          </Box>
           </GridItem2>
           <GridItem2>
             <h2>관련분야</h2>
@@ -152,13 +163,33 @@ const ContestCard = (props) => {
             <h2>공모전 참가 이력</h2>
             <Divider />
             <Typography>&nbsp;</Typography>
+            <Box
+            sx={{
+            backgroundColor :  "#FFFFFF",
+            borderColor : "#D0D7DE",
+            borderStyle : "solid",
+            borderWidth : "1px",
+            borderRadius : "6px"
+            }}
+            >
             <ContestParticipationContainer datas={contestID[0].profile.contest} />
+            </Box>
           </GridItem2>
           <GridItem2>
             <h2>소속중인 팀</h2>
             <Divider />
             <Typography>&nbsp;</Typography>
+            <Box
+            sx={{
+            backgroundColor :  "#FFFFFF",
+            borderColor : "#D0D7DE",
+            borderStyle : "solid",
+            borderWidth : "1px",
+            borderRadius : "6px"
+            }}
+            >
             <TeamsContainer datas={contestID[0].team} />
+            </Box>
           </GridItem2>
           <GridItem2>
             <h2>이 프로필의 조회수</h2>
