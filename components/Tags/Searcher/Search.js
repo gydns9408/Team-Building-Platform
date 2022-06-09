@@ -111,6 +111,11 @@ export default function FadeMenu({
       reqSearch(searchQuery, index, filed, size).then((data) => {
         setPreview(data);
       });
+    } else if (searchQuery === "") {
+      reqSearch(basicQuery, index, filed, size).then((data) => {
+        console.log(data);
+        setPreview(data);
+      });
     }
   }, [searchQuery]);
 

@@ -1,24 +1,27 @@
 import { useState, useEffect, Fragment } from "react";
-import classNames from "classnames";
 import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
 //components
 import GridContainer from "../../components/Grid/GridContainer";
 import GridItem from "../../components/Grid/GridItem";
 import Card from "../../components/Card/Card";
-import Button from "../../components/CustomButtons/Button";
 import MainLayout from "../../components/Layout/MainLayout";
-import { getSession, useSession, signIn, signOut } from "next-auth/react";
-
 import Title from "../../components/Input/Title";
 import Editor from "../../components/Editors/CKEditorTextEditor";
 import { Typography } from "@material-ui/core";
 import styles from "../../styles/jss/nextjs-material-kit/pages/published/teamCreate";
-import moment from "moment";
-import { useRouter } from "next/router";
+import SectionHeaderImage from "../../pages-sections/contest/tabSections/SectionHeaderImage";
 import Searcher from "../../components/Tags/Searcher/Search";
 import RoleItem from "../../components/Tags/Searcher/SearcherItem/RoleItem";
 import RoleCard from "../../components/CustomCard/Role/RoleCard";
+import palettes from "../../styles/nextjs-material-kit/palettes";
+
+import { IconButton } from "@material-ui/core";
+
+import { getSession, useSession, signIn, signOut } from "next-auth/react";
+import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import moment from "moment";
+import { useRouter } from "next/router";
 const pageLabels = {
   roleLabel: "모집 분야",
   participantsLabel: "참여자",
@@ -28,43 +31,37 @@ const pageLabels = {
 
 const useStyles = makeStyles(styles);
 
-const Overview = ({ data }) => {
+const CreateTeam = ({ data }) => {
   const { data: session, status } = useSession();
   const classes = useStyles();
 
   const [selectRole, setSelectRole] = useState([]);
 
   const [loading, setLoading] = useState(true);
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     setLoading(false);
   }, []);
-  useEffect(() => {
-  }, [selectRole]);
+  useEffect(() => {}, [selectRole]);
 
   const handleSelectRole = (data) => {
-    setSelectRole([...selectRole, data]);
+    const newRole = selectRole.filter((role) => role.name !== data.name);
+    console.log(newRole);
+    setSelectRole([...newRole, data]);
   };
-
   return (
     <MainLayout>
-      {/* <SectionHeaderImage
-        // contestImage={data.team_image_url}
-        editing={editing}
-      /> */}
+      <SectionHeaderImage editing={editing} />
       <GridContainer direction="column">
         <GridItem className={classes.titleContain} xs={9} sm={9} md={9}>
           <GridContainer direction="column">
             <GridItem>
-              {/* <Title
-                className={classes.title}
-                placeholder={pageLabels.placeholder}
-              /> */}
+              <Title placeholder={pageLabels.placeholder} />
             </GridItem>
-            <GridItem>
-              <Typography />
+            <GridItem className={classes.subTitle}>
+              <Typography>{moment().format("YYYY.MM.DD")}</Typography>
             </GridItem>
           </GridContainer>
         </GridItem>
@@ -77,7 +74,10 @@ const Overview = ({ data }) => {
         <GridItem xs={12} sm={12} md={12}>
           <Card>
             <GridContainer direction="row">
-              <GridContainer direction="row">
+              <GridContainer
+                direction="row"
+                className={classes.roleCardContain}
+              >
                 {selectRole.map((role) => {
                   return (
                     <GridItem
@@ -98,12 +98,18 @@ const Overview = ({ data }) => {
                   sm={3}
                   md={3}
                   key={"Searcher"}
-                  className={classes.overviewItem + " " + classes.borderRight}
+                  className={
+                    classes.overviewItem +
+                    " " +
+                    classes.borderRight +
+                    " " +
+                    classes.searcher
+                  }
                 >
                   <Searcher
                     index={"role_index"}
-                    filed={["name", "description"]}
-                    basicQuery={""}
+                    filed={["name", "description", "type"]}
+                    basicQuery={"role"}
                     size={10}
                     handle={handleSelectRole}
                   >
@@ -116,11 +122,17 @@ const Overview = ({ data }) => {
         </GridItem>
         <GridItem xs={12} sm={12} md={12}></GridItem>
       </GridContainer>
+      <IconButton className={classes.createButton}>
+        <SaveAltIcon
+          sx={{ fontSize: "2rem" }}
+          style={{ color: palettes.darkBlue3 }}
+        />
+      </IconButton>
     </MainLayout>
   );
 };
 
-export default Overview;
+export default CreateTeam;
 
 // export async function getServerSideProps(context) {
 //   const { id } = context.query;

@@ -85,7 +85,7 @@ const useStyles = makeStyles(styles);
 const RoleCard = ({ data, handle }) => {
   const { description, image_url, name, type } = data;
   const classes = useStyles();
-  const [role, setRole] = useState([roleOption]);
+  const [role, setRole] = useState([]);
   const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {

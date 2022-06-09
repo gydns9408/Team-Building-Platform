@@ -37,7 +37,12 @@ module.exports = {
     domains: ["avatars.githubusercontent.com", "localhost"],
   },
 };
-
+module.exports = {
+  compiler: {
+    // ssr and displayName are configured by default
+    styledComponents: true,
+  },
+};
 module.exports = {
   env: {
     HOSTNAME: process.env.HOSTNAME,

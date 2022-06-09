@@ -219,7 +219,7 @@ const Overview = ({ data }) => {
                         xs={7}
                         sm={7}
                         md={7}
-                        classNames={classes.overviewBody}
+                        className={classes.overviewBody}
                       >
                         <Tag
                           name={role.name}
