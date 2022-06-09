@@ -5,9 +5,11 @@ import GridContainer from "../../../components/Grid/GridContainer";
 import GridItem2 from "../../../components/Grid/GridItem2";
 import TabPanel from "../../../components/Tab/TabPanel";
 import Button from "../../../components/CustomButtons/Button";
+import MainLayout from "../../../components/Layout/MainLayout";
 import { makeStyles } from "@material-ui/core/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+
 
 import SectionProfile from "./published/SectionProfile";
 import SectionTags from "./published/SectionTags";
@@ -252,7 +254,7 @@ const PublishedTab = ({ citizensValue, handleEditing }) => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <Fragment>
+    <MainLayout>
       <GridContainer direction="row" className={classes.contestHead}>
         <GridItem2 xs={3} sm={3} md={3}>
           <Tabs
@@ -266,8 +268,8 @@ const PublishedTab = ({ citizensValue, handleEditing }) => {
             <Tab label="관심있는 분야" {...a11yProps(2)} />
             <Tab label="태그" {...a11yProps(3)} />
             {/* <Tab label="이력서" {...a11yProps(4)} /> */}
-            <Tab label="자격증" {...a11yProps(4)} />
-            <Tab label="활용 가능한 프로그램" {...a11yProps(5)} />
+            {/* <Tab label="자격증" {...a11yProps(4)} /> */}
+            <Tab label="활용 가능한 프로그램" {...a11yProps(4)} />
           </Tabs>
         </GridItem2>
         <GridItem2 xs={9} sm={9} md={9}>
@@ -307,22 +309,25 @@ const PublishedTab = ({ citizensValue, handleEditing }) => {
             resume={citizens.profile.resume}
             />
           </TabPanel> */}
-            <TabPanel value={value} index={4}>
+            {/* <TabPanel value={value} index={4}>
             <SectionCertificate
             handleCertificate={handleCertificate}
             certificate={citizens.certificate}
             />
-          </TabPanel>
-          <TabPanel value={value} index={5}>
+          </TabPanel> */}
+          <TabPanel value={value} index={4}>
             <SectionProgram
             handleProgram={handleProgram}
             program={citizens.program}
             />
           </TabPanel>
-          &nbsp;&nbsp;&nbsp;&nbsp;<Button onClick={()=> handlePublished(citizensValue.user_id)}>{pageLabels.submitButton}</Button>
+          &nbsp;&nbsp;&nbsp;&nbsp;<Button 
+          onClick={()=> handlePublished(citizensValue.user_id)}
+          color = "success"
+          >{pageLabels.submitButton}</Button>
         </GridItem2>
       </GridContainer>
-    </Fragment>
+    </MainLayout>
   );
 };
 

@@ -2,11 +2,19 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Tag from "./Tag";
+
+
+
 const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
+
+
 export default function ChipsArray({ tags, type, form, children }) {
+
+  console.log(tags);
+
   return (
     <Box
       sx={{
@@ -19,7 +27,7 @@ export default function ChipsArray({ tags, type, form, children }) {
         flexDirection: "row",
       }}
       component="ul"
-      bgcolor="primary.light"
+      bgcolor="text.disabled"
     >
       {tags.length !== 0
         ? tags.map((data) => {

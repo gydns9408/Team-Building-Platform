@@ -3,16 +3,30 @@ import { styled } from "@mui/material/styles";
 import Chip from "@mui/material/Chip";
 import Image from "next/image";
 import IconButton from "@mui/material/IconButton";
+import { makeStyles } from "@material-ui/core/styles";
 
 const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
+const styles = {
+  iconbutton: {
+    backgroundColor: "white"
+  },
+  img: {
+    width: "2rem",
+    height: "2rem",
+  },
+};
+
+const useStyles = makeStyles(styles);
+
 const Tag = (props) => {
   const { name, type, form } = props;
-
   const [getTagInfo, setTagInfo] = React.useState({});
   const [loading, setLoading] = React.useState(true);
+
+  const classes = useStyles();
 
   const TagRequest = async () => {
     const data = await fetch(
@@ -66,20 +80,20 @@ const Tag = (props) => {
             />
           </IconButton>
         );
-        case "iconOnly_big":
-          return (
-            <IconButton aria-label="delete" size="large">
-              <Image
-                src={
-                  getTagInfo.image_url !== null
-                    ? getTagInfo.image_url
-                    : `/asset/image/background/contest/default.svg`
-                }
-                width={50}
-                height={50}
-              />
-            </IconButton>
-          );
+        case "iconOnly_profile":
+        return (
+          <IconButton aria-label="delete" size="large" className={classes.iconbutton}>
+          <img
+              className={classes.img}
+              src={
+                getTagInfo.image_url !== null
+                  ? getTagInfo.image_url
+                  : `/asset/image/background/contest/default.svg`
+              }
+              alt="photo"
+            />
+          </IconButton>
+        );
       case "textOnly":
         return <Chip label={getTagInfo.name !== null ? getTagInfo.name : ""} />;
       default:

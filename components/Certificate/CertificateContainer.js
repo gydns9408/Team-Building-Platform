@@ -9,7 +9,7 @@ import GridItem2 from "../Grid/GridItem2";
 
 const CertificateName = (props) => {
 
-    const photosize = 50
+    const photosize = 24
         return(<>
         <GridContainer direction="column" spacing={1}>
         <GridItem2>
