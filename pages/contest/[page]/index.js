@@ -12,8 +12,11 @@ import styles from "../../../styles/jss/nextjs-material-kit/components/cardStyle
 import { makeStyles } from "@material-ui/core/styles";
 import { useRouter } from "next/router";
 import FilrerContainer from "../../../components/Article/PageFiler/FilerContain";
-import FilterMenuItem from "../../../components/Article/PageFiler/FilterMenuItem";
-
+import dynamic from "next/dynamic";
+const FilterMenuItem = dynamic(
+  () => import("../../../components/Article/PageFiler/FilterMenuItem"),
+  { ssr: false }
+);
 // import FilterToggleItem from "../../../components/Article/PageFiler/FilterToggleItem";
 
 import Button from "../../../components/CustomButtons/Button";
@@ -49,8 +52,7 @@ export default function CompetitionSearchPage({ data, maxPage, profession }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setCurrentPage(router.query.page);
-    setLoading(false);
+    setCurrentPage(router.query.page, setLoading(false));
   }, []);
   useEffect(() => {
     if (currentProfession !== undefined) {
@@ -96,11 +98,13 @@ export default function CompetitionSearchPage({ data, maxPage, profession }) {
           </Card>
         </GridItem>
         <GridItem xs={12} sm={12} md={12}>
-          <FilterMenuItem
-            items={profession}
-            label={pageLabels.professionFilter}
-            handleMenuClick={handleMenuClick}
-          />
+          <FilrerContainer>
+            <FilterMenuItem
+              items={profession}
+              label={pageLabels.professionFilter}
+              handleMenuClick={handleMenuClick}
+            />
+          </FilrerContainer>
         </GridItem>
         <GridContainer direction="row">
           {data.map((d) => {
@@ -117,7 +121,7 @@ export default function CompetitionSearchPage({ data, maxPage, profession }) {
             );
           })}
         </GridContainer>
-        <GridItem xs={12} sm={12} md={12} justifyContent={"center"}>
+        <GridItem xs={12} sm={12} md={12}>
           <Paginations
             currentPage={currentPage}
             MaxPage={maxPage}

@@ -1,12 +1,12 @@
 import { Fragment, useState, useEffect } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Chip from "@mui/material/Chip";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import Fade from "@mui/material/Fade";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import Chip from "@material-ui/core/Chip";
+import Fade from "@material-ui/core/Fade";
 import { Box } from "@mui/system";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 const styles = {
   menu: {
     height: "20rem",
@@ -15,7 +15,7 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-const FilterItem = ({ items, label, handleMenuClick }) => {
+const FilterItem = ({ items = [], label, handleMenuClick }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -29,18 +29,24 @@ const FilterItem = ({ items, label, handleMenuClick }) => {
   };
   useEffect(() => {
     if (items !== undefined) setLoading(false);
+  }, []);
+  useEffect(() => {
+    if (items !== undefined) setLoading(false);
   }, [items]);
-  if (loading) return <div>Loading</div>;
+  if (loading)
+    return (
+      <Box>
+        <Chip></Chip>
+      </Box>
+    );
   return (
     <Box component="ul">
       <Chip
-        deleteIcon={<KeyboardArrowDownIcon />}
-        label={label}
+        label={label === undefined ? "" : label}
         onClick={handleClick}
       ></Chip>
       <Menu
         className={classes.menu}
-        id="fade-menu"
         MenuListProps={{
           "aria-labelledby": "fade-button",
         }}

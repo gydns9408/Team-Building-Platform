@@ -100,7 +100,7 @@ const styles = {
     height: "2.5rem",
     backgroundColor: palettes.hotPink,
     "&:hover": {
-      background: palettes.darkPink,
+      background: palettes.darkPink1,
     },
     marginLeft: "auto",
     marginRight: "1rem",

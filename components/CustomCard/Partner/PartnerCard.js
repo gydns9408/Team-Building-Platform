@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -31,38 +31,43 @@ const PartnerCard = (props) => {
     setLoading(false);
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Fragment>Loading...</Fragment>;
   return (
     <Link
       href={`${process.env.HOSTNAME}/profile/${contestID.user.name}`}
       prefetch
       passHref
-     >
-        <Card className={classes.card + " " + className}>
-          <GridContainer direction="row" spacing={2} xs={12} sm={12} md={12}>
-            <CardActionArea>
-              <CardContent>
-                <CardHeader
-                  avatar={
-                    <Avatar
-                      alt="photo"
-                      src={
-                        contestID.user.image !== null
-                          ? `${contestID.user.image}`
-                          : `/asset/image/background/contest/default.svg`
-                      }
-                    />
-                  }
-                  title={contestID.user.name}
-                  titleTypographyProps={{ fontSize: 20, color:"#00adb5" }}
+    >
+      <Card className={classes.card + " " + className}>
+        <GridContainer direction="row" spacing={2} xs={12} sm={12} md={12}>
+          <CardActionArea>
+            <CardContent>
+              <CardHeader
+                avatar={
+                  <Avatar
+                    alt="photo"
+                    src={
+                      contestID.user.image !== null
+                        ? `${contestID.user.image}`
+                        : `/asset/image/background/contest/default.svg`
+                    }
+                  />
+                }
+                title={contestID.user.name}
+                titleTypographyProps={{ fontSize: 20, color: "#00adb5" }}
               />
               <Divider />
               <Typography>&nbsp;</Typography>
-              <Typography>{contestID.profile.content}</Typography>
+              <Typography>
+                {contestID.profile === null ? "" : contestID.profile.content}
+              </Typography>
               <Typography>&nbsp;</Typography>
               <Divider />
-                <h3><li>기술스택</li></h3>
-                <TagContainer tags={contestID.tech_stack}
+              <h3>
+                <li>기술스택</li>
+              </h3>
+              <TagContainer
+                tags={contestID.tech_stack}
                 type={"TechStack"}
                 form={"iconOnly"}
               />

@@ -3,6 +3,7 @@ import prisma from "../../../utilities/prisma/client";
 const handle = async (req, res) => {
   switch (req.method) {
     case "GET":
+      findContest(req, res);
       break;
     case "POST":
       createContest(req, res);
@@ -16,6 +17,28 @@ const handle = async (req, res) => {
     default:
       throw new Error(console.log(req.method));
   }
+};
+
+const findContest = async (req, res) => {
+  const { id } = req.query;
+
+  const whereQuery = {
+    id: parseInt(id),
+  };
+  const includeQuery = {
+    contest_article: {
+      select: {
+        article_id: true,
+      },
+    },
+  };
+
+  const result = await prisma.contest.findUnique({
+    where: whereQuery,
+    include: includeQuery,
+  });
+
+  res.json(result);
 };
 
 const createContest = async (req, res) => {
@@ -108,7 +131,7 @@ const deleteContest = async (req, res) => {
   const { id } = req.body;
   const result = await prisma.Contest.delete({
     where: {
-      id:  id,
+      id: id,
     },
   });
   res.json(result);

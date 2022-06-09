@@ -19,7 +19,7 @@ import GridItem from "../../Grid/GridItem";
 import Parser from "html-react-parser";
 
 const pageLabels = {
-  roleLabel: "모집 분야",
+  roleLabel: "참가자",
 };
 
 const styles = {

@@ -8,6 +8,7 @@ import { Box, IconButton, Menu, MenuItem } from "@material-ui/core";
 import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
 import Fade from "@mui/material/Fade";
+import SearchBar from "../SearchBar/SearchBar";
 const styles = {
   iconSize: {
     width: "3rem",
@@ -136,7 +137,6 @@ const Header = () => {
         <Link href="/partner" passHref>
           <a data-active={isActive("/drafts")}>파트너</a>
         </Link>
-
         <style jsx>{`
           .bold {
             font-weight: bold;
@@ -299,7 +299,9 @@ const Header = () => {
   return (
     <nav>
       {left}
+      <SearchBar />
       {right}
+
       <style jsx>{`
         nav {
           height: 4rem;

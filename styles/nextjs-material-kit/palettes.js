@@ -1,10 +1,15 @@
 const palettes = {
   purple: "#cdb4db",
-  lightPink: "#ffc8dd",
-  darkPink: "#ffafcc",
-  lightBlue: "#bde0fe",
+  lightPurple: "#a67dff",
+  lightpink1: "#ffc7ff",
+  lightPink2: "#ffc8dd",
+  darkPink1: "#ffafcc",
+  darkPink2: "#eea2ff",
   hotPink: "#ef476f",
+  lightBlue: "#bde0fe",
   darkBlue: "#a2d2ff",
+  darkBlue2: "#88b9ff",
+  darkBlue3: "#8194ff",
 };
 
 export default palettes;

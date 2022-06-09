@@ -88,7 +88,10 @@ const Tag = ({ name, type, form, children }) => {
       case "icon":
         return (
           <Box>
-            <IconButton className={classes.iconButtonLabel}>
+            <IconButton
+              className={classes.iconButtonLabel}
+              onClick={handleModalOpen}
+            >
               <Image
                 src={
                   getTagInfo.image_url !== null
@@ -97,7 +100,6 @@ const Tag = ({ name, type, form, children }) => {
                 }
                 width={24}
                 height={24}
-                onClick={handleModalOpen}
               />
               <p className={classes.iconLabel}>
                 {getTagInfo.name !== null ? getTagInfo.name : ""}
@@ -127,7 +129,11 @@ const Tag = ({ name, type, form, children }) => {
       case "iconOnly":
         return (
           <Box>
-            <IconButton aria-label="delete" size="large">
+            <IconButton
+              aria-label="delete"
+              size="large"
+              onClick={handleModalOpen}
+            >
               <Image
                 src={
                   getTagInfo.image_url !== null
@@ -136,7 +142,6 @@ const Tag = ({ name, type, form, children }) => {
                 }
                 width={32}
                 height={32}
-                onClick={handleModalOpen}
               />
               {children}
             </IconButton>

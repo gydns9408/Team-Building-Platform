@@ -80,7 +80,7 @@ const options = {
         body: JSON.stringify(body),
       };
       const data = await fetch(
-        `http://localhost:3000/api/auth/permissionChecker`,
+        `${process.env.HOSTNAME}/api/auth/permissionChecker`,
         request
       );
       return true;
@@ -92,7 +92,7 @@ const options = {
           headers: { "Content-Type": "application/json" },
         };
         const data = await fetch(
-          `http://localhost:3000/api/auth/getAccesstoken?userID=${user.id}`,
+          `${process.env.HOSTNAME}/api/auth/getAccesstoken?userID=${user.id}`,
           request
         ).then((response) => {
           return response.json();

@@ -114,7 +114,7 @@ const ContestCard = (props) => {
       setLoading(false);
     });
   }, []);
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Fragment>Loading...</Fragment>;
   return (
     <Fragment>
       <CssBaseline />
