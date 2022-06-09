@@ -83,7 +83,7 @@ const size = 10;
 const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [index, setIndex] = useState("contest_index");
-  const [filed, setFiled] = useState("contest_name");
+  const [filed, setFiled] = useState(["contest_name"]);
   const [preview, setPreview] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [loading, setLoading] = useState(true);

@@ -21,7 +21,7 @@ import Image from "next/image";
 import GridContainer from "../../Grid/GridContainer";
 import GridItem from "../../Grid/GridItem";
 import Paginations from "../../Pagination/Pagination";
-import MainLayout from "../../Layout/MainLayout2";
+import MainLayout from "../../Layout/MainLayout";
 import Header from "../../header/Header";
 import ProfessionsContainer from "../../Professions/ProfessionsContainer";
 import ContestParticipationContainer from "../../ContestParticipation/ContestParticipationContainer";

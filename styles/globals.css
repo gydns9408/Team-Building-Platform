@@ -89,3 +89,6 @@ ul.pagination li a.active {
   src: url(font/SCDream9.otf);
 }
 
+div.ck.ck-editor__main > div{
+  min-height: 20rem;
+}

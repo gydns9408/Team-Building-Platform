@@ -10,15 +10,14 @@ const searchES = async (req, res) => {
       index: index,
       body: {
         query: {
-          match: {
-            [filed]: {
-              query: searchQuery,
-              operator: "and",
-              fuzziness: "AUTO",
-              prefix_length: "0",
-              fuzzy_transpositions: "false",
-              minimum_should_match: "85%",
-            },
+          multi_match: {
+            query: searchQuery,
+            fields: filed,
+            operator: "or",
+            fuzziness: "AUTO",
+            prefix_length: "0",
+            fuzzy_transpositions: "false",
+            minimum_should_match: "25%",
           },
         },
         size: size,

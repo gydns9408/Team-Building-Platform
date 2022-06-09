@@ -1,15 +1,20 @@
-import { useState, useEffect } from "react";
-import { Box } from "@mui/system";
-import Link from "next/link";
-const Box = ({ title, body, id }) => {
+import Searcher from "../components/Tags/Searcher/Search";
+import RoleItem from "../components/Tags/Searcher/SearcherItem/RoleItem";
+import { Fragment } from "react";
+//   index, filed, basicQuery,
+const Index = () => {
   return (
-    <Box>
-      <Link href={`${process.env.HOST_NAME}/contest/Read/${id}`}>
-        <p>{title}</p>
-        <p>{body}</p>
-      </Link>
-    </Box>
+    <Fragment>
+      <Searcher
+        index={"role_index"}
+        filed={["name", "description"]}
+        basicQuery={""}
+        size={10}
+      >
+        <RoleItem></RoleItem>
+      </Searcher>
+    </Fragment>
   );
 };
 
-export default Box;
+export default Index;

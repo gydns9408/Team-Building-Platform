@@ -176,7 +176,7 @@ const Tag = ({ name, type, form, children }) => {
                 <GridContainer direction="row" className={classes.roleContain}>
                   <Image
                     src={
-                      getTagInfo.image_url !== null
+                      getTagInfo !== undefined
                         ? getTagInfo.image_url
                         : `/asset/image/background/contest/default.svg`
                     }

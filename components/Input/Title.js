@@ -1,8 +1,8 @@
 import * as React from "react";
-import FormControl, { useFormControl } from "@mui/material/FormControl";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import Box from "@mui/material/Box";
-import FormHelperText from "@mui/material/FormHelperText";
+import FormControl, { useFormControl } from "@material-ui/core/FormControl";
+import Input from "@material-ui/core/Input";
+import Box from "@material-ui/core/Box";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 function MyFormHelperText() {
   const { focused } = useFormControl() || {};
@@ -17,17 +17,25 @@ function MyFormHelperText() {
   return <FormHelperText>{helperText}</FormHelperText>;
 }
 
-export default function UseFormControl({ onChange, data }) {
+export default function UseFormControl({
+  onChange,
+  data,
+  placeholder,
+  className,
+}) {
   return (
-    <Box component="form" noValidate autoComplete="off">
-      <FormControl sx={{ width: "25ch" }}>
-        <OutlinedInput
-          placeholder="Please enter text"
-          onChange={onChange}
-          value={data}
-        />
-        <MyFormHelperText />
-      </FormControl>
+    <Box>
+      <Input
+        className={className}
+        placeholder={
+          placeholder === undefined ? "Please enter text" : placeholder
+        }
+        onChange={onChange}
+        value={data}
+        inputProps={{ className: className }}
+        autoFocus
+      />
+      {/* <MyFormHelperText focusedText={focusedText} /> */}
     </Box>
   );
 }

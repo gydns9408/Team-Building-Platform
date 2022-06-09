@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, cloneElement } from "react";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import Menu from "@mui/material/Menu";
@@ -9,10 +9,10 @@ import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import Image from "next/image";
 import Modal from "../../Modal/Modal";
-import GenerateTags from "../../../pages-sections/tags/SectionGenerateProfessions";
+import GenerateTags from "../../../pages-sections/tags/SectionGenerateTags";
 const pageLabel = {
-  tech_stack_append: "분야 생성하기",
-  tech_stack: "분야 생성",
+  tech_stack_append: "기술 스택 생성하기",
+  tech_stack: "기술 스택 생성",
 };
 
 const Search = styled("div")(({ theme }) => ({
@@ -65,10 +65,10 @@ const previewOption = {
 
 const reqSearch = async (searchQuery, index, filed, size) => {
   const body = {
-    index: index,
-    searchQuery: searchQuery,
-    filed: filed,
-    size: size,
+    index: index === undefined ? "tech_stack_index" : index,
+    searchQuery: searchQuery === undefined ? "tech_stack" : searchQuery,
+    filed: filed === undefined ? "type" : filed,
+    size: size === undefined ? 10 : size,
   };
 
   const data = await fetch(`${process.env.HOSTNAME}/api/search`, {
@@ -82,7 +82,14 @@ const reqSearch = async (searchQuery, index, filed, size) => {
   return data;
 };
 
-export default function FadeMenu({ handle }) {
+export default function FadeMenu({
+  handle,
+  index,
+  filed,
+  basicQuery,
+  children,
+  size,
+}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [preview, setPreview] = useState([previewOption]);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -93,11 +100,6 @@ export default function FadeMenu({ handle }) {
   const open = Boolean(anchorEl);
 
   useEffect(() => {
-    const index = "profession_index";
-    const filed = ["type"];
-    const basicQuery = "profession";
-    const size = 10;
-
     reqSearch(basicQuery, index, filed, size).then((data) => {
       setPreview(data);
       setLoading(false);
@@ -105,20 +107,7 @@ export default function FadeMenu({ handle }) {
   }, []);
 
   useEffect(() => {
-    if (searchQuery === "") {
-      const index = "profession_index";
-      const filed = ["type"];
-      const basicQuery = "profession";
-      const size = 10;
-
-      reqSearch(basicQuery, index, filed, size).then((data) => {
-        setPreview(data);
-        setLoading(false);
-      });
-    } else {
-      const index = "profession_index";
-      const filed = ["name"];
-      const size = 10;
+    if (searchQuery !== "") {
       reqSearch(searchQuery, index, filed, size).then((data) => {
         setPreview(data);
       });
@@ -174,33 +163,20 @@ export default function FadeMenu({ handle }) {
           />
         </Search>
         {preview.map((data) => {
-          return (
-            <MenuItem
-              key={data.name}
-              onClick={() => {
-                handleClose();
-                handle(data);
-              }}
-            >
-              {data.image_url === "" ? null : (
-                <Image src={data.image_url} width={16} height={16} />
-              )}
-              {data.name}
-            </MenuItem>
-          );
+          return cloneElement(children, { data, handle });
         })}
         <MenuItem onClick={handleModalOpen}>
           <AddIcon />
           {pageLabel.tech_stack_append}
         </MenuItem>
       </Menu>
-      <Modal
+      {/* <Modal
         title={pageLabel.tech_stack}
         open={modalToggle}
         handleModalClose={handleModalClose}
       >
         <GenerateTags handle={handle} />
-      </Modal>
+      </Modal> */}
     </div>
   );
 }
