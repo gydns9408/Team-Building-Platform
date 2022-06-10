@@ -27,7 +27,7 @@ const searchES = async (req, res) => {
 
     let hits = body.hits.hits;
     hits.forEach((item) => {
-      results.push(item._source);
+      results.push(item);
     });
     return res.send(results);
   } catch (error) {

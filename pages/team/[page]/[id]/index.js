@@ -171,6 +171,7 @@ const Overview = ({ data }) => {
     classes.imgFluid
   );
   useEffect(() => {
+    console.log(data);
     setLoading(false);
   }, []);
 

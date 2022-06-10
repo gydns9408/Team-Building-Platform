@@ -146,7 +146,7 @@ export default function FadeMenu({
         <AddIcon />
       </IconButton>
       <Menu
-        id="fade-menu"
+        id="search-menu"
         MenuListProps={{
           "aria-labelledby": "fade-button",
         }}
@@ -154,6 +154,8 @@ export default function FadeMenu({
         open={open}
         onClose={handleClose}
         TransitionComponent={Fade}
+        disableAutoFocus={true}
+        disableEnforceFocus={true}
       >
         <Search>
           <SearchIconWrapper>

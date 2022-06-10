@@ -7,7 +7,7 @@ import mainPageStyle from "../styles/jss/nextjs-material-kit/pages/mainPage/main
 import { makeStyles } from "@material-ui/core/styles";
 import CompetitionChat from "../components/Visualizations/competitionChat/CompetitionChat";
 import Image from "next/image";
-import { Button } from "@mui/material";
+import { Button } from "@material-ui/core";
 const useStyles = makeStyles(mainPageStyle);
 
 const pageLabels = {

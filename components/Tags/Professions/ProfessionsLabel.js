@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Box } from "@mui/system";
 import GridItem from "../../Grid/GridItem";
 import GridContainer from "../../Grid/GridContainer";
-import { Tooltip } from "@mui/material";
+import { Tooltip } from "@material-ui/core";
 const styles = {
   root: {
     height: "5rem",

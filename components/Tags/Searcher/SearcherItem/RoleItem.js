@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { MenuItem } from "@material-ui/core";
 import { Box } from "@mui/system";
-import { CssBaseline } from "@mui/material";
 import Link from "next/link";
 import Parser from "html-react-parser";
 import moment from "moment";
@@ -83,7 +82,7 @@ const roleOption = {
 const useStyles = makeStyles(styles);
 
 const RoleCard = ({ data, handle }) => {
-  const { description, image_url, name, type } = data;
+  const { description, image_url, name, type } = data._source;
   const classes = useStyles();
   const [role, setRole] = useState([]);
   const [loading, setLoading] = React.useState(true);
@@ -92,13 +91,13 @@ const RoleCard = ({ data, handle }) => {
     setLoading(false);
   }, []);
   useEffect(() => {
-    console.log(data);
-  }, [data]);
+    console.log(data._source);
+  }, [data._source]);
   if (loading) return <Fragment>Loading...</Fragment>;
   return (
     <MenuItem
       onClickCapture={() => {
-        handle(data);
+        handle(data._source);
       }}
     >
       {name}

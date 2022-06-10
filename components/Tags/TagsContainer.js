@@ -5,7 +5,6 @@ import Tag from "./Tag";
 const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
-
 export default function ChipsArray({ tags, type, form, children, className }) {
   return (
     <Box

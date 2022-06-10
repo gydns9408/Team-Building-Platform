@@ -28,7 +28,6 @@ const Tag = (props) => {
   };
 
   React.useEffect(() => {
-    
     TagRequest().then(() => setLoading(false));
   }, []);
 
@@ -48,7 +47,9 @@ const Tag = (props) => {
                 height={50}
               />
             }
-            label={getTagInfo.resume_name !== null ? getTagInfo.resume_name : ""}
+            label={
+              getTagInfo.resume_name !== null ? getTagInfo.resume_name : ""
+            }
           />
         );
       case "iconOnly":
@@ -66,7 +67,13 @@ const Tag = (props) => {
           </IconButton>
         );
       case "textOnly":
-        return <Chip label={getTagInfo.resume_name !== null ? getTagInfo.resume_name : ""} />;
+        return (
+          <Chip
+            label={
+              getTagInfo.resume_name !== null ? getTagInfo.resume_name : ""
+            }
+          />
+        );
       default:
         throw new Error(console.log(form));
     }

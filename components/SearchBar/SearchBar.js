@@ -1,8 +1,6 @@
 import { useState, useEffect, Fragment } from "react";
-import IconButton from "@mui/material/IconButton";
-import AddIcon from "@mui/icons-material/Add";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 import Fade from "@mui/material/Fade";
 import SearchIcon from "@mui/icons-material/Search";
 import { styled, alpha } from "@mui/material/styles";
@@ -78,26 +76,40 @@ const reqSearch = async (searchQuery, index, filed, size) => {
 
   return data;
 };
-
+const basicQuery = "contest";
 const size = 10;
 const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [index, setIndex] = useState("contest_index");
-  const [filed, setFiled] = useState(["contest_name"]);
+  const [filed, setFiled] = useState([
+    "contest_name",
+    "body",
+    "type",
+    "professtion_name",
+    "professtion_description",
+  ]);
   const [preview, setPreview] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const open = Boolean(anchorEl);
   useEffect(() => {
-    setLoading(false);
+    reqSearch(basicQuery, index, filed, size).then((data) => {
+      setPreview(data);
+      setLoading(false);
+    });
   }, []);
 
   useEffect(() => {
-    reqSearch(searchQuery, index, filed, size).then((data) => {
-      if (data !== null && data !== undefined) {
+    if (searchQuery !== "") {
+      reqSearch(searchQuery, index, filed, size).then((data) => {
         setPreview(data);
-      }
-    });
+      });
+    } else if (searchQuery === "") {
+      reqSearch(basicQuery, index, filed, size).then((data) => {
+        console.log(data);
+        setPreview(data);
+      });
+    }
   }, [searchQuery]);
 
   // const handleModalOpen = () => {
@@ -131,30 +143,29 @@ const SearchBar = () => {
         />
       </Search>
       <Popover
-        id={"search-bar"}
-        open={Boolean(anchorEl)}
+        id="search-bar"
+        MenuListProps={{
+          "aria-labelledby": "fade-button",
+        }}
         anchorEl={anchorEl}
-        onClose={handleClose}
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "left",
         }}
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Fade}
         disableAutoFocus={true}
         disableEnforceFocus={true}
       >
         {preview.map((data) => {
           return (
-            <p
-              key={data.contest_name}
-              onClick={() => {
-                // handle(data);
-              }}
-            >
+            <MenuItem key={data._id}>
               {/* {data.professtion_image_url === "" ? null : (
                 <img src={data.professtion_image_url} />
               )} */}
-              {data.contest_name}
-            </p>
+              {data._source.contest_name}
+            </MenuItem>
           );
         })}
       </Popover>
