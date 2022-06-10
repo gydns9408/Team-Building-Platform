@@ -35,7 +35,6 @@ const articleOtion = {
   viewCount: 0,
   likeCount: 0,
   content: {
-    article_id: 0,
     title: "",
     body: "",
     createdAt: moment().toISOString(),
@@ -47,7 +46,7 @@ const teamOption = {
   // Tag: [],
   // tech_stack: [],
   // profession: [{}],
-  citizens: [{}],
+  citizens: "",
   role: [],
 };
 
@@ -80,10 +79,12 @@ const teamReducer = (prevState, action) => {
   switch (action.type) {
     case "init":
       return { ...action.result };
+    case "teamName":
+      return { ...prevState, name: action.result };
     case "teamRole":
       return {
         ...prevState,
-        role: [...prevState.role, action.result],
+        role: action.result,
       };
     case "teamCitizens":
       return {
@@ -97,6 +98,16 @@ const teamReducer = (prevState, action) => {
 };
 
 const postTeamArticle = async (article, team, id) => {
+  const contestId = await fetch(
+    `${process.env.HOSTNAME}/api/article/Contest/read/${id}/articleTo`,
+    {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }
+  ).then((response) => {
+    return response.json();
+  });
+
   const body = await {
     article: {
       create: {
@@ -112,46 +123,40 @@ const postTeamArticle = async (article, team, id) => {
         },
       },
     },
-    contest: {
+    team: {
       create: {
-        name: contest.name,
-        prize: contest.prize,
-        content: contest.content,
-        end_period: contest.end_period,
-        start_period: contest.start_period,
-        createAt: contest.createAt,
-        ...(contest.Tag[0] !== undefined && {
-          Tag: {
-            connectOrCreate: contest.Tag.map((t) => {
+        name: team.name,
+        citizens: {
+          connect: {
+            user_id: team.citizens,
+          },
+        },
+        ...(team.role[0] !== undefined && {
+          role: {
+            connectOrCreate: team.role.map((role) => {
               return {
                 where: {
-                  name: t.name,
+                  name: role.name,
                 },
                 create: {
-                  name: t.name,
-                  description: "",
-                  tag_color: "",
+                  name: role.name,
+                  image_url: role.image_url,
+                  description: role.description,
                 },
               };
             }),
           },
         }),
-        ...(contest.tech_stack[0] !== undefined && {
-          tech_stack: {
-            connect: contest.tech_stack.map((stack) => {
-              return {
-                name: stack.name,
-              };
-            }),
-          },
-        }),
-        ...(contest.profession[0] !== undefined && {
-          profession: {
-            connect: {
-              name: contest.profession[0].name,
-            },
-          },
-        }),
+      },
+    },
+    contest: {
+      connect: {
+        id: contestId.contest.id,
+      },
+    },
+    citizens: {
+      connect: {
+        user_id: team.citizens,
       },
     },
   };
@@ -185,20 +190,25 @@ const CreateTeam = ({ data }) => {
   useEffect(() => {
     setLoading(false);
   }, []);
-
-  useEffect(() => {}, [selectRole]);
+  useEffect(() => {
+    handleTeamRole(selectRole);
+  }, [selectRole]);
 
   const handleArticleInit = (daa) => {
     articleDispatch({ type: "init", result: articleOtion });
   };
   const handleContentTitle = (data) => {
     articleDispatch({ type: "contentTitle", result: data.target.value });
+    teamDispatch({ type: "teamName", result: data.target.value });
   };
   const handleContentBody = (data) => {
     articleDispatch({ type: "contentBody", result: data });
   };
   const handleTeamInit = () => {
     teamDispatch({ type: "init", result: teamOption });
+  };
+  const handleTeamName = (data) => {
+    teamDispatch({ type: "teamName", result: data });
   };
   const handleTeamRole = (data) => {
     teamDispatch({ type: "teamRole", result: data });
@@ -291,9 +301,8 @@ const CreateTeam = ({ data }) => {
       <IconButton
         className={classes.createButton}
         onClickCapture={async () => {
-          handleTeamRole(selectRole);
           handleTeamCitizens(session.user.id);
-          postTeamArticle(article, team);
+          postTeamArticle(article, team, router.query.id);
         }}
       >
         <SaveAltIcon

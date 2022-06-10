@@ -9,7 +9,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useRouter } from "next/router";
 import { IconButton } from "@material-ui/core";
 import AddIcon from "@mui/icons-material/Add";
-
 const pageLabels = {
   professionFilter: "분야",
 };
@@ -19,7 +18,7 @@ const useStyles = makeStyles(styles);
 const reqTeamList = async (contest) => {
   // const { page, currentProfession } = context.query;
   const data = await fetch(
-    `${process.env.HOSTNAME}/api/article/Team/1?contest=${contest}`,
+    `${process.env.HOSTNAME}/api/article/Team/1?contest=${contest}&take=${12}`,
     {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -57,6 +56,7 @@ const SectionTeamList = ({ contest }) => {
   useEffect(() => {
     reqTeamList(contest)
       .then(async ({ data, maxPage }) => {
+        console.log(data);
         await Promise.all([setTeamList(data), setMaxPage(maxPage)]);
       })
       .then(() => {
@@ -107,7 +107,12 @@ const SectionTeamList = ({ contest }) => {
           />
         </GridItem>
       </GridContainer>
-      <IconButton className={classes.createButton}>
+      <IconButton
+        className={classes.createButton}
+        onClick={() => {
+          router.push(`/team/post/${router.query.id}/create`);
+        }}
+      >
         <AddIcon
           sx={{ fontSize: "2rem" }}
           style={{ color: palettes.darkBlue3 }}

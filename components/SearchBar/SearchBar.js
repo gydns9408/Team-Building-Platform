@@ -106,7 +106,6 @@ const SearchBar = () => {
       });
     } else if (searchQuery === "") {
       reqSearch(basicQuery, index, filed, size).then((data) => {
-        console.log(data);
         setPreview(data);
       });
     }

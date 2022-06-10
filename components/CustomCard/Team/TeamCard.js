@@ -155,7 +155,9 @@ const ContestCard = (props) => {
               <p className={classes.title}>
                 {Parser(team.article.content.title)}
               </p>
-              <p className={classes.body}>{team.article.content.body}</p>
+              <p className={classes.body}>
+                {Parser(team.article.content.body)}
+              </p>
             </Box>
             <Box>
               <p className={classes.subTitle}>{pageLabels.roleLabel}</p>

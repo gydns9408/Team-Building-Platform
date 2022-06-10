@@ -1,5 +1,5 @@
 import { resolve } from "path";
-import prisma from "../../../../../utilities/prisma/client";
+import prisma from "../../../../../../utilities/prisma/client";
 
 const handle = async (req, res) => {
   switch (req.method) {
