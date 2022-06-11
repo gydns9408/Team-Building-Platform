@@ -18,7 +18,6 @@ import ContestPublishedTab from "../../../../pages-sections/contest/tabSections/
 import TeamList from "../../../../pages-sections/team/teamSections/SectionTeamList";
 //svg
 
-
 const styles = {
   title: {
     borderBottom: "0.5px",
@@ -120,7 +119,6 @@ export async function getServerSideProps(context) {
   ).then((response) => {
     return response.json();
   });
-  console.log(data);
   return { props: { data } };
 }
 

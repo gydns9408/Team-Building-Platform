@@ -10,15 +10,14 @@ const searchES = async (req, res) => {
       index: index,
       body: {
         query: {
-          match: {
-            [filed]: {
-              query: searchQuery,
-              operator: "and",
-              fuzziness: "AUTO",
-              prefix_length: "0",
-              fuzzy_transpositions: "false",
-              minimum_should_match: "85%",
-            },
+          multi_match: {
+            query: searchQuery,
+            fields: filed,
+            operator: "or",
+            fuzziness: "AUTO",
+            prefix_length: "0",
+            fuzzy_transpositions: "false",
+            minimum_should_match: "25%",
           },
         },
         size: size,
@@ -28,7 +27,7 @@ const searchES = async (req, res) => {
 
     let hits = body.hits.hits;
     hits.forEach((item) => {
-      results.push(item._source);
+      results.push(item);
     });
     return res.send(results);
   } catch (error) {

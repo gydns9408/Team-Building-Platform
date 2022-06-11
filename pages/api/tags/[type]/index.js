@@ -4,8 +4,7 @@ import prisma from "../../../../utilities/prisma/client";
 const handle = async (req, res) => {
   switch (req.method) {
     case "GET":
-      findTags(req, res);
-      return resolve();
+      return findTags(req, res);
     case "POST":
       break;
     case "PUT":
@@ -19,9 +18,9 @@ const handle = async (req, res) => {
 
 const findTags = async (req, res) => {
   const { type } = req.query;
-  console.log(type);
   const result = await prisma?.[type].findMany({});
   res.json(result);
+  resolve();
 };
 
 export default handle;

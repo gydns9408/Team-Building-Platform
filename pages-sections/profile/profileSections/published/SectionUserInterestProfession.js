@@ -6,22 +6,21 @@ import GridItem from "../../../../components/Grid/GridItem";
 import TagsContainer from "../../../../components/Tags/TagsContainer";
 
 import { makeStyles } from "@material-ui/core/styles";
-import TechStackSearcher from "../../../../components/Tags/TechStack/TechStackSearcher";
 
 const pageLabels = {
   tech_stack: "분야 생성",
   submitButton: "제출",
 };
 
-const styles = {};
+const styles = {
+  tabGridIteam: {
+    display: "inline-block",
+  },
+};
 
 const useStyles = makeStyles(styles);
 
-const Published = ({
-    handleUserInterestProfessionChange,
-    profession,
-}) => {
-  console.log(profession);
+const Published = ({ handleUserInterestProfessionChange, profession }) => {
   const classes = useStyles();
   const [loading, setLoading] = React.useState(true);
 
@@ -33,7 +32,7 @@ const Published = ({
 
   return (
     <GridContainer direction="column" spacing={2}>
-      <GridItem>
+      <GridItem className={classes.tabGridIteam}>
         <TagsContainer tags={profession} type="Profession" form="iconOnly">
           {/* <TechStackSearcher handle={handleTechStack} /> */}
         </TagsContainer>

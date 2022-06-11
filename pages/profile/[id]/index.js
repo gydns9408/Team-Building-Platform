@@ -1,21 +1,19 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Card from "../../../components/CustomCard/Profile/ProfileCard";
+import Card2 from "../../../components/CustomCard/Profile/ProfileCard2";
 import css from "styled-jsx/css";
 import React, { useEffect, useState, useReducer, Fragment } from "react";
 import styles from "../../../styles/jss/nextjs-material-kit/components/cardStyle";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Tabs, Tab,  IconButton } from "@mui/material";
+import { Button, Tabs, Tab, IconButton } from "@mui/material";
 import { getSession, useSession, signIn, signOut } from "next-auth/react";
-import FavoriteIcon from '@mui/icons-material/Favorite';
-
-
-import Header from "../../../components/header/Header";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 // import ProfileOverview from "../../../../pages-sections/profile/profileSections/SectionOverview";
 // import ProfileHeaderImage from "../../../../pages-sections/profile/profileSections/SectionHeaderImage";
 import ProfilePublishedTab from "../../../pages-sections/profile/profileSections/SectionPublishedTab";
-
+import MainLayout from "../../../components/Layout/MainLayout";
 const useStyles = makeStyles(styles);
 
 const requestProfileUpdate = async () => {
@@ -59,37 +57,40 @@ export default function CompetitionSearchPage({ data }) {
   };
 
   return (
-    <>
-    {editing ? (
-      <ProfilePublishedTab
-      citizensValue={data[0]}
-      handleEditing={handleEditing}
-      />
-    ) : (
-    <Fragment>
-      <Header/>
-      <Link
-      href={`${process.env.HOSTNAME}/profile/${router.query.id}`}
-       prefetch
-      passHref
-     >
-    <IconButton onClick={()=> 
-      handlePublished(data[0].user_id)
-      } 
-      >
-        <FavoriteIcon style={{ color: "red" }}/>
-      </IconButton>
-    </Link>
-    <div>&nbsp;&nbsp;{data[0].profile.like_count}</div>
-    <Card 
-    contestID={data}
-    handleEditing={handleEditing}
-    />
-    </Fragment>
-    
-    )
-    }
-    </>
+    <MainLayout>
+      {editing ? (
+        <ProfilePublishedTab
+          citizensValue={data[0]}
+          handleEditing={handleEditing}
+        />
+      ) : (
+        <Fragment>
+          <Button
+            onClick={() => handleEditing()}
+            variant="outlined"
+            component="span"
+          >
+            프로필 수정
+          </Button>
+          <Card contestID={data} />
+
+          <Link
+            href={`${process.env.HOSTNAME}/profile/${router.query.id}`}
+            prefetch
+            passHref
+          >
+            <Button
+              onClick={() => handlePublished(data[0].user_id)}
+              variant="contained"
+              component="span"
+            >
+              좋아요
+            </Button>
+          </Link>
+          <Card2 contestID={data} />
+        </Fragment>
+      )}
+    </MainLayout>
   );
 }
 

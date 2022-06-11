@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 
-const Editor = ({ onChangeHandle, name, value, readOnly }) => {
+const Editor = ({ onChangeHandle, name, value, readOnly, className }) => {
   const editorRef = useRef(null);
   const [loading, setLoading] = useState(true);
   const { CKEditor, ClassicEditor } = editorRef.current || {};
@@ -23,6 +23,7 @@ const Editor = ({ onChangeHandle, name, value, readOnly }) => {
   return (
     <Fragment>
       <CKEditor
+        className={className}
         type=""
         name={name}
         disabled={readOnly === undefined ? defaultReadOnly : readOnly}
@@ -36,9 +37,6 @@ const Editor = ({ onChangeHandle, name, value, readOnly }) => {
 
           if (readOnly === undefined ? defaultReadOnly : readOnly) {
             toolbarElement.style.display = "none";
-            document.querySelector(
-              ".ck.ck-editor__main>.ck-editor__editable:not(.ck-focused)"
-            ).style.borderColor = "#ffffff";
           } else {
             toolbarElement.style.display = "flex";
           }

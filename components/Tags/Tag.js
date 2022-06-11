@@ -1,52 +1,69 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Chip from "@mui/material/Chip";
 import Image from "next/image";
 import IconButton from "@mui/material/IconButton";
-import Role from "./Role/Role";
+import Modal from "../../components/Modal/Modal";
+import SectionTagsView from "../../pages-sections/tags/SectionTagsView";
 import { Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import GridContainer from "../Grid/GridContainer";
+import GridItem from "../Grid/GridItem";
 
-const ListItem = styled("li")(({ theme }) => ({
-  margin: theme.spacing(0.5),
-}));
+const TagRequest = async (type, name) => {
+  const data = await fetch(`${process.env.HOSTNAME}/api/tags/${type}/${name}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  }).then(async (response) => {
+    return await response.json();
+  });
+  return data;
+};
 
 const styles = {
-  iconbutton: {
-    backgroundColor: "white",
+  iconButtonLabel: {
+    display: "flex",
+    flexDirection: "column",
+    width: "5rem",
   },
-  img: {
-    width: "2rem",
-    height: "2rem",
+  iconLabel: {
+    fontSize: "0.8rem",
+
+    fontFamily: "SCDream3",
+    alignItems: "center",
+    display: "inline-flex",
+    marginLeft: "0.5rem",
+  },
+  roleContain: {
+    marginBottom: "1rem",
+    marginTop: "1rem",
+  },
+  roleChildren: {
+    padding: "0.5rem",
   },
 };
 
 const useStyles = makeStyles(styles);
 
-const Tag = (props) => {
-  const { name, type, form, children } = props;
-
-  const [getTagInfo, setTagInfo] = React.useState({});
-  const [loading, setLoading] = React.useState(true);
-
+const Tag = ({ name, type, form, children }) => {
   const classes = useStyles();
 
-  const TagRequest = async () => {
-    const data = await fetch(
-      `${process.env.HOSTNAME}/api/tags/${type}/${name}`,
-      {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      }
-    ).then(async (response) => {
-      return await response.json();
-    });
-    console.log(data);
-    setTagInfo(data);
+  const [getTagInfo, setTagInfo] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [modalToggle, setModalToggle] = useState(false);
+
+  const handleModalOpen = () => {
+    setModalToggle(true);
+  };
+  const handleModalClose = () => {
+    setModalToggle(false);
   };
 
-  React.useEffect(() => {
-    TagRequest().then(() => setLoading(false));
+  useEffect(() => {
+    TagRequest(type, name).then((data) => {
+      setTagInfo(data);
+      setLoading(false);
+    });
   }, []);
 
   const TagOptions = (form) => {
@@ -68,21 +85,91 @@ const Tag = (props) => {
             label={getTagInfo.name !== null ? getTagInfo.name : ""}
           />
         );
+      case "icon":
+        return (
+          <Box>
+            <IconButton
+              className={classes.iconButtonLabel}
+              onClick={handleModalOpen}
+            >
+              <Image
+                src={
+                  getTagInfo.image_url !== null
+                    ? getTagInfo.image_url
+                    : `/asset/image/background/contest/default.svg`
+                }
+                width={24}
+                height={24}
+              />
+              <p className={classes.iconLabel}>
+                {getTagInfo.name !== null ? getTagInfo.name : ""}
+              </p>
+            </IconButton>
+            <Modal
+              title={getTagInfo.name !== null ? getTagInfo.name : ""}
+              open={modalToggle}
+              handleModalClose={handleModalClose}
+            >
+              <SectionTagsView
+                body={
+                  getTagInfo.description !== null &&
+                  getTagInfo.description !== undefined
+                    ? getTagInfo.description
+                    : ""
+                }
+                image_url={
+                  getTagInfo.image_url !== null
+                    ? getTagInfo.image_url
+                    : `/asset/image/background/contest/default.svg`
+                }
+              />
+            </Modal>
+          </Box>
+        );
       case "iconOnly":
         return (
-          <IconButton aria-label="delete" size="large">
-            <Image
-              src={
-                getTagInfo?.image_url !== null &&
-                getTagInfo?.image_url !== undefined
-                  ? getTagInfo.image_url
-                  : `/asset/image/background/contest/default.svg`
+          <Box>
+            <IconButton
+              aria-label="delete"
+              size="large"
+              onClick={handleModalOpen}
+            >
+              <Image
+                src={
+                  getTagInfo?.image_url !== null &&
+                  getTagInfo?.image_url !== undefined
+                    ? getTagInfo.image_url
+                    : `/asset/image/background/contest/default.svg`
+                }
+                width={32}
+                height={32}
+              />
+              {children}
+            </IconButton>
+            <Modal
+              title={
+                getTagInfo?.name !== null && getTagInfo?.name !== undefined
+                  ? getTagInfo.name
+                  : ""
               }
-              width={32}
-              height={32}
-            />
-            {children}
-          </IconButton>
+              open={modalToggle}
+              handleModalClose={handleModalClose}
+            >
+              <SectionTagsView
+                body={
+                  getTagInfo?.description !== null &&
+                  getTagInfo?.description !== undefined
+                    ? getTagInfo.description
+                    : ""
+                }
+                image_url={
+                  getTagInfo?.image_url !== null
+                    ? getTagInfo?.image_url
+                    : `/asset/image/background/contest/default.svg`
+                }
+              />
+            </Modal>
+          </Box>
         );
       case "iconOnly_profile":
         return (
@@ -116,16 +203,23 @@ const Tag = (props) => {
       case "role":
         return (
           <Box>
-            <Image
-              src={
-                getTagInfo?.image_url !== null && getTagInfo !== undefined
-                  ? getTagInfo.image_url
-                  : `/asset/image/background/contest/default.svg`
-              }
-              width={32}
-              height={32}
-            />
-            {children}
+            <GridContainer direction="column">
+              <GridItem xs={7} sm={7} md={7}>
+                <GridContainer direction="row" className={classes.roleContain}>
+                  <Image
+                    src={
+                      getTagInfo?.image_url !== null && getTagInfo !== undefined
+                        ? getTagInfo.image_url
+                        : `/asset/image/background/contest/default.svg`
+                    }
+                    width={32}
+                    height={32}
+                  />
+                  <p className={classes.iconLabel}>{getTagInfo.name}</p>
+                </GridContainer>
+              </GridItem>
+              <GridItem className={classes.roleChildren}>{children}</GridItem>
+            </GridContainer>
           </Box>
         );
       default:

@@ -200,6 +200,7 @@ Table program {
 Table team {
   id Int [pk, increment]
   status Boolean [not null, default: false]
+  name String [not null]
   createdAt DateTime [default: `now()`, not null]
   citizens Citizens [not null]
   program Program [not null]

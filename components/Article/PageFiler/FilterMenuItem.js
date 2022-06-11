@@ -1,18 +1,13 @@
 import { Fragment, useState, useEffect } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Chip from "@mui/material/Chip";
-import IconButton from "@mui/material/IconButton";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import Chip from "@material-ui/core/Chip";
+import Fade from "@material-ui/core/Fade";
+import { Box } from "@mui/system";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import Fade from "@mui/material/Fade";
-
 const styles = {
-  arrowIcon: {
-    position: "absolute",
-    right: 0,
-  },
   menu: {
     height: "20rem",
   },
@@ -20,7 +15,7 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-const FilterItem = ({ items, label, handleMenuClick }) => {
+const FilterItem = ({ items = [], label, handleMenuClick }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -33,19 +28,25 @@ const FilterItem = ({ items, label, handleMenuClick }) => {
     setAnchorEl(null);
   };
   useEffect(() => {
-    setLoading(false);
-  });
-  if (loading) return <div>Loading</div>;
+    if (items !== undefined) setLoading(false);
+  }, []);
+  useEffect(() => {
+    if (items !== undefined) setLoading(false);
+  }, [items]);
+  if (loading)
+    return (
+      <Box>
+        <Chip></Chip>
+      </Box>
+    );
   return (
-    <div>
+    <Box component="ul">
       <Chip
-        deleteIcon={<KeyboardArrowDownIcon />}
-        label={label}
+        label={label === undefined ? "" : label}
         onClick={handleClick}
       ></Chip>
       <Menu
         className={classes.menu}
-        id="fade-menu"
         MenuListProps={{
           "aria-labelledby": "fade-button",
         }}
@@ -56,19 +57,18 @@ const FilterItem = ({ items, label, handleMenuClick }) => {
       >
         {items.map((item) => {
           return (
-            <Fragment>
-              <MenuItem
-                onClick={() => {
-                  handleMenuClick(item.name);
-                }}
-              >
-                {item.name}
-              </MenuItem>
-            </Fragment>
+            <MenuItem
+              key={item.name}
+              onClick={() => {
+                handleMenuClick(item.name);
+              }}
+            >
+              {item.name}
+            </MenuItem>
           );
         })}
       </Menu>
-    </div>
+    </Box>
   );
 };
 export default FilterItem;

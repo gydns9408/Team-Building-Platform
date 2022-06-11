@@ -12,12 +12,9 @@ const componentLabels = {
 const TagAppender = ({ tag = [], handle }) => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    console.log(tag);
     setLoading(false);
   }, []);
-  useEffect(() => {
-    console.log(tag);
-  }, [tag]);
+  useEffect(() => {}, [tag]);
 
   if (loading) return <div>loading</div>;
   return (
@@ -34,6 +31,7 @@ const TagAppender = ({ tag = [], handle }) => {
           renderTags={(value, getTagProps) =>
             value.map((option, index) => (
               <Chip
+                key={option}
                 variant="outlined"
                 label={option}
                 {...getTagProps({ index })}

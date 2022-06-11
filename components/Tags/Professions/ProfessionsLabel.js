@@ -3,23 +3,29 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Box } from "@mui/system";
 import GridItem from "../../Grid/GridItem";
 import GridContainer from "../../Grid/GridContainer";
-
+import { Tooltip, Typography } from "@material-ui/core";
 const styles = {
-  icon: {
-    height: "3rem",
-    width: "3rem",
-  },
-  span: {
+  root: {
     height: "5rem",
     width: "5rem",
     padding: "1rem",
     borderRadius: "0.5rem",
+    display: "flex",
+  },
+  label: {
+    marginTop: "0.5rem",
+    fontSize: "0.725rem",
+    textAlign: "center",
+    flexFlow: "row",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "baseline",
   },
 };
 
 const useStyles = makeStyles(styles);
 
-const ProfessionsLabel = ({ data }) => {
+const ProfessionsLabel = ({ data, children }) => {
   const classes = useStyles();
   const [professions, setProfessions] = useState([
     {
@@ -32,22 +38,34 @@ const ProfessionsLabel = ({ data }) => {
   ]);
 
   useEffect(() => {
-    console.log(data);
-    setProfessions(data);
+    if (data !== undefined) {
+      setProfessions(data[0]);
+    }
   }, []);
   useEffect(() => {
-    setProfessions(data);
+    if (data !== undefined) {
+      console.log(data[0]);
+      setProfessions(data[0]);
+    }
   }, [data]);
 
   return (
-    <span className={classes.span}>
-      <img src={data[0].image_url} className={classes.icon}></img>
-      <style jsx>{`
-        span {
-          background-color: ${data[0].color};
-        }
-      `}</style>
-    </span>
+    <Tooltip title={professions.name}>
+      <Box>
+        <div className={classes.root}>
+          <img src={professions.image_url} className={classes.icon}></img>
+
+          <style jsx>{`
+            div {
+              background-color: ${professions.color};
+            }
+          `}</style>
+        </div>
+        <Typography className={classes.label}>
+          {professions.name} {children}
+        </Typography>
+      </Box>
+    </Tooltip>
   );
 };
 

@@ -1,12 +1,12 @@
 import { Fragment, useState, useEffect } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Chip from "@mui/material/Chip";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import Chip from "@material-ui/core/Chip";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
-import Fade from "@mui/material/Fade";
+import Fade from "@material-ui/core/Fade";
 
 const styles = {};
 
@@ -18,8 +18,7 @@ const FilterItem = ({ item, form, label }) => {
 
   useEffect(() => {
     setLoading(false);
-  });
-  if (loading) return <div>Loading</div>;
+  }, []);
   return <Chip label={label}></Chip>;
 };
 
@@ -33,13 +32,10 @@ const FilterType = ({
   switch (form) {
     case "list":
       return (
-        <div>
+        <Fragment>
           <Chip label={label}></Chip>
           <Menu
             id="fade-menu"
-            MenuListProps={{
-              "aria-labelledby": "fade-button",
-            }}
             anchorEl={anchorEl}
             open={open}
             onClose={handleClose}
@@ -47,19 +43,19 @@ const FilterType = ({
           >
             {items.map((item) => {
               return (
-                <Fragment>
-                  <MenuItem onClick={handleMenuClick}>{item.name}</MenuItem>;
-                </Fragment>
+                <MenuItem key={item.name} onClick={handleMenuClick}>
+                  {item.name}
+                </MenuItem>
               );
             })}
           </Menu>
-        </div>
+        </Fragment>
       );
     case "toggle":
       return (
-        <div>
+        <Fragment>
           <Chip label={label} onClick={handleToggleClick}></Chip>
-        </div>
+        </Fragment>
       );
     default:
       throw new Error(console.log(form));

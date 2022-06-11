@@ -7,31 +7,7 @@ import Button from "../../../components/CustomButtons/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { useRouter } from "next/router";
 import IconButton from "@mui/material/IconButton";
-
-const styles = {
-  title: {
-    borderBottom: "0.5px",
-    borderBottomStyle: "solid",
-    alignItems: "center",
-  },
-  body: {
-    margin: "2rem",
-  },
-  contestHead: {
-    height: "15rem",
-    display: "flex",
-  },
-  image: {
-    width: "100%",
-    objectFit: "cover",
-    objectPosition: "center",
-  },
-  headerButton: {
-    position: "absolute",
-    bottom: "1rem",
-    right: "1rem",
-  },
-};
+import styles from "../../../styles/jss/nextjs-material-kit/pages/image/headerImage";
 
 const useStyles = makeStyles(styles);
 
@@ -57,12 +33,12 @@ const HeaderImage = ({ contestImage, editing }) => {
     }
   };
 
-  const uploadToServer = async () => {
+  const uploadToServer = async (img) => {
     const body = new FormData();
-    body.append("file", image);
+    body.append("file", img);
 
     const response = await fetch(
-      `${process.env.HOSTNAME}/api/file${imagePath.path}/`,
+      `${process.env.HOSTNAME}/api/file/${imagePath.path}/`,
       {
         method: "post",
         body: body,
@@ -72,17 +48,15 @@ const HeaderImage = ({ contestImage, editing }) => {
     return response;
   };
 
-  const handelStackSubmit = async () => {
+  const handleSubmit = async (name) => {
     if (imageName.length !== "") {
       const body = {
-        constest_image_url: `${imagePath.path}/${imageName}`,
+        constest_image_url: `${imagePath.path}${name}`,
       };
-
-      await uploadToServer();
       const data = await fetch(
         `${process.env.HOSTNAME}/api/article/Contest/${router.query.page}/${router.query.id}`,
         {
-          method: "POST",
+          method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
         }
@@ -103,7 +77,7 @@ const HeaderImage = ({ contestImage, editing }) => {
         .catch((error) => {
           console.error("There was an error!", error);
         });
-
+      console.log(data);
       return data;
     }
   };
@@ -131,9 +105,10 @@ const HeaderImage = ({ contestImage, editing }) => {
             <input
               type="file"
               hidden
-              onChange={(event) => {
-                onImgChange(event).then(() => {
-                  handelStackSubmit();
+              onChangeCapture={(event) => {
+                onImgChange(event).then(async (e) => {
+                  await uploadToServer(e);
+                  await handleSubmit(e.name);
                 });
               }}
             />

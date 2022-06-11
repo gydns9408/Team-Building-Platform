@@ -14,7 +14,7 @@ const submitData = async (e) => {
       spcialization: "기획/아이디어",
       corporate_type: "중소기업",
     };
-    await fetch(`http://localhost:3000/api/post/contest`, {
+    await fetch(`${process.env.HOST_NAME}/api/post/contest`, {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),

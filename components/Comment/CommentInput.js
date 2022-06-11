@@ -3,9 +3,9 @@ import { useRouter } from "next/router";
 import Button from "../CustomButtons/Button";
 import { useState, useEffect, useReducer, Fragment } from "react";
 import { getSession, useSession, signIn, signOut } from "next-auth/react";
-
+import classNames from "classnames";
+import { makeStyles } from "@material-ui/core/styles";
 const reqCommentPost = async (articleID, comment, userId) => {
-  console.log(articleID, comment);
   const body = {
     comment: {
       create: {
@@ -31,8 +31,12 @@ const reqCommentPost = async (articleID, comment, userId) => {
   });
   return data;
 };
+const styles = {};
 
-const CommentInput = () => {
+const useStyles = makeStyles(styles);
+
+const CommentInput = ({ className }) => {
+  const classes = useStyles();
   const router = useRouter();
   const { data: session, status } = useSession();
   const [comment, setComment] = useState("");
@@ -40,11 +44,9 @@ const CommentInput = () => {
   const onChangeHandle = (data) => {
     setComment(data);
   };
-  useEffect(() => {
-    console.log(comment);
-  }, [comment]);
+  useEffect(() => {}, [comment]);
   return (
-    <div>
+    <div className={className}>
       <Editor
         name={"commentInput"}
         readOnly={false}
@@ -53,7 +55,11 @@ const CommentInput = () => {
       ></Editor>
       <Button
         onClick={async () => {
-          await reqCommentPost(router.query.id, comment, session.user.id);
+          await reqCommentPost(router.query.id, comment, session.user.id).then(
+            () => {
+              router.reload(window.location.pathname);
+            }
+          );
         }}
       >
         버튼

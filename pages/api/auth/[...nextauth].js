@@ -6,8 +6,6 @@ import GitHubProvider from "next-auth/providers/github";
 import prisma from "../../../utilities/prisma/client";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-import Axios from "../../../utilities/axios/http-common";
-
 const authHandler = (req, res) => NextAuth(req, res, options);
 export default authHandler;
 
@@ -51,6 +49,27 @@ const options = {
       clientSecret: process.env.GITHUB_SECRET,
     }),
   ],
+  adapter: PrismaAdapter(prisma),
+  secret: process.env.SECRET,
+  session: {
+    jwt: true, // when true session is stored in jwt instead of database
+    // Seconds - How long until an idle session expires and is no longer valid.
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+
+    // Seconds - Throttle how frequently to write to database to extend a session.
+    // Use it to limit write operations. Set to 0 to always update the database.
+    // Note: This option is ignored if using JSON Web Tokens
+    updateAge: 24 * 60 * 60, // 24 hours
+  },
+  jwt: {
+    // signingKey: process.env.JWT_SIGNING_PRIVATE_KEY,
+    secret: process.env.NEXTAUTH_SECRET || "this-should-be-a-secret",
+    // custom methods allow overriding of default token encode/decode methods
+    // encode: async ({ token, secret }) => await jwt.sign(token, secret),
+    // decode: async ({ token, secret }) => await jwt.verify(token, secret),
+  },
+  // callbacks,
+  database: process.env.DATABASE_URL,
   callbacks: {
     async signIn({ user, account, profile, email, credentials, session }) {
       const body = { userId: user.id };
@@ -61,20 +80,27 @@ const options = {
         body: JSON.stringify(body),
       };
       const data = await fetch(
-        `http://localhost:3000/api/auth/permissionChecker`,
+        `${process.env.HOSTNAME}/api/auth/permissionChecker`,
         request
       );
-      console.log(data);
       return true;
     },
     session: async ({ session, user }) => {
       if (session?.user) {
+        const request = {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        };
+        const data = await fetch(
+          `${process.env.HOSTNAME}/api/auth/getAccesstoken?userID=${user.id}`,
+          request
+        ).then((response) => {
+          return response.json();
+        });
         session.user.id = user.id;
+        session.user.token = data;
       }
       return session;
     },
   },
-
-  adapter: PrismaAdapter(prisma),
-  secret: process.env.SECRET,
 };

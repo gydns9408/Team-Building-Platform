@@ -10,7 +10,7 @@ const { data: session, status } = useSession();
 
 const router = useRouter();
 
-useEffect(()=>{console.log(session)},[])
+useEffect(()=>{},[])
 
   useEffect(() => {
     // Always do navigations after the first render

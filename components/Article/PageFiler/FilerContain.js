@@ -25,7 +25,7 @@ const FilerContain = ({ children }) => {
   useEffect(() => {
     setLoading(false);
   });
-  if (loading) return <div>Loading</div>;
+  if (loading) return <Fragment>Loading</Fragment>;
   return (
     <Box component="ul" className={classes.root}>
       {children}

@@ -25,11 +25,9 @@ const MenuPopupState = ({ names, onClick, data }) => {
   const open = Boolean(anchorEl);
 
   useEffect(() => {
-    console.log(menu);
     setMenu(data);
   }, []);
   useEffect(() => {
-    console.log(menu);
     setMenu(data);
   }, [data]);
 

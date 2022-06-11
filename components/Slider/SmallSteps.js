@@ -78,7 +78,7 @@ function numFormatter(num) {
   }
 }
 
-export default function NonLinearSlider({ onChange }) {
+export default function NonLinearSlider({ onChange, className }) {
   const [value, setValue] = React.useState([1, 25]);
 
   const handleChange = (event, newValue) => {
@@ -88,6 +88,7 @@ export default function NonLinearSlider({ onChange }) {
   return (
     <div>
       <Slider
+        className={className}
         style={{ maxWidth: 500 }}
         value={value}
         min={0}
@@ -96,11 +97,11 @@ export default function NonLinearSlider({ onChange }) {
         valueLabelFormat={numFormatter}
         marks={followersMarks}
         scale={scaleValues}
-        onChange={handleChange}
+        onChange={onChange === undefined ? null : handleChange}
         valueLabelDisplay="auto"
         aria-labelledby="non-linear-slider"
       />
-      <Typography>Values: {scaleValues(value)}</Typography>
+      <Typography>상금: {scaleValues(value)}</Typography>
     </div>
   );
 }

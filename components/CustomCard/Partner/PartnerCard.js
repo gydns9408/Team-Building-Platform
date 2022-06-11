@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -32,11 +32,7 @@ const PartnerCard = (props) => {
     setLoading(false);
   }, []);
 
-  useEffect(() => {
-    console.log(props);
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Fragment>Loading...</Fragment>;
   return (
     <Link
       href={`${process.env.HOSTNAME}/profile/${contestID.user.name}`}

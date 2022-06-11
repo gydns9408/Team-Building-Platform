@@ -1,24 +1,41 @@
-import { useEffect, useState, useReducer } from "react";
-import { useRouter } from "next/router";
+import { useState, useEffect, useReducer } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
+
 //components
 import GridContainer from "../../components/Grid/GridContainer";
-import GridItem from "../../components/Grid/GridItem";
-import TabPanel from "../../components/Tab/TabPanel";
-import Button from "../../components/CustomButtons/Button";
-import { makeStyles } from "@material-ui/core/styles";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
 
-import SectionArticle from "../../pages-sections/contest/tabSections/published/SectionArticle";
-import SectionContest from "../../pages-sections/contest/tabSections/published/SectionContest";
-import SectionTags from "../../pages-sections/contest/tabSections/published/SectionTags";
+import GridItem from "../../components/Grid/GridItem";
+import TitleInput from "../../components/Input/Title";
+import Card from "../../components/Card/Card";
+import ProfessionsLabel from "../../components/Tags/Professions/ProfessionsLabel";
+import Editor from "../../components/Editors/CKEditorTextEditor";
+import Treasure from "../../svg/contest/Treasure.svg";
 import moment from "moment";
+import styles from "../../styles/jss/nextjs-material-kit/pages/overview/contestOverview";
+import { Typography, TextField, IconButton } from "@material-ui/core";
+import TimePicker from "../../components/TimePicker/TimePicker";
+
+import Searcher from "../../components/Tags/Searcher/Search";
+import TechStackItem from "../../components/Tags/Searcher/SearcherItem/TechStackItem";
+import TechStackCard from "../../components/CustomCard/TechStack/TechStakCard";
+import ProfessionsItem from "../../components/Tags/Searcher/SearcherItem/ProfessionsItem";
 import MainLayout from "../../components/Layout/MainLayout";
+import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import palettes from "../../styles/nextjs-material-kit/palettes";
 import { getSession, useSession, signIn, signOut } from "next-auth/react";
 
 const pageLabels = {
-  tech_stack: "기술 스택 생성",
-  submitButton: "제출",
+  edittingButton: "수정",
+  deleteButton: "삭제",
+  contestOverview: "대회",
+  contestName: "대회 이름",
+  contestCentent: "대회 개요",
+  contestPrize: "상금",
+  contestPeriod: "대회 기간",
+  contestTechStack: "기술 스택",
+  prize: "원",
+  content: "대회 상세 내용",
 };
 
 const articleOtion = {
@@ -100,7 +117,7 @@ const contestReducer = (prevState, action) => {
     case "contestStartPeriod":
       return {
         ...prevState,
-        start_period: action.result,
+        start_period: moment(action.result).toISOString(),
       };
     case "contestTag":
       return {
@@ -121,104 +138,123 @@ const contestReducer = (prevState, action) => {
       throw new Error(`Unhandled action type: ${action.type}`);
   }
 };
-const styles = {};
 
-const useStyles = makeStyles(styles);
+const reqUpdate = async (id, article, contest, techStack, professtion, tag) => {
+  const body = await {
+    article: {
+      create: {
+        published: true,
+        updatedAt: moment().toISOString(),
+        viewCount: 0,
+        likeCount: 0,
 
-const a11yProps = (index) => {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-};
-
-const CreateTab = ({}) => {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-  const [article, articleDispatch] = useReducer(articleReducer, articleOtion);
-  const [contest, contestDispatch] = useReducer(contestReducer, contestOption);
-  const [value, setValue] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const classes = useStyles(styles);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const reqUpdate = async () => {
-    const body = await {
-      article: {
-        create: {
-          published: true,
-          updatedAt: moment().toISOString(),
-          viewCount: 0,
-          likeCount: 0,
-
-          content: {
-            create: {
-              title: article.content.title,
-              body: article.content.body,
-            },
+        content: {
+          create: {
+            title: article.content.title,
+            body: article.content.body,
           },
         },
       },
-      contest: {
-        create: {
-          name: contest.name,
-          prize: contest.prize,
-          content: contest.content,
-          end_period: contest.end_period,
-          start_period: contest.start_period,
-          createAt: contest.createAt,
-          ...(contest.Tag[0] !== undefined && {
-            Tag: {
-              connectOrCreate: contest.Tag.map((t) => {
-                return {
-                  where: {
-                    name: t.name,
-                  },
-                  create: {
-                    name: t.name,
-                    description: "",
-                    tag_color: "",
-                  },
-                };
-              }),
+    },
+    contest: {
+      create: {
+        name: contest.name,
+        prize: contest.prize,
+        content: contest.content,
+        end_period: contest.end_period,
+        start_period: contest.start_period,
+        createAt: contest.createAt,
+        ...(contest.Tag[0] !== undefined && {
+          Tag: {
+            connectOrCreate: contest.Tag.map((t) => {
+              return {
+                where: {
+                  name: t.name,
+                },
+                create: {
+                  name: t.name,
+                  description: "",
+                  tag_color: "",
+                },
+              };
+            }),
+          },
+        }),
+        ...(techStack[0] !== undefined && {
+          tech_stack: {
+            connect: techStack.map((stack) => {
+              return {
+                name: stack.name,
+              };
+            }),
+          },
+        }),
+        ...(professtion[0] !== undefined && {
+          profession: {
+            connect: {
+              name: professtion[0].name,
             },
-          }),
-          ...(contest.tech_stack[0] !== undefined && {
-            tech_stack: {
-              connect: contest.tech_stack.map((stack) => {
-                return {
-                  name: stack.name,
-                };
-              }),
-            },
-          }),
-          ...(contest.profession[0] !== undefined && {
-            profession: {
-              connect: {
-                name: contest.profession[0].name,
-              },
-            },
-          }),
-        },
+          },
+        }),
       },
-      citizens: {
-        connect: { user_id: session.user.id },
+    },
+    citizens: {
+      connect: {
+        user_id: id,
       },
-    };
-    console.log(body);
-    const data = await fetch(
-      `${process.env.HOSTNAME}/api/article/Contest/Create/id`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      }
-    ).then((response) => {
-      return response.json();
-    });
+    },
+  };
+  const data = await fetch(
+    `${process.env.HOSTNAME}/api/article/Contest/Create/id`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    }
+  ).then((response) => {
+    return response.json();
+  });
+  console.log(data);
+};
+
+const customStyles = makeStyles(styles);
+const Overview = () => {
+  const { data: session, status } = useSession();
+
+  const [loading, setLoading] = useState(true);
+  const classes = customStyles();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const [article, articleDispatch] = useReducer(articleReducer, articleOtion);
+  const [contest, contestDispatch] = useReducer(contestReducer, contestOption);
+
+  const [selectTechStack, setTechStack] = useState([]);
+  const [selectProfesstion, setProfesstion] = useState([
+    {
+      color: null,
+      description: null,
+      id: null,
+      image_url: null,
+      name: "분야 선택",
+    },
+  ]);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  const handleTechStack = (data) => {
+    const newTechStack = selectTechStack.filter(
+      (techStack) => techStack.name !== data.name
+    );
+    setTechStack([...newTechStack, data]);
+  };
+  const handleProfesstion = (data) => {
+    const newProfesstion = selectProfesstion.filter(
+      (professtion) => professtion.name !== data.name
+    );
+    setProfesstion([data]);
   };
 
   useEffect(() => {
@@ -237,24 +273,31 @@ const CreateTab = ({}) => {
   const handleContestContentChange = (data) => {
     contestDispatch({ type: "contestContent", result: data });
   };
-  const handleProfession = async (data) => {
-    contestDispatch({ type: "contestProfession", result: data });
+  const handleStartTimePicker = (data) => {
+    contestDispatch({ type: "contestStartPeriod", result: data });
   };
-  const handleTimePicker = (data) => {
+  const handleEndTimePicker = (data) => {
     contestDispatch({ type: "contestEndPeriod", result: data });
   };
   const handlePrize = (data) => {
-    contestDispatch({ type: "contestPrize", result: data });
+    contestDispatch({ type: "contestPrize", result: data.target.value });
   };
-  const handleTagAppender = (data) => {
-    contestDispatch({ type: "contestTag", result: data.target.value });
-  };
-  const handleTechStack = (data) => {
-    contestDispatch({ type: "contestTechStack", result: data });
-  };
+  // const handleProfession = async (data) => {
+  //   contestDispatch({ type: "contestProfession", result: data });
+  // };
+  // const handleTagAppender = (data) => {
+  //   contestDispatch({ type: "contestTag", result: data.target.value });
+  // };
 
   const handlePublished = async () => {
-    await reqUpdate();
+    await reqUpdate(
+      session.user.id,
+      article,
+      contest,
+      selectTechStack,
+      selectProfesstion
+      // tag
+    );
     // router.push(`/contest/`);
   };
 
@@ -262,55 +305,215 @@ const CreateTab = ({}) => {
 
   return (
     <MainLayout>
-      <GridContainer direction="row" className={classes.contestHead}>
-        <GridItem xs={3} sm={3} md={3}>
-          <Tabs
-            orientation="vertical"
-            value={value}
-            onChange={handleChange}
-            aria-label="basic tabs example"
-          >
-            <Tab label="대회 개요" {...a11yProps(0)} />
-            <Tab label="대회 정보" {...a11yProps(1)} />
-            <Tab label="태그" {...a11yProps(2)} />
-          </Tabs>
+      <GridContainer direction="column" spacing={3}>
+        <GridItem xs={12} sm={12} md={12}>
+          <GridContainer direction="row">
+            <GridItem xs={1} sm={1} md={1}>
+              <ProfessionsLabel data={selectProfesstion}>
+                <Searcher
+                  index={"professtion_index"}
+                  filed={["name", "description", "type"]}
+                  basicQuery={"professtion"}
+                  size={12}
+                  direction={"row"}
+                  handle={handleProfesstion}
+                >
+                  <ProfessionsItem />
+                </Searcher>
+              </ProfessionsLabel>
+            </GridItem>
+            <GridItem className={classes.titleContain} xs={9} sm={9} md={9}>
+              <GridContainer direction="column">
+                <GridItem>
+                  <TitleInput onChange={handleArticleTitleChange} />
+                </GridItem>
+                <GridItem>
+                  <Typography>{moment().format("YYYY.MM.DD")}</Typography>
+                </GridItem>
+                <GridItem>
+                  {/* <TagsContainer
+                  tags={contest.Tag}
+                  type={"Tag"}
+                  form={"textOnly"}
+                /> */}
+                </GridItem>
+              </GridContainer>
+            </GridItem>
+            <GridItem xs={12} sm={12} md={12}>
+              <Card className={classes.card}>
+                <GridContainer direction="row" spacing={3}>
+                  <GridItem
+                    xs={3}
+                    sm={3}
+                    md={3}
+                    className={classes.overviewItem + " " + classes.borderRight}
+                  >
+                    <GridContainer direction="column">
+                      <GridItem className={classes.subTitle}>
+                        {pageLabels.contestOverview}
+                      </GridItem>
+                      <Typography className={classes.subTitle2}>
+                        {pageLabels.contestName}
+                      </Typography>
+                      <GridItem>
+                        <TextField
+                          className={classes.overviewBody}
+                          onChangeCapture={(e) => {
+                            handleContestTitleChange(e);
+                          }}
+                        ></TextField>
+                      </GridItem>
+                      <Typography className={classes.subTitle2}>
+                        {pageLabels.contestCentent}
+                      </Typography>
+                      <GridItem className={classes.noneFlex}>
+                        <Editor onChangeHandle={handleContestContentChange} />
+                      </GridItem>
+                    </GridContainer>
+                  </GridItem>
+                  <GridItem
+                    xs={3}
+                    sm={3}
+                    md={3}
+                    className={classes.overviewItem + " " + classes.borderRight}
+                  >
+                    <GridContainer direction="column">
+                      <GridItem className={classes.subTitle}>
+                        {pageLabels.contestPeriod}
+                      </GridItem>
+                      <GridItem className={classes.item}>
+                        <TimePicker onChange={handleStartTimePicker} />
+                        ~<TimePicker onChange={handleEndTimePicker} />
+                      </GridItem>
+                    </GridContainer>
+                  </GridItem>
+                  <GridItem
+                    xs={3}
+                    sm={3}
+                    md={3}
+                    className={classes.overviewItem + " " + classes.borderRight}
+                  >
+                    <GridContainer direction="column">
+                      <GridItem
+                        className={classes.subTitle}
+                        xs={4}
+                        sm={4}
+                        md={4}
+                      >
+                        <p>{pageLabels.contestPrize}</p>
+                      </GridItem>
+                      <GridItem xs={8} sm={8} md={8}>
+                        <Treasure className={classes.icon} />
+                        <TextField
+                          type="number"
+                          className={classes.overviewBody}
+                          onChangeCapture={(e) => {
+                            handlePrize(e);
+                          }}
+                        ></TextField>
+                        <Typography>{pageLabels.prize}</Typography>
+                      </GridItem>
+                    </GridContainer>
+                  </GridItem>
+                  <GridItem
+                    xs={3}
+                    sm={3}
+                    md={3}
+                    className={classes.overviewItem}
+                  >
+                    <GridContainer direction="column">
+                      <GridItem
+                        className={classes.subTitle}
+                        xs={12}
+                        sm={12}
+                        md={12}
+                      >
+                        {pageLabels.contestTechStack}
+                      </GridItem>
+
+                      <GridItem
+                        xs={12}
+                        sm={12}
+                        md={12}
+                        className={
+                          classes.overviewBody + " " + classes.techStackContain
+                        }
+                      >
+                        <GridContainer direction="row">
+                          {selectTechStack.map((techStack) => {
+                            return (
+                              <GridItem
+                                xs={3}
+                                sm={3}
+                                md={3}
+                                key={techStack.name}
+                                className={
+                                  classes.overviewItem +
+                                  " " +
+                                  classes.techStackItem +
+                                  " " +
+                                  classes.borderRight +
+                                  " " +
+                                  classes.borderTop
+                                }
+                              >
+                                <TechStackCard data={techStack}></TechStackCard>
+                              </GridItem>
+                            );
+                          })}
+                          <GridItem
+                            className={
+                              classes.searcher + " " + classes.overviewItem
+                            }
+                            xs={3}
+                            sm={3}
+                            md={3}
+                          >
+                            <Searcher
+                              index={"tech_stack_index"}
+                              filed={["name", "description", "type"]}
+                              basicQuery={"tech_stack"}
+                              size={12}
+                              direction={"row"}
+                              handle={handleTechStack}
+                            >
+                              <TechStackItem />
+                            </Searcher>
+                          </GridItem>
+                        </GridContainer>
+                      </GridItem>
+                    </GridContainer>
+                  </GridItem>
+                </GridContainer>
+              </Card>
+            </GridItem>
+          </GridContainer>
         </GridItem>
-        <GridItem xs={9} sm={9} md={9}>
-          <TabPanel value={value} index={0}>
-            <SectionArticle
-              title={article.content.title}
-              content={article.content.body}
-              handleArticleTitleChange={handleArticleTitleChange}
-              handleArticleBodyChange={handleArticleBodyChange}
+        <GridItem xs={12} sm={12} md={12}>
+          <Card className={classes.card}>
+            <Typography className={classes.subTitle}>
+              {pageLabels.content}
+            </Typography>
+            <Editor
+              className={classes.body}
+              onChangeHandle={handleArticleBodyChange}
             />
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <SectionContest
-              profession={contest.profession[0]}
-              end_period={contest.end_period}
-              content={contest.content}
-              name={contest.name}
-              prize={contest.prize}
-              handleProfession={handleProfession}
-              handleContestTitleChange={handleContestTitleChange}
-              handleContestContentChange={handleContestContentChange}
-              handleTimePicker={handleTimePicker}
-              handlePrize={handlePrize}
-            />
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            <SectionTags
-              handleTagAppender={handleTagAppender}
-              handleTechStack={handleTechStack}
-              tag={contest.Tag}
-              tech_stacks={contest.tech_stack}
-            />
-          </TabPanel>
-          <Button onClick={handlePublished}>{pageLabels.submitButton}</Button>
+          </Card>
         </GridItem>
       </GridContainer>
+      <IconButton
+        className={classes.createButton}
+        onClickCapture={async () => {
+          await handlePublished();
+        }}
+      >
+        <SaveAltIcon
+          sx={{ fontSize: "2rem" }}
+          style={{ color: palettes.darkBlue3 }}
+        />
+      </IconButton>
     </MainLayout>
   );
 };
 
-export default CreateTab;
+export default Overview;
