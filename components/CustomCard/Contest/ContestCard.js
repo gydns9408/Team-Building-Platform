@@ -8,7 +8,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Box } from "@mui/system";
 import { CssBaseline } from "@mui/material";
 import Link from "next/link";
-import DateProgress from "../../Progress/DateProgress";
 import Card from "../../Card/Card";
 import CardBody from "../../Card/CardBody";
 import CardFooter from "../../Card/CardFooter";
@@ -19,6 +18,11 @@ import GridItem from "../../Grid/GridItem";
 import Treasure from "../../../svg/contest/treasure.svg";
 import Parser from "html-react-parser";
 import moment from "moment";
+
+import CommonTag from "../../Tags/commonTag/CommonTag";
+import TagRoot from "../../Tags/TagRoot";
+import { useRouter } from "next/router";
+
 const pageLabels = {
   contestBodyLabel: "개요",
   techStackLabel: "기술 스택",
@@ -88,6 +92,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 const ContestCard = (props) => {
+  const router = useRouter();
   const classes = useStyles();
 
   const { contestID, className } = props;
@@ -105,7 +110,7 @@ const ContestCard = (props) => {
     ).then(async (response) => {
       return await response.json();
     });
-   
+
     setContest(data);
   };
 
@@ -114,6 +119,11 @@ const ContestCard = (props) => {
       setLoading(false);
     });
   }, []);
+  const reqTag = (tagName) => {
+    if (tagName !== undefined) {
+      router.push(`/contest/1?tag=${tagName}`);
+    }
+  };
   if (loading) return <Fragment>Loading...</Fragment>;
   return (
     <Fragment>
@@ -150,13 +160,15 @@ const ContestCard = (props) => {
                   </p>
                 </Box>
               </GridItem>
-              <TagContainer
-                className={classes.tags}
-                tags={contest.contest.Tag}
-                type="Tag"
-                form="textOnly"
-              />
+              <TagRoot>
+                {contest.contest.Tag.map((tag) => {
+                  return (
+                    <CommonTag name={tag.name} handle={reqTag}></CommonTag>
+                  );
+                })}
+              </TagRoot>
             </GridContainer>
+            {/* contest.contest.Tag */}
           </CardHeader>
         </Link>
         <CardBody className={classes.cardBody}>

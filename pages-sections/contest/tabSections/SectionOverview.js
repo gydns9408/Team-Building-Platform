@@ -7,7 +7,8 @@ import GridContainer from "../../../components/Grid/GridContainer";
 import GridItem from "../../../components/Grid/GridItem";
 import Button from "../../../components/CustomButtons/Button";
 import TagsContainer from "../../../components/Tags/TagsContainer";
-
+import CommonTag from "../../../components/Tags/commonTag/CommonTag";
+import TagRoot from "../../../components/Tags/TagRoot";
 import Card from "../../../components/Card/Card";
 import CardBody from "../../../components/Card/CardBody";
 import CardFooter from "../../../components/Card/CardFooter";
@@ -29,6 +30,7 @@ import Fade from "@mui/material/Fade";
 import SectionComments from "../../comment/SectionComments";
 import styles from "../../../styles/jss/nextjs-material-kit/pages/overview/contestOverview";
 import { Box } from "@mui/system";
+import { useRouter } from "next/router";
 
 const pageLabels = {
   edittingButton: "수정",
@@ -42,6 +44,7 @@ const pageLabels = {
 
 const customStyles = makeStyles(styles);
 const Overview = ({ article, contest, professions, handleEditing }) => {
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const classes = customStyles();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -54,11 +57,11 @@ const Overview = ({ article, contest, professions, handleEditing }) => {
     setAnchorEl(null);
   };
 
-  // const imageClasses = classNames(
-  //   classes.imgRaised,
-  //   classes.imgRoundedCircle,
-  //   classes.imgFluid
-  // );
+  const reqTag = (tagName) => {
+    if (tagName !== undefined) {
+      router.push(`/contest/1?tag=${tagName}`);
+    }
+  };
   useEffect(() => {
     setLoading(false);
   }, []);
@@ -79,11 +82,11 @@ const Overview = ({ article, contest, professions, handleEditing }) => {
                 <p>{moment(article.createdAt).format("YYYY.MM.DD")}</p>
               </GridItem>
               <GridItem>
-                <TagsContainer
-                  tags={contest.Tag}
-                  type={"Tag"}
-                  form={"textOnly"}
-                />
+                <TagRoot>
+                  {contest.Tag.map((tag) => {
+                    return <CommonTag name={tag.name} handle={reqTag} />;
+                  })}
+                </TagRoot>
               </GridItem>
             </GridContainer>
           </GridItem>

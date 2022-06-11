@@ -2,7 +2,7 @@ import { resolve } from "path";
 import prisma from "../../../../../utilities/prisma/client";
 
 const findContestPage = async (req, res) => {
-  const { page, take, category, currentProfession, contest } = req.query;
+  const { page, take, category, currentProfession, contest, tag } = req.query;
   const result = await prisma?.[`${category}Article`].findMany({
     include: {
       ...articleIncludeOption(category),
@@ -25,6 +25,15 @@ const findContestPage = async (req, res) => {
           },
         },
       }),
+    ...(tag !== undefined && {
+      where: {
+        contest: {
+          Tag: {
+            some: { name: tag },
+          },
+        },
+      },
+    }),
     ...(contest !== undefined && {
       where: {
         contest_id: parseInt(contest),

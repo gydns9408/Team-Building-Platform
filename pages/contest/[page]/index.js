@@ -56,7 +56,12 @@ const styled = {
 
 const useStyles = makeStyles(styled);
 
-export default function CompetitionSearchPage({ data, maxPage, profession }) {
+export default function CompetitionSearchPage({
+  data,
+  maxPage,
+  profession,
+  tag,
+}) {
   const classes = useStyles(useStyles);
   const router = useRouter();
   const [currentProfession, setProfession] = useState(undefined);
@@ -67,13 +72,13 @@ export default function CompetitionSearchPage({ data, maxPage, profession }) {
     setCurrentPage(router.query.page, setLoading(false));
   }, []);
   useEffect(() => {
-    if (currentProfession !== undefined) {
-      router.push(
-        `/contest/${currentPage}?currentProfession=${currentProfession}`
-      );
-    } else {
-      router.push(`/contest/${currentPage}`);
-    }
+    router.push(
+      `/contest/${currentPage}?${
+        currentProfession !== undefined
+          ? `&currentProfession=${currentProfession}`
+          : ""
+      }${router.query.tag !== undefined ? `&tag=${router.query.tag}` : ""}`
+    );
   }, [currentPage]);
 
   useEffect(() => {
@@ -161,14 +166,14 @@ export default function CompetitionSearchPage({ data, maxPage, profession }) {
 }
 
 export async function getServerSideProps(context) {
-  const { page, currentProfession } = context.query;
+  const { page, currentProfession, tag } = context.query;
 
   const data = await fetch(
     `${process.env.HOSTNAME}/api/article/Contest/${page}?take=${12}${
       currentProfession !== undefined
         ? `&currentProfession=${currentProfession}`
         : ""
-    }`,
+    }${tag !== undefined ? `&tag=${tag}` : ""}`,
     {
       method: "GET",
       headers: { "Content-Type": "application/json" },
