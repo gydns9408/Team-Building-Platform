@@ -8,6 +8,7 @@ import Tag from "../../Tags/Tag";
 import TagContainer from "../../Tags/TagsContainer";
 import { makeStyles } from "@material-ui/core/styles";
 import Link from "next/link";
+import Parser from "html-react-parser";
 import GridContainer from "../../Grid/GridContainer";
 import Editor from "../../Editors/CKEditorTextEditor";
 
@@ -59,7 +60,9 @@ const PartnerCard = (props) => {
               <Divider />
               <Typography>&nbsp;</Typography>
               <Typography>
-                {contestID.profile === null ? "" : contestID.profile.content}
+                {contestID.profile.content !== null
+                  ? Parser(contestID.profile.content)
+                  : null}
               </Typography>
               <Typography>&nbsp;</Typography>
               <Divider />

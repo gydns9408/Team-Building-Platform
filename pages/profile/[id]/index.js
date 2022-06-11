@@ -6,8 +6,9 @@ import css from "styled-jsx/css";
 import React, { useEffect, useState, useReducer, Fragment } from "react";
 import styles from "../../../styles/jss/nextjs-material-kit/components/cardStyle";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Tabs, Tab } from "@mui/material";
+import { Button, Tabs, Tab, IconButton } from "@mui/material";
 import { getSession, useSession, signIn, signOut } from "next-auth/react";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 // import ProfileOverview from "../../../../pages-sections/profile/profileSections/SectionOverview";
 // import ProfileHeaderImage from "../../../../pages-sections/profile/profileSections/SectionHeaderImage";

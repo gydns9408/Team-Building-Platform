@@ -46,7 +46,11 @@ const findProfilePage = async (req, res) => {
       profile: {
         include: {
           resume: true,
-          contest: true,
+          contest: {
+            include: {
+              profession : true
+            },
+          },
         },
       },
       user_attention_profession: {

@@ -6,7 +6,6 @@ import GridItem from "../../../../components/Grid/GridItem";
 import TagsContainer from "../../../../components/Tags/TagsContainer";
 
 import { makeStyles } from "@material-ui/core/styles";
-import TechStackSearcher from "../../../../components/Tags/TechStack/TechStackSearcher";
 
 const pageLabels = {
   tech_stack: "분야 생성",

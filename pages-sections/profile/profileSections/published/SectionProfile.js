@@ -3,9 +3,10 @@ import * as React from "react";
 //components
 import GridContainer from "../../../../components/Grid/GridContainer";
 import GridItem from "../../../../components/Grid/GridItem";
-import Editor from "../../../../components/Editors/CKEditorTextEditor";
-import TitleInput from "../../../../components/Input/Title";
+import Editor from "../../../../components/Editors/CKEditorTextEditor_profile";
+import TitleInput from "../../../../components/Input/Email";
 import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@mui/material/Typography";
 
 
 const pageLabels = {
@@ -42,6 +43,7 @@ const Published = ({
       </GridItem>
       <GridItem className={classes.tabGridIteam}>
         <Editor
+        className={classes.textEditer}
           onChangeHandle={handleContentChange}
           editorLoaded={true}
           name="article"

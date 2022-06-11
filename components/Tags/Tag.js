@@ -136,7 +136,8 @@ const Tag = ({ name, type, form, children }) => {
             >
               <Image
                 src={
-                  getTagInfo.image_url !== null
+                  getTagInfo?.image_url !== null &&
+                  getTagInfo?.image_url !== undefined
                     ? getTagInfo.image_url
                     : `/asset/image/background/contest/default.svg`
                 }
@@ -146,28 +147,59 @@ const Tag = ({ name, type, form, children }) => {
               {children}
             </IconButton>
             <Modal
-              title={getTagInfo.name !== null ? getTagInfo.name : ""}
+              title={
+                getTagInfo?.name !== null && getTagInfo?.name !== undefined
+                  ? getTagInfo.name
+                  : ""
+              }
               open={modalToggle}
               handleModalClose={handleModalClose}
             >
               <SectionTagsView
                 body={
-                  getTagInfo.description !== null &&
-                  getTagInfo.description !== undefined
+                  getTagInfo?.description !== null &&
+                  getTagInfo?.description !== undefined
                     ? getTagInfo.description
                     : ""
                 }
                 image_url={
-                  getTagInfo.image_url !== null
-                    ? getTagInfo.image_url
+                  getTagInfo?.image_url !== null
+                    ? getTagInfo?.image_url
                     : `/asset/image/background/contest/default.svg`
                 }
               />
             </Modal>
           </Box>
         );
+      case "iconOnly_profile":
+        return (
+          <IconButton
+            aria-label="delete"
+            size="large"
+            className={classes.iconbutton}
+          >
+            <img
+              className={classes.img}
+              src={
+                getTagInfo?.image_url !== null &&
+                getTagInfo?.image_url !== undefined
+                  ? getTagInfo.image_url
+                  : `/asset/image/background/contest/default.svg`
+              }
+              alt="photo"
+            />
+          </IconButton>
+        );
       case "textOnly":
-        return <Chip label={getTagInfo.name !== null ? getTagInfo.name : ""} />;
+        return (
+          <Chip
+            label={
+              getTagInfo?.name !== null && getTagInfo !== undefined
+                ? getTagInfo.name
+                : ""
+            }
+          />
+        );
       case "role":
         return (
           <Box>
@@ -176,7 +208,7 @@ const Tag = ({ name, type, form, children }) => {
                 <GridContainer direction="row" className={classes.roleContain}>
                   <Image
                     src={
-                      getTagInfo !== undefined
+                      getTagInfo?.image_url !== null && getTagInfo !== undefined
                         ? getTagInfo.image_url
                         : `/asset/image/background/contest/default.svg`
                     }

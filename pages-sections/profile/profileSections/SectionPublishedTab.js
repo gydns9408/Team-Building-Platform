@@ -2,9 +2,10 @@ import { useEffect, useState, useReducer, Fragment } from "react";
 import { useRouter } from "next/router";
 //components
 import GridContainer from "../../../components/Grid/GridContainer";
-import GridItem from "../../../components/Grid/GridItem";
+import GridItem2 from "../../../components/Grid/GridItem2";
 import TabPanel from "../../../components/Tab/TabPanel";
 import Button from "../../../components/CustomButtons/Button";
+import MainLayout from "../../../components/Layout/MainLayout";
 import { makeStyles } from "@material-ui/core/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -249,7 +250,7 @@ const PublishedTab = ({ citizensValue, handleEditing }) => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <Fragment>
+    <MainLayout>
       <GridContainer direction="row" className={classes.contestHead}>
         <GridItem xs={3} sm={3} md={3} className={classes.tabGridIteam}>
           <Tabs
@@ -262,9 +263,9 @@ const PublishedTab = ({ citizensValue, handleEditing }) => {
             <Tab label="관련분야" {...a11yProps(1)} />
             <Tab label="관심있는 분야" {...a11yProps(2)} />
             <Tab label="태그" {...a11yProps(3)} />
-            <Tab label="이력서" {...a11yProps(4)} />
-            <Tab label="자격증" {...a11yProps(5)} />
-            <Tab label="활용 가능한 프로그램" {...a11yProps(6)} />
+            {/* <Tab label="이력서" {...a11yProps(4)} /> */}
+            {/* <Tab label="자격증" {...a11yProps(4)} /> */}
+            <Tab label="활용 가능한 프로그램" {...a11yProps(4)} />
           </Tabs>
         </GridItem>
         <GridItem xs={9} sm={9} md={9} className={classes.tabGridIteam}>
@@ -310,7 +311,7 @@ const PublishedTab = ({ citizensValue, handleEditing }) => {
               certificate={citizens.certificate}
             />
           </TabPanel>
-          <TabPanel value={value} index={6}>
+          <TabPanel value={value} index={4}>
             <SectionProgram
               handleProgram={handleProgram}
               program={citizens.program}
@@ -321,7 +322,7 @@ const PublishedTab = ({ citizensValue, handleEditing }) => {
           </Button>
         </GridItem>
       </GridContainer>
-    </Fragment>
+    </MainLayout>
   );
 };
 
