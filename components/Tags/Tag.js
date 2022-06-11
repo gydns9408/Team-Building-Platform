@@ -13,7 +13,7 @@ const ListItem = styled("li")(({ theme }) => ({
 
 const styles = {
   iconbutton: {
-    backgroundColor: "white"
+    backgroundColor: "white",
   },
   img: {
     width: "2rem",
@@ -46,7 +46,6 @@ const Tag = (props) => {
   };
 
   React.useEffect(() => {
-    
     TagRequest().then(() => setLoading(false));
   }, []);
 
@@ -74,7 +73,8 @@ const Tag = (props) => {
           <IconButton aria-label="delete" size="large">
             <Image
               src={
-                getTagInfo.image_url !== null
+                getTagInfo?.image_url !== null &&
+                getTagInfo?.image_url !== undefined
                   ? getTagInfo.image_url
                   : `/asset/image/background/contest/default.svg`
               }
@@ -84,13 +84,18 @@ const Tag = (props) => {
             {children}
           </IconButton>
         );
-        case "iconOnly_profile":
+      case "iconOnly_profile":
         return (
-          <IconButton aria-label="delete" size="large" className={classes.iconbutton}>
-          <img
+          <IconButton
+            aria-label="delete"
+            size="large"
+            className={classes.iconbutton}
+          >
+            <img
               className={classes.img}
               src={
-                getTagInfo.image_url !== null
+                getTagInfo?.image_url !== null &&
+                getTagInfo?.image_url !== undefined
                   ? getTagInfo.image_url
                   : `/asset/image/background/contest/default.svg`
               }
@@ -99,13 +104,21 @@ const Tag = (props) => {
           </IconButton>
         );
       case "textOnly":
-        return <Chip label={getTagInfo.name !== null ? getTagInfo.name : ""} />;
+        return (
+          <Chip
+            label={
+              getTagInfo?.name !== null && getTagInfo !== undefined
+                ? getTagInfo.name
+                : ""
+            }
+          />
+        );
       case "role":
         return (
           <Box>
             <Image
               src={
-                getTagInfo.image_url !== null
+                getTagInfo?.image_url !== null && getTagInfo !== undefined
                   ? getTagInfo.image_url
                   : `/asset/image/background/contest/default.svg`
               }
