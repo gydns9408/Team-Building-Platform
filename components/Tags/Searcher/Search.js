@@ -6,15 +6,25 @@ import MenuItem from "@mui/material/MenuItem";
 import Fade from "@mui/material/Fade";
 import SearchIcon from "@mui/icons-material/Search";
 import { styled, alpha } from "@mui/material/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import InputBase from "@mui/material/InputBase";
 import Image from "next/image";
 import Modal from "../../Modal/Modal";
 import GenerateTags from "../../../pages-sections/tags/SectionGenerateTags";
+import GridContainer from "../../Grid/GridContainer";
 const pageLabel = {
   tech_stack_append: "기술 스택 생성하기",
   tech_stack: "기술 스택 생성",
 };
 
+const styles = {
+  root: {
+    width: "20rem",
+    padding: "1rem",
+    display: "flex",
+    justifyContent: "center",
+  },
+};
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -81,7 +91,7 @@ const reqSearch = async (searchQuery, index, filed, size) => {
 
   return data;
 };
-
+const useStyles = makeStyles(styles);
 export default function FadeMenu({
   handle,
   index,
@@ -89,7 +99,9 @@ export default function FadeMenu({
   basicQuery,
   children,
   size,
+  direction,
 }) {
+  const classes = useStyles();
   const [searchQuery, setSearchQuery] = useState("");
   const [preview, setPreview] = useState([previewOption]);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -169,9 +181,14 @@ export default function FadeMenu({
             }}
           />
         </Search>
-        {preview.map((data) => {
-          return cloneElement(children, { data, handle });
-        })}
+        <GridContainer
+          direction={direction === undefined ? "column" : direction}
+          className={classes.root}
+        >
+          {preview.map((data) => {
+            return cloneElement(children, { data, handle });
+          })}
+        </GridContainer>
         <MenuItem onClick={handleModalOpen}>
           <AddIcon />
           {pageLabel.tech_stack_append}

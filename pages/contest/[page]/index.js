@@ -8,15 +8,13 @@ import GridContainer from "../../../components/Grid/GridContainer";
 import GridItem from "../../../components/Grid/GridItem";
 import Paginations from "../../../components/Pagination/Pagination";
 import MainLayout from "../../../components/Layout/MainLayout";
-import styles from "../../../styles/jss/nextjs-material-kit/components/cardStyle";
 import { makeStyles } from "@material-ui/core/styles";
 import { useRouter } from "next/router";
 import FilrerContainer from "../../../components/Article/PageFiler/FilerContain";
-import dynamic from "next/dynamic";
-const FilterMenuItem = dynamic(
-  () => import("../../../components/Article/PageFiler/FilterMenuItem"),
-  { ssr: false }
-);
+import FilterMenuItem from "../../../components/Article/PageFiler/FilterMenuItem";
+import { IconButton } from "@material-ui/core";
+import AddIcon from "@mui/icons-material/Add";
+import palettes from "../../../styles/nextjs-material-kit/palettes";
 // import FilterToggleItem from "../../../components/Article/PageFiler/FilterToggleItem";
 
 import Button from "../../../components/CustomButtons/Button";
@@ -35,10 +33,24 @@ const styled = {
   createCard: {
     height: "20rem",
   },
-  createButton: {
+  createCardButton: {
     right: "1rem",
     bottom: "1rem",
     position: "absolute",
+  },
+  listItem: {
+    padding: "4rem",
+  },
+  createButton: {
+    position: "fixed",
+    top: "85%",
+    left: "93%",
+    boxShadow:
+      "0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%)",
+  },
+  buttonIcon: {
+    width: "2.5rem",
+    height: "2.5rem",
   },
 };
 
@@ -89,8 +101,10 @@ export default function CompetitionSearchPage({ data, maxPage, profession }) {
           <Card className={classes.createCard}>
             <CardFooter>
               <Button
-                className={classes.createButton}
-                onClick={handlecontestCreate}
+                className={classes.createCardButton}
+                onClick={() => {
+                  handlecontestCreate();
+                }}
               >
                 {pageLabels.contestCreateButtonLabel}
               </Button>
@@ -122,13 +136,26 @@ export default function CompetitionSearchPage({ data, maxPage, profession }) {
           })}
         </GridContainer>
         <GridItem xs={12} sm={12} md={12}>
-          <Paginations
-            currentPage={currentPage}
-            MaxPage={maxPage}
-            handel={handelPageChange}
-          />
+          <GridContainer direction="row" justifyContent="center">
+            <Paginations
+              currentPage={currentPage}
+              MaxPage={maxPage}
+              handel={handelPageChange}
+            />
+          </GridContainer>
         </GridItem>
       </GridContainer>
+      <IconButton
+        className={classes.createButton}
+        onClick={() => {
+          handlecontestCreate();
+        }}
+      >
+        <AddIcon
+          sx={{ fontSize: "2rem" }}
+          style={{ color: palettes.darkBlue3 }}
+        />
+      </IconButton>
     </MainLayout>
   );
 }

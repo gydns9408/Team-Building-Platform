@@ -3,26 +3,26 @@ import { makeStyles } from "@material-ui/core/styles";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 
 //components
-import GridContainer from "../../components/Grid/GridContainer";
+import GridContainer from "../components/Grid/GridContainer";
 
-import GridItem from "../../components/Grid/GridItem";
-import TitleInput from "../../components/Input/Title";
-import Card from "../../components/Card/Card";
-import ProfessionsLabel from "../../components/Tags/Professions/ProfessionsLabel";
-import Editor from "../../components/Editors/CKEditorTextEditor";
-import Treasure from "../../svg/contest/Treasure.svg";
+import GridItem from "../components/Grid/GridItem";
+import TitleInput from "../components/Input/Title";
+import Card from "../components/Card/Card";
+import ProfessionsLabel from "../components/Tags/Professions/ProfessionsLabel";
+import Editor from "../components/Editors/CKEditorTextEditor";
+import Treasure from "../svg/contest/Treasure.svg";
 import moment from "moment";
-import styles from "../../styles/jss/nextjs-material-kit/pages/overview/contestOverview";
+import styles from "../styles/jss/nextjs-material-kit/pages/overview/contestOverview";
 import { Typography, TextField, IconButton } from "@material-ui/core";
-import TimePicker from "../../components/TimePicker/TimePicker";
+import TimePicker from "../components/TimePicker/TimePicker";
 
-import Searcher from "../../components/Tags/Searcher/Search";
-import TechStackItem from "../../components/Tags/Searcher/SearcherItem/TechStackItem";
-import TechStackCard from "../../components/CustomCard/TechStack/TechStakCard";
-import ProfessionsItem from "../../components/Tags/Searcher/SearcherItem/ProfessionsItem";
-import MainLayout from "../../components/Layout/MainLayout";
+import Searcher from "../components/Tags/Searcher/Search";
+import TechStackItem from "../components/Tags/Searcher/SearcherItem/TechStackItem";
+import TechStackCard from "../components/CustomCard/TechStack/TechStakCard";
+import ProfessionsItem from "../components/Tags/Searcher/SearcherItem/ProfessionsItem";
+import MainLayout from "../components/Layout/MainLayout";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
-import palettes from "../../styles/nextjs-material-kit/palettes";
+import palettes from "../styles/nextjs-material-kit/palettes";
 import { getSession, useSession, signIn, signOut } from "next-auth/react";
 
 const pageLabels = {

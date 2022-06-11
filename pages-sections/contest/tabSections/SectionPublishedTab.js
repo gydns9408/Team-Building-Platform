@@ -315,7 +315,13 @@ const PublishedTab = ({ articleValue, contestValue, handleEditing }) => {
               tech_stacks={contest.tech_stack}
             />
           </TabPanel>
-          <Button onClick={handlePublished}>{pageLabels.submitButton}</Button>
+          <Button
+            onClick={() => {
+              handlePublished();
+            }}
+          >
+            {pageLabels.submitButton}
+          </Button>
         </GridItem>
       </GridContainer>
     </Fragment>

@@ -52,6 +52,9 @@ const contestOverView = {
   borderRight: {
     borderRight: "0.0625rem solid #D7E2EB",
   },
+  borderTop: {
+    borderTop: "0.0625rem solid #D7E2EB",
+  },
   subTitle: {
     fontSize: "1.25rem",
     marginTop: "1rem",
@@ -59,8 +62,46 @@ const contestOverView = {
     fontFamily: "SCDream4",
     fontWeight: "bold",
   },
+  subTitle2: {
+    fontSize: "0.95rem",
+    marginTop: "0.75rem",
+    marginBottom: "0.75rem",
+    fontFamily: "SCDream3",
+    fontWeight: "bold",
+  },
   comment: {
     width: "100%",
+  },
+  noneFlex: {
+    display: "inline-block",
+  },
+  item: {
+    marginTop: "1rem",
+    alignItems: "center",
+  },
+  techStackContain: {
+    alignItems: "center",
+    height: "5rem",
+    backgroundColor: "#D7E2EB",
+    alignItems: "center",
+    padding: "0.5rem",
+  },
+  techStackItem: {
+    alignItems: "center",
+    backgroundColor: "#ffffff",
+  },
+  searcher: {
+    alignItems: "center",
+    transform: "scale(0.6)",
+    borderRadius: "0.5rem",
+    backgroundColor: "#ffffff",
+  },
+  createButton: {
+    position: "fixed",
+    top: "85%",
+    left: "93%",
+    boxShadow:
+      "0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%)",
   },
 };
 

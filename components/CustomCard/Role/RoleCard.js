@@ -17,9 +17,7 @@ const useStyles = makeStyles(styles);
 const RoleCard = ({ role }) => {
   const classes = useStyles();
 
-  useEffect(() => {
-    console.log(role);
-  }, []);
+  useEffect(() => {}, []);
   return (
     <GridContainer direction="column" className={classes.overview}>
       <GridItem xs={7} sm={7} md={7} className={classes.overviewBody}>

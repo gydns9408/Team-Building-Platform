@@ -40,7 +40,9 @@ export default function UseFormControl({ onChange, data, placeholder }) {
         placeholder={
           placeholder === undefined ? "Please enter text" : placeholder
         }
-        onChange={onChange}
+        onChange={(e) => {
+          onChange(e);
+        }}
         value={data}
         autoFocus
       />
