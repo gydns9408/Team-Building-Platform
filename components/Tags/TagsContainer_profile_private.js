@@ -20,6 +20,7 @@ export default function ChipsArray({ tags, type, form, children }) {
         p: 0.5,
         m: 0,
         flexDirection: "row",
+        borderRadius: '16px'
       }}
       component="ul"
       bgcolor="text.disabled"

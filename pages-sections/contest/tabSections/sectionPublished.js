@@ -278,6 +278,7 @@ const Overview = ({ articleValue, contestValue, handleEditing }) => {
       contestDispatch({ type: "init", result: contestValue }),
       setTechStack(contestValue.tech_stack),
       setProfesstion([contestValue.profession[0]]),
+      console.log(contestValue.tech_stack)
     ]).then(() => {
       setLoading(false);
     });
