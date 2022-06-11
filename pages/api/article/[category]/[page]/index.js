@@ -12,6 +12,7 @@ const findContestPage = async (req, res) => {
     orderBy: {
       article: {
         createdAt: "asc",
+        // createdAt: "desc",
       },
     },
     ...(currentProfession !== null &&

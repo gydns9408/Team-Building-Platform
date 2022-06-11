@@ -103,6 +103,17 @@ const contestOverView = {
     boxShadow:
       "0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%)",
   },
+  deleteIcon: {
+    position: "absolute",
+    top: "0.25rem",
+    left: "5rem",
+    width: "0.5rem",
+    height: "0.5rem",
+    margin: "0",
+  },
+  deleteButton: {
+    width: "0.25rem",
+  },
 };
 
 export default contestOverView;
