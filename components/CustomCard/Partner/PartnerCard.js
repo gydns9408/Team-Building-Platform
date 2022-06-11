@@ -8,6 +8,7 @@ import Tag from "../../Tags/Tag";
 import TagContainer from "../../Tags/TagsContainer";
 import { makeStyles } from "@material-ui/core/styles";
 import Link from "next/link";
+import Parser from "html-react-parser";
 import GridContainer from "../../Grid/GridContainer";
 import Editor from "../../Editors/CKEditorTextEditor";
 
@@ -41,32 +42,39 @@ const PartnerCard = (props) => {
       href={`${process.env.HOSTNAME}/profile/${contestID.user.name}`}
       prefetch
       passHref
-     >
-        <Card className={classes.card + " " + className}>
-          <GridContainer direction="row" spacing={2} xs={12} sm={12} md={12}>
-            <CardActionArea>
-              <CardContent>
-                <CardHeader
-                  avatar={
-                    <Avatar
-                      alt="photo"
-                      src={
-                        contestID.user.image !== null
-                          ? `${contestID.user.image}`
-                          : `/asset/image/background/contest/default.svg`
-                      }
-                    />
-                  }
-                  title={contestID.user.name}
-                  titleTypographyProps={{ fontSize: 20, color:"#00adb5" }}
+    >
+      <Card className={classes.card + " " + className}>
+        <GridContainer direction="row" spacing={2} xs={12} sm={12} md={12}>
+          <CardActionArea>
+            <CardContent>
+              <CardHeader
+                avatar={
+                  <Avatar
+                    alt="photo"
+                    src={
+                      contestID.user.image !== null
+                        ? `${contestID.user.image}`
+                        : `/asset/image/background/contest/default.svg`
+                    }
+                  />
+                }
+                title={contestID.user.name}
+                titleTypographyProps={{ fontSize: 20, color: "#00adb5" }}
               />
               <Divider />
               <Typography>&nbsp;</Typography>
-              <Typography>{contestID.profile.content}</Typography>
+              <Typography>
+                {contestID.profile.content !== null
+                  ? Parser(contestID.profile.content)
+                  : null}
+              </Typography>
               <Typography>&nbsp;</Typography>
               <Divider />
-                <h3><li>기술스택</li></h3>
-                <TagContainer tags={contestID.tech_stack}
+              <h3>
+                <li>기술스택</li>
+              </h3>
+              <TagContainer
+                tags={contestID.tech_stack}
                 type={"TechStack"}
                 form={"iconOnly"}
               />

@@ -2,12 +2,14 @@ import { useEffect, useState, useReducer, Fragment } from "react";
 import { useRouter } from "next/router";
 //components
 import GridContainer from "../../../components/Grid/GridContainer";
-import GridItem from "../../../components/Grid/GridItem";
+import GridItem2 from "../../../components/Grid/GridItem2";
 import TabPanel from "../../../components/Tab/TabPanel";
 import Button from "../../../components/CustomButtons/Button";
+import MainLayout from "../../../components/Layout/MainLayout";
 import { makeStyles } from "@material-ui/core/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+
 
 import SectionProfile from "./published/SectionProfile";
 import SectionTags from "./published/SectionTags";
@@ -252,9 +254,9 @@ const PublishedTab = ({ citizensValue, handleEditing }) => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <Fragment>
+    <MainLayout>
       <GridContainer direction="row" className={classes.contestHead}>
-        <GridItem xs={3} sm={3} md={3}>
+        <GridItem2 xs={3} sm={3} md={3}>
           <Tabs
             orientation="vertical"
             value={value}
@@ -265,12 +267,12 @@ const PublishedTab = ({ citizensValue, handleEditing }) => {
             <Tab label="관련분야" {...a11yProps(1)} />
             <Tab label="관심있는 분야" {...a11yProps(2)} />
             <Tab label="태그" {...a11yProps(3)} />
-            <Tab label="이력서" {...a11yProps(4)} />
-            <Tab label="자격증" {...a11yProps(5)} />
-            <Tab label="활용 가능한 프로그램" {...a11yProps(6)} />
+            {/* <Tab label="이력서" {...a11yProps(4)} /> */}
+            {/* <Tab label="자격증" {...a11yProps(4)} /> */}
+            <Tab label="활용 가능한 프로그램" {...a11yProps(4)} />
           </Tabs>
-        </GridItem>
-        <GridItem xs={9} sm={9} md={9}>
+        </GridItem2>
+        <GridItem2 xs={9} sm={9} md={9}>
           <TabPanel value={value} index={0}>
               <SectionProfile
               email={citizens.user.email}
@@ -301,28 +303,31 @@ const PublishedTab = ({ citizensValue, handleEditing }) => {
               tech_stacks={citizens.tech_stack}
             />
           </TabPanel>
-            <TabPanel value={value} index={4}>
+            {/* <TabPanel value={value} index={4}>
             <SectionResume
             handleResume={handleResume}
             resume={citizens.profile.resume}
             />
-          </TabPanel>
-            <TabPanel value={value} index={5}>
+          </TabPanel> */}
+            {/* <TabPanel value={value} index={4}>
             <SectionCertificate
             handleCertificate={handleCertificate}
             certificate={citizens.certificate}
             />
-          </TabPanel>
-          <TabPanel value={value} index={6}>
+          </TabPanel> */}
+          <TabPanel value={value} index={4}>
             <SectionProgram
             handleProgram={handleProgram}
             program={citizens.program}
             />
           </TabPanel>
-          <Button onClick={()=> handlePublished(citizensValue.user_id)}>{pageLabels.submitButton}</Button>
-        </GridItem>
+          &nbsp;&nbsp;&nbsp;&nbsp;<Button 
+          onClick={()=> handlePublished(citizensValue.user_id)}
+          color = "success"
+          >{pageLabels.submitButton}</Button>
+        </GridItem2>
       </GridContainer>
-    </Fragment>
+    </MainLayout>
   );
 };
 

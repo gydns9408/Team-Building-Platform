@@ -5,15 +5,31 @@ import Image from "next/image";
 import IconButton from "@mui/material/IconButton";
 import Role from "./Role/Role";
 import { Box } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
 const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
+
+const styles = {
+  iconbutton: {
+    backgroundColor: "white"
+  },
+  img: {
+    width: "2rem",
+    height: "2rem",
+  },
+};
+
+const useStyles = makeStyles(styles);
 
 const Tag = (props) => {
   const { name, type, form, children } = props;
 
   const [getTagInfo, setTagInfo] = React.useState({});
   const [loading, setLoading] = React.useState(true);
+
+  const classes = useStyles();
 
   const TagRequest = async () => {
     const data = await fetch(
@@ -66,6 +82,20 @@ const Tag = (props) => {
               height={32}
             />
             {children}
+          </IconButton>
+        );
+        case "iconOnly_profile":
+        return (
+          <IconButton aria-label="delete" size="large" className={classes.iconbutton}>
+          <img
+              className={classes.img}
+              src={
+                getTagInfo.image_url !== null
+                  ? getTagInfo.image_url
+                  : `/asset/image/background/contest/default.svg`
+              }
+              alt="photo"
+            />
           </IconButton>
         );
       case "textOnly":
