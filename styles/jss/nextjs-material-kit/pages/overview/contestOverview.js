@@ -65,8 +65,8 @@ const contestOverView = {
   subTitle2: {
     fontSize: "0.95rem",
     marginTop: "0.75rem",
-    marginBottom: "0.75rem",
-    fontFamily: "SCDream3",
+    marginBottom: "1.25rem",
+    fontFamily: "SCDream4",
     fontWeight: "bold",
   },
   comment: {

@@ -1,7 +1,7 @@
 import { useState, useEffect, useReducer } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { Typography, IconButton } from "@material-ui/core/";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
-import IconButton from "@mui/material/IconButton";
 //components
 import GridContainer from "../../../components/Grid/GridContainer";
 import GridItem from "../../../components/Grid/GridItem";
@@ -35,11 +35,14 @@ import { useRouter } from "next/router";
 const pageLabels = {
   edittingButton: "수정",
   deleteButton: "삭제",
-  contestOverview: "대회 개요",
+  contestOverview: "대회",
+  contestName: "대회 이름",
+  contestCentent: "대회 개요",
   contestPrize: "상금",
   contestPeriod: "대회 기간",
   contestTechStack: "기술 스택",
   prize: "원",
+  content: "대회 상세 내용",
 };
 
 const customStyles = makeStyles(styles);
@@ -76,10 +79,14 @@ const Overview = ({ article, contest, professions, handleEditing }) => {
           <GridItem className={classes.titleContain} xs={9} sm={9} md={9}>
             <GridContainer direction="column">
               <GridItem>
-                <p className={classes.title}>{article.content.title}</p>
+                <Typography className={classes.title}>
+                  {article.content.title}
+                </Typography>
               </GridItem>
               <GridItem>
-                <p>{moment(article.createdAt).format("YYYY.MM.DD")}</p>
+                <Typography>
+                  {moment(article.createdAt).format("YYYY.MM.DD")}
+                </Typography>
               </GridItem>
               <GridItem>
                 <TagRoot>
@@ -130,9 +137,9 @@ const Overview = ({ article, contest, professions, handleEditing }) => {
             <GridContainer direction="row-reverse" justifyContent="flex-start">
               <GridItem xs={1} sm={1} md={1}>
                 <VisibilityIcon className={classes.icon} />
-                <p>{article.viewCount}</p>
+                <Typography>{article.viewCount}</Typography>
                 <GradeIcon className={classes.icon} />
-                <p>{article.likeCount}</p>
+                <Typography>{article.likeCount}</Typography>
               </GridItem>
             </GridContainer>
           </GridItem>
@@ -149,13 +156,21 @@ const Overview = ({ article, contest, professions, handleEditing }) => {
                     <GridItem className={classes.subTitle}>
                       {pageLabels.contestOverview}
                     </GridItem>
+                    <Typography className={classes.subTitle2}>
+                      {pageLabels.contestName}
+                    </Typography>
                     <GridItem>
-                      <p className={classes.overviewBody}>{contest.name}</p>
+                      <Typography className={classes.overviewBody}>
+                        {contest.name}
+                      </Typography>
                     </GridItem>
+                    <Typography className={classes.subTitle2}>
+                      {pageLabels.contestCentent}
+                    </Typography>
                     <GridItem className={classes.overviewBody}>
-                      <p className={classes.overviewBody}>
+                      <Typography className={classes.overviewBody}>
                         <div>{Parser(contest.content)}</div>
-                      </p>
+                      </Typography>
                     </GridItem>
                   </GridContainer>
                 </GridItem>
@@ -170,11 +185,11 @@ const Overview = ({ article, contest, professions, handleEditing }) => {
                       {pageLabels.contestPeriod}
                     </GridItem>
                     <GridItem className={classes.overviewBody}>
-                      <p className={classes.overviewBody}>
+                      <Typography className={classes.overviewBody}>
                         {`${moment(contest.start_period).format(
                           "YYYY.MM.DD"
                         )}~ ${moment(contest.end_period).format("YYYY.MM.DD")}`}
-                      </p>
+                      </Typography>
                     </GridItem>
                   </GridContainer>
                 </GridItem>
@@ -186,14 +201,14 @@ const Overview = ({ article, contest, professions, handleEditing }) => {
                 >
                   <GridContainer direction="column">
                     <GridItem className={classes.subTitle}>
-                      <p>{pageLabels.contestPrize}</p>
+                      <Typography>{pageLabels.contestPrize}</Typography>
                     </GridItem>
                     <GridItem>
                       <Treasure className={classes.icon} />
-                      <p className={classes.overviewBody}>
+                      <Typography className={classes.overviewBody}>
                         {contest.prize}
                         {pageLabels.prize}
-                      </p>
+                      </Typography>
                     </GridItem>
                   </GridContainer>
                 </GridItem>
@@ -218,6 +233,9 @@ const Overview = ({ article, contest, professions, handleEditing }) => {
       </GridItem>
       <GridItem xs={12} sm={12} md={12}>
         <Card className={classes.card}>
+          <Typography className={classes.subTitle}>
+            {pageLabels.content}
+          </Typography>
           <div className={classes.body}>{Parser(article.content.body)}</div>
         </Card>
       </GridItem>
